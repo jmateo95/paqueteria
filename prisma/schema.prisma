@@ -1,0 +1,19 @@
+generator db {
+    provider                    = "Prisma-client-py"
+    recursive_type_depth        = 5
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Ciudad {
+  id          Int       @id @default(autoincrement())
+  nombre      String    @map("nombre") @db.VarChar(100)
+  descripcion String    @map("descripcion") @db.VarChar(250)
+  latitud     Float
+  longitud    Float
+
+  @@map("Ciudad")
+}
