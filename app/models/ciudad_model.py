@@ -7,7 +7,11 @@ class CiudadCreate(BaseModel):
     longitud: float
 
 class CiudadUpdate(BaseModel):
-    nombre: str
-    descripcion: str
-    latitud: float
-    longitud: float
+    nombre: str = None
+    descripcion: str = None
+    latitud: float = None
+    longitud: float = None
+
+    class Config:
+        # Permite que los campos sean opcionales
+        arbitrary_types_allowed = True

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from app.controllers import ciudad_controller
+from app.routers import ciudad_router
 
 api_router = APIRouter()
 
 #RUTAS
-api_router.include_router(ciudad_controller.router)
+api_router.include_router(ciudad_router.router)

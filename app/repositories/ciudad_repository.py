@@ -3,26 +3,20 @@ from config.Connection import prisma_connection
 
 class CiudadRepository:
 
-    @staticmethod
-    async def get_all():
-        return await prisma_connection.prisma.ciudad.find_many()
-    
+    def __init__(self):
+        self.connection = prisma_connection
 
-    @staticmethod
-    async def get_by_id(ciudad_id: int):
-        return await prisma_connection.prisma.ciudad.find_first(where={"id": ciudad_id})
+    async def get_all(self):
+        return await self.connection.prisma.ciudad.find_many()
 
+    async def get_by_id(self, ciudad_id: int):
+        return await self.connection.prisma.ciudad.find_first(where={"id": ciudad_id})
 
-    @staticmethod
-    async def create(ciudad: CiudadCreate):
-        return await prisma_connection.prisma.ciudad.create(ciudad)
-    
+    async def create(self, ciudad: CiudadCreate):
+        return await self.connection.prisma.ciudad.create(ciudad)
 
-    @staticmethod
-    async def update(ciudad_id: int, ciudad: CiudadUpdate):
-        return await prisma_connection.prisma.ciudad.update(where={"id": ciudad_id}, data=ciudad)
+    async def update(self, ciudad_id: int, ciudad: CiudadUpdate):
+        return await self.connection.prisma.ciudad.update(where={"id": ciudad_id}, data=ciudad)
 
-
-    @staticmethod
-    async def delete(ciudad_id: int):
-        return await prisma_connection.prisma.ciudad.delete(where={"id": ciudad_id})
+    async def delete(self, ciudad_id: int):
+        return await self.connection.prisma.ciudad.delete(where={"id": ciudad_id})
