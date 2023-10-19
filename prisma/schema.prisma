@@ -17,3 +17,24 @@ model Ciudad {
 
   @@map("Ciudad")
 }
+
+model Rol {
+  id          Int     @id @default(autoincrement())
+  nombre      String  @map("nombre") @db.VarChar(100)
+  descripcion String  @map("descripcion") @db.VarChar(250)
+
+  // Relación con usuarios
+  usuarios    Usuario[]
+}
+
+
+model Usuario {
+  id          Int     @id @default(autoincrement())
+  nombre      String
+  correo      String  @unique
+  password    String
+  rol_id      Int
+  
+  // Relación con roles
+  rol         Rol     @relation(fields: [rol_id], references: [id])
+}
