@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from app.repositories.ciudad_repository import CiudadRepository
 from app.models.ciudad_model import CiudadCreate, CiudadUpdate
 from app.errors.ciudad_errors import CiudadNotFoundError, CiudadesNotFoundError, CiudadCreationError, CiudadUpdateError, CiudadDeletionError

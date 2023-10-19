@@ -21,14 +21,13 @@ class CiudadController:
         return ResponseSchema(detail="")
 
 
-    async def delete(self, ciudad_id: int):
-        await self.service.delete(ciudad_id)
-        return ResponseSchema(detail="")
-
-
     async def update(self, ciudad_id: int, ciudad: CiudadUpdate):
         await self.service.update(ciudad_id, ciudad)
         return ResponseSchema(detail="")
 
+
+    async def delete(self, ciudad_id: int):
+        await self.service.delete(ciudad_id)
+        return ResponseSchema(detail="")
 
 ciudad_controller = CiudadController()

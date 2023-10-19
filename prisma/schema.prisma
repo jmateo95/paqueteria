@@ -30,8 +30,9 @@ model Rol {
 
 model Usuario {
   id          Int     @id @default(autoincrement())
-  nombre      String
-  correo      String  @unique
+  nombre      String  @map("nombre") @db.VarChar(100)
+  username    String  @map("username") @db.VarChar(100)
+  email       String  @unique
   password    String
   rol_id      Int
   
