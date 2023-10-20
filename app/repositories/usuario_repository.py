@@ -1,4 +1,4 @@
-from app.models.usuario_model import UsuarioCreate, UsuarioUpdate, UsuarioLogin
+from app.models.usuario_model import UsuarioCreate, UsuarioUpdate
 from config.Connection import prisma_connection
 
 class UsuarioRepository:
@@ -21,4 +21,4 @@ class UsuarioRepository:
         return await self.connection.prisma.usuario.delete(where={"id": usuario_id})
     
     async def get_by_email(self, email: str):
-        return await self.connection.prisma.usuario.find_first(where={"email": email})
+        return await self.connection.prisma.usuario.find_first(where={"email": email}, include={"rol": True})

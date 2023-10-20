@@ -31,7 +31,6 @@ class UsuarioService:
             usuario_data['password'] = hashed_password
             return await self.repository.create(usuario_data)
         except Exception as e:
-            print(e)
             raise UsuarioCreationError()
         
 
@@ -64,8 +63,3 @@ class UsuarioService:
         if not usuario or not pwd_context.verify(password, usuario.password):
             raise UsuarioLoginError()
         return usuario
-
-        # # Genera un token JWT
-        # access_token = authenticate.create_access_token(data={"sub": usuario.email})
-        # token_data = {"access_token": access_token, "token_type": "bearer"}
-        # return Token(**token_data)
