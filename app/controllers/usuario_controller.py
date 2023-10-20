@@ -11,27 +11,27 @@ class UsuarioController:
         self.service = UsuarioService()
 
     
-    async def get_all(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "SuperUser"]))):
+    async def get_all(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         result = await self.service.get_all()
         return ResponseSchema(detail="", result=result)
     
 
-    async def get_by_id(self, usuario_id: int):
+    async def get_by_id(self, usuario_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         result = await self.service.get_by_id(usuario_id)
         return ResponseSchema(detail="", result=result)
 
     
-    async def create(self, usuario: UsuarioCreate):
+    async def create(self, usuario: UsuarioCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(usuario)
         return ResponseSchema(detail="Usuario creado con éxito")
     
 
-    async def update(self, usuario_id: int, usuario: UsuarioUpdate):
+    async def update(self, usuario_id: int, usuario: UsuarioUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.update(usuario_id, usuario)
         return ResponseSchema(detail="")
 
 
-    async def delete(self, usuario_id: int):
+    async def delete(self, usuario_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(usuario_id)
         return ResponseSchema(detail="")
 
