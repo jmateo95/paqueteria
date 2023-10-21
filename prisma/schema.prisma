@@ -15,8 +15,25 @@ model Ciudad {
   latitud     Float
   longitud    Float
 
+  // Relación con Sucursal
+  sucursales    Sucursal[]
+
   @@map("Ciudad")
 }
+
+
+model Puesto {
+  id              Int     @id @default(autoincrement())
+  nombre          String  @map("nombre") @db.VarChar(100)
+  descripcion     String  @map("descripcion") @db.VarChar(250)
+  salario_horario Float
+
+  // Relación con Usuarios
+  usuarios        Usuario[]
+
+  @@map("Puesto")
+}
+
 
 model Rol {
   id          Int     @id @default(autoincrement())
@@ -25,6 +42,37 @@ model Rol {
 
   // Relación con usuarios
   usuarios    Usuario[]
+
+  @@map("Rol")
+}
+
+
+model TipoSucursal {
+  id     Int     @id @default(autoincrement())
+  nombre String  @map("nombre") @db.VarChar(100)
+
+  // Relación con Sucursal
+  sucursales    Sucursal[]
+
+  @@map("TipoSucursal")
+}
+
+
+model Sucursal {
+  id              Int     @id @default(autoincrement())
+  nombre          String  @map("nombre") @db.VarChar(100)
+  direccion       String
+  ciudad_id       Int
+  tiposucursal_id Int
+
+  // Relaciones
+  ciudad        Ciudad  @relation(fields: [ciudad_id], references: [id])
+  tipoSucursal  TipoSucursal  @relation(fields: [tiposucursal_id], references: [id])
+
+  // Relación con Usuarios
+  usuarios        Usuario[]
+
+  @@map("Sucursal")
 }
 
 
@@ -34,8 +82,15 @@ model Usuario {
   username    String  @map("username") @db.VarChar(100)
   email       String  @unique
   password    String
+  horas       Int
   rol_id      Int
+  puesto_id   Int
+  sucursal_id Int
   
-  // Relación con roles
+  // Relaciones
   rol         Rol     @relation(fields: [rol_id], references: [id])
+  puesto      Puesto @relation(fields: [puesto_id], references: [id])
+  sucursal    Sucursal @relation(fields: [sucursal_id], references: [id])
+
+  @@map("Usuario")
 }
