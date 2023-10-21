@@ -1,6 +1,6 @@
 from app.repositories.ciudad_repository import CiudadRepository
 from app.models.ciudad_model import CiudadCreate, CiudadUpdate
-from app.errors.ciudad_errors import CiudadNotFoundError, CiudadesNotFoundError, CiudadCreationError, CiudadUpdateError, CiudadDeletionError
+from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 
 class CiudadService:
@@ -8,27 +8,23 @@ class CiudadService:
     def __init__(self):
         self.repository = CiudadRepository()
 
-
     async def get_all(self):
         ciudades = await self.repository.get_all()
         if not ciudades:
-            raise CiudadesNotFoundError()
+            raise EntitiesNotFoundError("Ciudades")
         return ciudades
-
 
     async def get_by_id(self, ciudad_id: int):
         ciudad = await self.repository.get_by_id(ciudad_id)
         if not ciudad:
-            raise CiudadNotFoundError(ciudad_id)
+            raise EntityNotFoundError("Ciudad", ciudad_id)
         return ciudad
-
 
     async def create(self, ciudad: CiudadCreate):
         try:
             return await self.repository.create(ciudad.dict())
         except Exception as e:
-            raise CiudadCreationError()
-        
+            raise EntityCreationError("Ciudad")     
 
     async def update(self, ciudad_id: int, ciudad: CiudadUpdate):
         existing_ciudad = await self.repository.get_by_id(ciudad_id)
@@ -38,9 +34,8 @@ class CiudadService:
                 try:
                     return await self.repository.update(ciudad_id, ciudad_update)
                 except Exception as e:
-                    raise CiudadUpdateError()
-        raise CiudadNotFoundError(ciudad_id)
-
+                    raise EntityUpdateError("Ciudad")
+        raise EntityNotFoundError("Ciudad", ciudad_id)
 
     async def delete(self, ciudad_id: int):
         existing_ciudad = await self.repository.get_by_id(ciudad_id)
@@ -48,5 +43,5 @@ class CiudadService:
             try:
                 return await self.repository.delete(ciudad_id)
             except Exception as e:
-                raise CiudadDeletionError()
-        raise CiudadNotFoundError(ciudad_id)
+                raise EntityDeletionError("Ciudad")
+        raise EntityNotFoundError("Ciudad", ciudad_id)

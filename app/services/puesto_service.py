@@ -1,6 +1,6 @@
 from app.repositories.puesto_repository import PuestoRepository
 from app.models.puesto_model import PuestoCreate, PuestoUpdate
-from app.errors.puesto_errors import PuestoNotFoundError, PuestosNotFoundError, PuestoCreationError, PuestoUpdateError, PuestoDeletionError
+from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class PuestoService:
 
@@ -10,20 +10,20 @@ class PuestoService:
     async def get_all(self):
         puestos = await self.repository.get_all()
         if not puestos:
-            raise PuestosNotFoundError()
+            raise EntitiesNotFoundError("Puestos")
         return puestos
 
     async def get_by_id(self, puesto_id: int):
         puesto = await self.repository.get_by_id(puesto_id)
         if not puesto:
-            raise PuestoNotFoundError(puesto_id)
+            raise EntityNotFoundError("Puesto", puesto_id)
         return puesto
 
     async def create(self, puesto: PuestoCreate):
         try:
             return await self.repository.create(puesto.dict())
         except Exception as e:
-            raise PuestoCreationError()
+            raise EntityCreationError("Puesto")
 
     async def update(self, puesto_id: int, puesto: PuestoUpdate):
         existing_puesto = await self.repository.get_by_id(puesto_id)
@@ -33,8 +33,8 @@ class PuestoService:
                 try:
                     return await self.repository.update(puesto_id, puesto_update)
                 except Exception as e:
-                    raise PuestoUpdateError()
-        raise PuestoNotFoundError(puesto_id)
+                    raise EntityUpdateError("Puesto")
+        raise EntityNotFoundError("Puesto", puesto_id)
 
     async def delete(self, puesto_id: int):
         existing_puesto = await self.repository.get_by_id(puesto_id)
@@ -42,5 +42,5 @@ class PuestoService:
             try:
                 return await self.repository.delete(puesto_id)
             except Exception as e:
-                raise PuestoDeletionError()
-        raise PuestoNotFoundError(puesto_id)
+                raise EntityDeletionError("Puesto")
+        raise EntityNotFoundError("Puesto", puesto_id)

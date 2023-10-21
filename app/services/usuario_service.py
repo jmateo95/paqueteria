@@ -1,6 +1,6 @@
 from app.repositories.usuario_repository import UsuarioRepository
 from app.models.usuario_model import UsuarioCreate, UsuarioUpdate, UsuarioLogin
-from app.errors.usuario_errors import UsuariosNotFoundError, UsuarioLoginError, UsuarioNotFoundError, UsuarioCreationError, UsuarioUpdateError, UsuarioDeactivationError
+from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError, UsuarioLoginError
 from app.models.token_model import Token
 from passlib.context import CryptContext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -9,20 +9,17 @@ class UsuarioService:
     def __init__(self):
         self.repository = UsuarioRepository()
 
-
     async def get_all(self):
         usuarios = await self.repository.get_all()
         if not usuarios:
-            raise UsuariosNotFoundError()
+            raise EntitiesNotFoundError("Usuarios")
         return usuarios
-    
 
     async def get_by_id(self, usuario_id: int):
         usuario = await self.repository.get_by_id(usuario_id)
         if not usuario:
-            raise UsuarioNotFoundError(usuario_id)
+            raise EntityNotFoundError("Usuario", usuario_id)
         return usuario
-    
 
     async def create(self, usuario: UsuarioCreate):
         try:
@@ -31,9 +28,8 @@ class UsuarioService:
             usuario_data['password'] = hashed_password
             return await self.repository.create(usuario_data)
         except Exception as e:
-            raise UsuarioCreationError()
+            raise EntityCreationError("Usuario")
         
-
     async def update(self, usuario_id: int, usuario: UsuarioUpdate):
         existing_usuario = await self.repository.get_by_id(usuario_id)
         if existing_usuario:
@@ -42,9 +38,8 @@ class UsuarioService:
                 try:
                     return await self.repository.update(usuario_id, usuario_update)
                 except Exception as e:
-                    raise UsuarioUpdateError()
-        raise UsuarioNotFoundError(usuario_id)
-
+                    raise EntityUpdateError("Usuario")
+        raise EntityNotFoundError("Usuario", usuario_id)
 
     async def delete(self, usuario_id: int):
         existing_usuario = await self.repository.get_by_id(usuario_id)
@@ -52,10 +47,9 @@ class UsuarioService:
             try:
                 return await self.repository.delete(usuario_id)
             except Exception as e:
-                raise UsuarioDeactivationError()
-        raise UsuarioNotFoundError(usuario_id)
+                raise EntityDeletionError("Usuario")
+        raise EntityNotFoundError("Usuario", usuario_id)
         
-
     async def login(self, credentials: UsuarioLogin):
         email = credentials.email
         password = credentials.password
