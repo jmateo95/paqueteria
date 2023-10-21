@@ -11,8 +11,8 @@ INSERT INTO "Puesto" (id, nombre, descripcion, salario_horario) VALUES
   (4, 'Paqueteria', 'Trabajador de Paquetería', 60.00);
 
 -- Insertar Ciudad
-INSERT INTO "Ciudad" (id, nombre, descripcion, latitud, longitud) VALUES
-  (1, 'Guatemala', 'Capital de Guatemala', 14.634915, -90.506882);
+INSERT INTO "Ciudad" (id, nombre, departamento, descripcion) VALUES
+  (1, 'Guatemala', 'Guatemala', 'Capital de Guatemala');
 
 -- Insertar TipoSucursal
 INSERT INTO "TipoSucursal" (id, nombre) VALUES
@@ -20,8 +20,8 @@ INSERT INTO "TipoSucursal" (id, nombre) VALUES
   (2, 'Sucursal de Conexión');
 
 -- Insert para Sucursal
-INSERT INTO "Sucursal" (id, nombre, direccion, ciudad_id, tiposucursal_id) VALUES
-  (1, 'Central', 'Dirección de la Sucursal Central', 1, 1);
+INSERT INTO "Sucursal" (id, nombre, direccion, latitud, longitud, ciudad_id, tiposucursal_id) VALUES
+  (1, 'Central', 'Dirección de la Sucursal Central', 14.634915, -90.506882, 1, 1);
 
 
 -- Insertar Usuario

@@ -4,7 +4,7 @@ from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError,
 
 class TipoSucursalService:
 
-    def __init(self):
+    def __init__(self):
         self.repository = TipoSucursalRepository()
 
     async def get_all(self):

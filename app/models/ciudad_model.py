@@ -3,14 +3,12 @@ from pydantic import BaseModel
 class CiudadCreate(BaseModel):
     nombre: str
     descripcion: str
-    latitud: float
-    longitud: float
+    departamento: str
 
 class CiudadUpdate(BaseModel):
     nombre: str = None
     descripcion: str = None
-    latitud: float = None
-    longitud: float = None
+    departamento: str = None
 
     class Config:
         # Permite que los campos sean opcionales

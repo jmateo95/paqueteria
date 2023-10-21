@@ -11,9 +11,8 @@ datasource db {
 model Ciudad {
   id          Int       @id @default(autoincrement())
   nombre      String    @map("nombre") @db.VarChar(100)
+  departamento String   @map("departamento") @db.VarChar(100)
   descripcion String    @map("descripcion") @db.VarChar(250)
-  latitud     Float
-  longitud    Float
 
   // Relación con Sucursal
   sucursales    Sucursal[]
@@ -62,6 +61,8 @@ model Sucursal {
   id              Int     @id @default(autoincrement())
   nombre          String  @map("nombre") @db.VarChar(100)
   direccion       String
+  latitud         Float
+  longitud        Float
   ciudad_id       Int
   tiposucursal_id Int
 
