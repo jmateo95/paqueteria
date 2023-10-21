@@ -12,7 +12,7 @@ class UsuarioCreate(BaseModel):
 
 
 class UsuarioUpdate(BaseModel):
-    nombre: str
+    nombre: str = None
     username: str = None
     email: str = None
     password: str = None
