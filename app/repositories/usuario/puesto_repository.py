@@ -1,4 +1,4 @@
-from app.models.puesto_model import PuestoCreate, PuestoUpdate
+from app.models.usuario.puesto_model import PuestoCreate, PuestoUpdate
 from config.Connection import prisma_connection
 
 class PuestoRepository:

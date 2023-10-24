@@ -1,5 +1,5 @@
-from app.repositories.sucursal_repository import SucursalRepository
-from app.models.sucursal_model import SucursalCreate, SucursalUpdate
+from app.repositories.sucursal.sucursal_repository import SucursalRepository
+from app.models.sucursal.sucursal_model import SucursalCreate, SucursalUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class SucursalService:

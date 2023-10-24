@@ -1,5 +1,5 @@
-from app.repositories.ciudad_repository import CiudadRepository
-from app.models.ciudad_model import CiudadCreate, CiudadUpdate
+from app.repositories.sucursal.ciudad_repository import CiudadRepository
+from app.models.sucursal.ciudad_model import CiudadCreate, CiudadUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 

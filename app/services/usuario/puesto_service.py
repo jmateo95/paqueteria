@@ -1,5 +1,5 @@
-from app.repositories.puesto_repository import PuestoRepository
-from app.models.puesto_model import PuestoCreate, PuestoUpdate
+from app.repositories.usuario.puesto_repository import PuestoRepository
+from app.models.usuario.puesto_model import PuestoCreate, PuestoUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class PuestoService:

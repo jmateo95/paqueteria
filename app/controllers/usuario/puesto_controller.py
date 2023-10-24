@@ -1,6 +1,6 @@
 from schema import ResponseSchema
-from app.services.puesto_service import PuestoService
-from app.models.puesto_model import PuestoCreate, PuestoUpdate
+from app.services.usuario.puesto_service import PuestoService
+from app.models.usuario.puesto_model import PuestoCreate, PuestoUpdate
 from config.auth import get_current_user_with_roles
 from fastapi import Depends
 

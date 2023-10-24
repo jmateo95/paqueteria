@@ -1,4 +1,4 @@
-from app.models.sucursal_model import SucursalCreate, SucursalUpdate
+from app.models.sucursal.sucursal_model import SucursalCreate, SucursalUpdate
 from config.Connection import prisma_connection
 
 class SucursalRepository:

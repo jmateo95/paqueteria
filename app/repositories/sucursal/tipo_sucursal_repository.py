@@ -1,4 +1,4 @@
-from app.models.tipo_sucursal_model import TipoSucursalCreate, TipoSucursalUpdate
+from app.models.sucursal.tipo_sucursal_model import TipoSucursalCreate, TipoSucursalUpdate
 from config.Connection import prisma_connection
 
 class TipoSucursalRepository:

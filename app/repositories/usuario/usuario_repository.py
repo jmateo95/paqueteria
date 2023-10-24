@@ -1,4 +1,4 @@
-from app.models.usuario_model import UsuarioCreate, UsuarioUpdate
+from app.models.usuario.usuario_model import UsuarioCreate, UsuarioUpdate
 from config.Connection import prisma_connection
 
 class UsuarioRepository:

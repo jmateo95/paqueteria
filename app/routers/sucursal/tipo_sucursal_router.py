@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.controllers.tipo_sucursal_controller import tipo_sucursal_controller
+from app.controllers.sucursal.tipo_sucursal_controller import tipo_sucursal_controller
 router = APIRouter(
     prefix="/tipo-sucursal",
     tags=['Tipo-Sucursal']

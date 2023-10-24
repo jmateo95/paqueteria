@@ -1,6 +1,6 @@
 from schema import ResponseSchema
-from app.services.tipo_sucursal_service import TipoSucursalService
-from app.models.tipo_sucursal_model import TipoSucursalCreate, TipoSucursalUpdate
+from app.services.sucursal.tipo_sucursal_service import TipoSucursalService
+from app.models.sucursal.tipo_sucursal_model import TipoSucursalCreate, TipoSucursalUpdate
 from config.auth import get_current_user_with_roles
 from fastapi import Depends
 

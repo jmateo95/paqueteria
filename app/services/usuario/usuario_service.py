@@ -1,5 +1,5 @@
-from app.repositories.usuario_repository import UsuarioRepository
-from app.models.usuario_model import UsuarioCreate, UsuarioUpdate, UsuarioLogin
+from app.repositories.usuario.usuario_repository import UsuarioRepository
+from app.models.usuario.usuario_model import UsuarioCreate, UsuarioUpdate, UsuarioLogin
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError, UsuarioLoginError
 from passlib.context import CryptContext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

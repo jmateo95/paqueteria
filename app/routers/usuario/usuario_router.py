@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.controllers.usuario_controller import usuario_controller
+from app.controllers.usuario.usuario_controller import usuario_controller
 router = APIRouter(
     prefix="/usuario",
     tags=['Usuario']

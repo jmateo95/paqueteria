@@ -1,5 +1,5 @@
-from app.repositories.tipo_sucursal_repository import TipoSucursalRepository
-from app.models.tipo_sucursal_model import TipoSucursalCreate, TipoSucursalUpdate
+from app.repositories.sucursal.tipo_sucursal_repository import TipoSucursalRepository
+from app.models.sucursal.tipo_sucursal_model import TipoSucursalCreate, TipoSucursalUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class TipoSucursalService:

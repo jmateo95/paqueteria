@@ -1,6 +1,6 @@
 from schema import ResponseSchema
-from app.services.usuario_service import UsuarioService
-from app.models.usuario_model import UsuarioCreate, UsuarioUpdate, UsuarioLogin
+from app.services.usuario.usuario_service import UsuarioService
+from app.models.usuario.usuario_model import UsuarioCreate, UsuarioUpdate, UsuarioLogin
 from config.config import settings
 from config.auth import create_access_token, get_current_user_with_roles
 from fastapi import Depends

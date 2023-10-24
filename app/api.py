@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from app.routers import ciudad_router, usuario_router, puesto_router, tipo_sucursal_router, sucursal_router
+from app.routers.usuario import usuario_router, puesto_router
+from app.routers.sucursal import ciudad_router, tipo_sucursal_router, sucursal_router
 
 api_router = APIRouter()
 

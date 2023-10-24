@@ -1,6 +1,6 @@
 from schema import ResponseSchema
-from app.services.sucursal_service import SucursalService
-from app.models.sucursal_model import SucursalCreate, SucursalUpdate
+from app.services.sucursal.sucursal_service import SucursalService
+from app.models.sucursal.sucursal_model import SucursalCreate, SucursalUpdate
 from config.auth import get_current_user_with_roles
 from fastapi import Depends
 

@@ -1,4 +1,4 @@
-from app.models.ciudad_model import CiudadCreate, CiudadUpdate
+from app.models.sucursal.ciudad_model import CiudadCreate, CiudadUpdate
 from config.Connection import prisma_connection
 
 class CiudadRepository:

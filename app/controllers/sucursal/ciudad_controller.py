@@ -1,6 +1,6 @@
 from schema import ResponseSchema
-from app.services.ciudad_service import CiudadService
-from app.models.ciudad_model import CiudadCreate, CiudadUpdate
+from app.services.sucursal.ciudad_service import CiudadService
+from app.models.sucursal.ciudad_model import CiudadCreate, CiudadUpdate
 from config.auth import get_current_user_with_roles
 from fastapi import Depends
 

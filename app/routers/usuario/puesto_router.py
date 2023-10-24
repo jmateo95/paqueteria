@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.controllers.puesto_controller import puesto_controller
+from app.controllers.usuario.puesto_controller import puesto_controller
 router = APIRouter(
     prefix="/puesto",
     tags=['Puesto']
