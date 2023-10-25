@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from app.controllers.sucursal.tipo_sucursal_controller import tipo_sucursal_controller
 router = APIRouter(
-    prefix="/tipo-sucursal",
-    tags=['Tipo-Sucursal']
+    prefix="/tipo_sucursal",
+    tags=['TipoSucursal']
 )
 
 router.add_api_route("/", tipo_sucursal_controller.get_all, methods=["GET"])
