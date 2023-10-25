@@ -9,17 +9,16 @@ datasource db {
 }
 
 model Ciudad {
-  id          Int       @id @default(autoincrement())
-  nombre      String    @map("nombre") @db.VarChar(100)
-  departamento String   @map("departamento") @db.VarChar(100)
-  descripcion String    @map("descripcion") @db.VarChar(250)
+  id            Int       @id @default(autoincrement())
+  nombre        String    @map("nombre") @db.VarChar(100)
+  departamento  String    @map("departamento") @db.VarChar(100)
+  descripcion   String    @map("descripcion") @db.VarChar(250)
 
-  // Relación con Sucursal
+  // Relación uno a muchos
   sucursales    Sucursal[]
 
   @@map("Ciudad")
 }
-
 
 model Puesto {
   id              Int     @id @default(autoincrement())
@@ -27,35 +26,32 @@ model Puesto {
   descripcion     String  @map("descripcion") @db.VarChar(250)
   salario_horario Float
 
-  // Relación con Usuarios
+  // Relación uno a muchos
   usuarios        Usuario[]
 
   @@map("Puesto")
 }
-
 
 model Rol {
   id          Int     @id @default(autoincrement())
   nombre      String  @map("nombre") @db.VarChar(100)
   descripcion String  @map("descripcion") @db.VarChar(250)
 
-  // Relación con usuarios
+  // Relación uno a muchos
   usuarios    Usuario[]
 
   @@map("Rol")
 }
 
-
 model TipoSucursal {
   id     Int     @id @default(autoincrement())
   nombre String  @map("nombre") @db.VarChar(100)
 
-  // Relación con Sucursal
+  // Relación uno a muchos
   sucursales    Sucursal[]
 
   @@map("TipoSucursal")
 }
-
 
 model Sucursal {
   id              Int     @id @default(autoincrement())
@@ -66,16 +62,21 @@ model Sucursal {
   ciudad_id       Int
   tiposucursal_id Int
 
-  // Relaciones
+  // Llaves foraneas
   ciudad        Ciudad  @relation(fields: [ciudad_id], references: [id])
   tipoSucursal  TipoSucursal  @relation(fields: [tiposucursal_id], references: [id])
 
-  // Relación con Usuarios
-  usuarios        Usuario[]
+  // Relación uno a muchos
+  usuarios          Usuario[]
+  vehiculos         Vehiculo[]
+  tarifarios        Tarifario[]
+  gastos            Gasto[]
+  segmentos_origen  Segmento[] @relation("sucursal_origen")
+  segmentos_destino Segmento[] @relation("sucursal_destino")
+  trackings         Tracking[]
 
   @@map("Sucursal")
 }
-
 
 model Usuario {
   id          Int     @id @default(autoincrement())
@@ -88,10 +89,200 @@ model Usuario {
   puesto_id   Int
   sucursal_id Int
   
-  // Relaciones
+  // Llaves foraneas
   rol         Rol     @relation(fields: [rol_id], references: [id])
   puesto      Puesto @relation(fields: [puesto_id], references: [id])
   sucursal    Sucursal @relation(fields: [sucursal_id], references: [id])
 
   @@map("Usuario")
 }
+
+model Tarifario {
+  id           Int       @id @default(autoincrement())
+  fecha        DateTime
+  ganancia_lb  Float
+  costo_lb_km  Float
+  sucursal_id  Int
+
+  // Llaves foraneas
+  sucursal     Sucursal  @relation(fields: [sucursal_id], references: [id])
+
+  @@map("Tarifario")
+}
+
+model TipoVehiculo {
+  id     Int     @id @default(autoincrement())
+  nombre String  @map("nombre") @db.VarChar(100)
+
+  // Relación uno a muchos
+  vehiculos Vehiculo[]
+
+  @@map("TipoVehiculo")
+}
+
+model Vehiculo {
+  id              Int     @id @default(autoincrement())
+  placa           String  @map("placa") @db.VarChar(20)
+  capacidad_lb    Float
+  costokm         Float
+  tipovehiculo_id Int
+  sucursal_id     Int
+
+  // Llaves foraneas
+  tipoVehiculo TipoVehiculo @relation(fields: [tipovehiculo_id], references: [id])
+  sucursal     Sucursal     @relation(fields: [sucursal_id], references: [id])
+
+   // Relación uno a muchos
+  salidas Salida[]
+
+  @@map("Vehiculo")
+}
+
+model TipoGasto {
+  id     Int     @id @default(autoincrement())
+  nombre String  @map("nombre") @db.VarChar(100)
+
+  // Relación uno a muchos
+  gastos Gasto[]
+
+  @@map("TipoGasto")
+}
+
+model ConceptoGasto {
+  id     Int     @id @default(autoincrement())
+  nombre String  @map("nombre") @db.VarChar(100)
+
+  // Relación uno a muchos
+  gastos Gasto[]
+
+  @@map("ConceptoGasto")
+}
+
+model Gasto {
+  id                Int     @id @default(autoincrement())
+  sucursal_id       Int
+  tipo_gasto_id     Int
+  concepto_gasto_id Int
+  detalles          String  @map("detalles") @db.VarChar(250)
+  monto             Float
+  fecha             DateTime
+
+  // Llaves foraneas
+  sucursal      Sucursal      @relation(fields: [sucursal_id], references: [id])
+  tipoGasto     TipoGasto     @relation(fields: [tipo_gasto_id], references: [id])
+  conceptoGasto ConceptoGasto @relation(fields: [concepto_gasto_id], references: [id])
+
+  @@map("Gasto")
+}
+
+model Segmento {
+  id                  Int     @id @default(autoincrement())
+  sucursal_origen_id  Int
+  sucursal_destino_id Int
+  descripcion         String  @map("descripcion") @db.VarChar(250)
+  distancia           Float
+
+  // Llaves foraneas
+  sucursal_origen   Sucursal  @relation("sucursal_origen", fields: [sucursal_origen_id], references: [id])
+  sucursal_destino  Sucursal @relation("sucursal_destino", fields: [sucursal_destino_id], references: [id])
+
+  // Relación uno a muchos
+  salidas   Salida[]
+  paquetes  Paquete[]
+
+  @@map("Segmento")
+}
+
+model TipoSalida {
+  id     Int     @id @default(autoincrement())
+  nombre String  @map("nombre") @db.VarChar(100)
+
+  // Relación uno a muchos
+  salidas Salida[]
+
+  @@map("TipoSalida")
+}
+
+model Salida {
+  id                 Int     @id @default(autoincrement())
+  tipo_salida_id     Int
+  vehiculo_id        Int
+  segmento_id        Int
+  fecha_salida       DateTime
+  fecha_llegada      DateTime
+  comentario         String  @map("comentario") @db.VarChar(250)
+  fecha_programada   DateTime
+
+  // Llaves foraneas
+  tipoSalida TipoSalida @relation(fields: [tipo_salida_id], references: [id])
+  vehiculo   Vehiculo   @relation(fields: [vehiculo_id], references: [id])
+  segmento   Segmento   @relation(fields: [segmento_id], references: [id])
+
+  // Relación uno a muchos
+  trackings Tracking[]
+
+  @@map("Salida")
+}
+
+model EstadoPaquete {
+  id          Int     @id @default(autoincrement())
+  nombre      String  @map("nombre") @db.VarChar(100)
+  descripcion String  @map("descripcion") @db.VarChar(250)
+
+  // Relación uno a muchos
+  paquetes Paquete[]
+
+  @@map("EstadoPaquete")
+}
+
+model EstadoTracking {
+  id          Int     @id @default(autoincrement())
+  nombre      String  @map("nombre") @db.VarChar(100)
+  descripcion String  @map("descripcion") @db.VarChar(250)
+
+  // Relación uno a muchos
+  trackings Tracking[]
+
+  @@map("EstadoTracking")
+}
+
+model Paquete {
+  id                Int      @id @default(autoincrement())
+  segmento_id       Int
+  estado_paquete_id Int
+  no_guia           String   @map("no_guia") @db.VarChar(20)
+  descripcion       String   @map("descripcion") @db.VarChar(250)
+  peso              Float
+  volumen           Float
+  remitente         String   @map("remitente") @db.VarChar(100)
+  destinatario      String   @map("destinatario") @db.VarChar(100)
+
+  // Llaves foraneas
+  segmento         Segmento @relation(fields: [segmento_id], references: [id])
+  estadoPaquete    EstadoPaquete @relation(fields: [estado_paquete_id], references: [id])
+  
+  // Relación uno a muchos
+  trackings Tracking[]
+
+  @@map("Paquete")
+}
+
+model Tracking {
+  id                  Int      @id @default(autoincrement())
+  paquete_id          Int
+  sucursal_id         Int
+  estado_tracking_id  Int
+  salida_id           Int
+  fecha               DateTime
+  comentario          String   @map("comentario") @db.VarChar(250)
+
+  // Llaves foraneas
+  paquete             Paquete         @relation(fields: [paquete_id], references: [id])
+  sucursal            Sucursal        @relation(fields: [sucursal_id], references: [id])
+  estado_tracking     EstadoTracking  @relation(fields: [estado_tracking_id], references: [id])
+  salida              Salida          @relation(fields: [salida_id], references: [id])
+
+  @@map("Tracking")
+}
+
+
