@@ -16,8 +16,8 @@ class UsuarioController:
         return ResponseSchema(detail="", result=result)
     
 
-    async def get_by_id(self, usuario_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        result = await self.service.get_by_id(usuario_id)
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        result = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=result)
 
     
@@ -26,13 +26,13 @@ class UsuarioController:
         return ResponseSchema(detail="Usuario creado con éxito")
     
 
-    async def update(self, usuario_id: int, usuario: UsuarioUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(usuario_id, usuario)
+    async def update(self, id: int, usuario: UsuarioUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.update(id, usuario)
         return ResponseSchema(detail="")
 
 
-    async def delete(self, usuario_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.delete(usuario_id)
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
         return ResponseSchema(detail="")
 
 

@@ -12,18 +12,18 @@ class TrackingController:
         trackings = await self.service.get_all()
         return ResponseSchema(detail="", result=trackings)
 
-    async def get_by_id(self, tracking_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        tracking = await self.service.get_by_id(tracking_id)
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        tracking = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=tracking)
 
     async def create(self, tracking: TrackingCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(tracking)
         return ResponseSchema(detail="Tracking creado con éxito")
 
-    async def update(self, tracking_id: int, tracking: TrackingUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(tracking_id, tracking)
+    async def update(self, id: int, tracking: TrackingUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.update(id, tracking)
         return ResponseSchema(detail="Tracking actualizado con éxito")
 
-    async def delete(self, tracking_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.delete(tracking_id)
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
         return ResponseSchema(detail="Tracking eliminado con éxito")

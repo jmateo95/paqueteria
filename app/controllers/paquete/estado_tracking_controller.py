@@ -12,18 +12,18 @@ class EstadoTrackingController:
         estados_tracking = await self.service.get_all()
         return ResponseSchema(detail="", result=estados_tracking)
 
-    async def get_by_id(self, estado_tracking_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        estado_tracking = await self.service.get_by_id(estado_tracking_id)
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        estado_tracking = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=estado_tracking)
 
     async def create(self, estado_tracking: EstadoTrackingCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(estado_tracking)
         return ResponseSchema(detail="Estado de Tracking creado con éxito")
 
-    async def update(self, estado_tracking_id: int, estado_tracking: EstadoTrackingUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(estado_tracking_id, estado_tracking)
+    async def update(self, id: int, estado_tracking: EstadoTrackingUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.update(id, estado_tracking)
         return ResponseSchema(detail="Estado de Tracking actualizado con éxito")
 
-    async def delete(self, estado_tracking_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.delete(estado_tracking_id)
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
         return ResponseSchema(detail="Estado de Tracking eliminado con éxito")

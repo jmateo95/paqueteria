@@ -12,18 +12,18 @@ class EstadoPaqueteController:
         estados_paquete = await self.service.get_all()
         return ResponseSchema(detail="", result=estados_paquete)
 
-    async def get_by_id(self, estado_paquete_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        estado_paquete = await self.service.get_by_id(estado_paquete_id)
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        estado_paquete = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=estado_paquete)
 
     async def create(self, estado_paquete: EstadoPaqueteCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(estado_paquete)
         return ResponseSchema(detail="Estado de Paquete creado con éxito")
 
-    async def update(self, estado_paquete_id: int, estado_paquete: EstadoPaqueteUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(estado_paquete_id, estado_paquete)
+    async def update(self, id: int, estado_paquete: EstadoPaqueteUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.update(id, estado_paquete)
         return ResponseSchema(detail="Estado de Paquete actualizado con éxito")
 
-    async def delete(self, estado_paquete_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.delete(estado_paquete_id)
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
         return ResponseSchema(detail="Estado de Paquete eliminado con éxito")

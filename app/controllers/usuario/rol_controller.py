@@ -12,18 +12,18 @@ class RolController:
         roles = await self.service.get_all()
         return ResponseSchema(detail="", result=roles)
 
-    async def get_by_id(self, rol_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        rol = await self.service.get_by_id(rol_id)
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        rol = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=rol)
 
     async def create(self, rol: RolCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(rol)
         return ResponseSchema(detail="Rol creado con éxito")
 
-    async def update(self, rol_id: int, rol: RolUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(rol_id, rol)
+    async def update(self, id: int, rol: RolUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.update(id, rol)
         return ResponseSchema(detail="Rol actualizado con éxito")
 
-    async def delete(self, rol_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.delete(rol_id)
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
         return ResponseSchema(detail="Rol eliminado con éxito")

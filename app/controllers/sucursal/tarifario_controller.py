@@ -12,18 +12,18 @@ class TarifarioController:
         tarifarios = await self.service.get_all()
         return ResponseSchema(detail="", result=tarifarios)
 
-    async def get_by_id(self, tarifario_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        tarifario = await self.service.get_by_id(tarifario_id)
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        tarifario = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=tarifario)
 
     async def create(self, tarifario: TarifarioCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(tarifario)
         return ResponseSchema(detail="Tarifario creado con éxito")
 
-    async def update(self, tarifario_id: int, tarifario: TarifarioUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(tarifario_id, tarifario)
+    async def update(self, id: int, tarifario: TarifarioUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.update(id, tarifario)
         return ResponseSchema(detail="Tarifario actualizado con éxito")
 
-    async def delete(self, tarifario_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.delete(tarifario_id)
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
         return ResponseSchema(detail="Tarifario eliminado con éxito")

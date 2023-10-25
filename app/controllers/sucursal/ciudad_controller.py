@@ -13,8 +13,8 @@ class CiudadController:
         return ResponseSchema(detail="", result=result)
 
 
-    async def get_by_id(self, ciudad_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        result = await self.service.get_by_id(ciudad_id)
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        result = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=result)
 
 
@@ -23,13 +23,13 @@ class CiudadController:
         return ResponseSchema(detail="")
 
 
-    async def update(self, ciudad_id: int, ciudad: CiudadUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(ciudad_id, ciudad)
+    async def update(self, id: int, ciudad: CiudadUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.update(id, ciudad)
         return ResponseSchema(detail="")
 
 
-    async def delete(self, ciudad_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.delete(ciudad_id)
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
         return ResponseSchema(detail="")
 
 ciudad_controller = CiudadController()
