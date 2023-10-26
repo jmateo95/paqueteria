@@ -3,7 +3,7 @@ from app.models.paquete.estado_paquete_model import EstadoPaqueteCreate, EstadoP
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class EstadoPaqueteService:
-    def __init(self):
+    def __init__(self):
         self.repository = EstadoPaqueteRepository()
 
     async def get_all(self):

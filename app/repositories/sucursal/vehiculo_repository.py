@@ -2,7 +2,7 @@ from app.models.sucursal.vehiculo_model import VehiculoCreate, VehiculoUpdate
 from config.Connection import prisma_connection
 
 class VehiculoRepository:
-    def __init(self):
+    def __init__(self):
         self.connection = prisma_connection
 
     async def get_all(self):

@@ -5,7 +5,7 @@ from config.auth import get_current_user_with_roles
 from fastapi import Depends
 
 class TrackingController:
-    def __init(self):
+    def __init__(self):
         self.service = TrackingService()
 
     async def get_all(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):

@@ -3,7 +3,7 @@ from app.models.sucursal.segmento_model import SegmentoCreate, SegmentoUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class SegmentoService:
-    def __init(self):
+    def __init__(self):
         self.repository = SegmentoRepository()
 
     async def get_all(self):

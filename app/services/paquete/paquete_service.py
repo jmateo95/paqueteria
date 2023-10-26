@@ -3,7 +3,7 @@ from app.models.paquete.paquete_model import PaqueteCreate, PaqueteUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class PaqueteService:
-    def __init(self):
+    def __init__(self):
         self.repository = PaqueteRepository()
 
     async def get_all(self):

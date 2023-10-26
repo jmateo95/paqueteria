@@ -2,7 +2,7 @@ from app.models.paquete.estado_paquete_model import EstadoPaqueteCreate, EstadoP
 from config.Connection import prisma_connection
 
 class EstadoPaqueteRepository:
-    def __init(self):
+    def __init__(self):
         self.connection = prisma_connection
 
     async def get_all(self):

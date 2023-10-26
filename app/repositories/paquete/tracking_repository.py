@@ -2,7 +2,7 @@ from app.models.paquete.tracking_model import TrackingCreate, TrackingUpdate
 from config.Connection import prisma_connection
 
 class TrackingRepository:
-    def __init(self):
+    def __init__(self):
         self.connection = prisma_connection
 
     async def get_all(self):
