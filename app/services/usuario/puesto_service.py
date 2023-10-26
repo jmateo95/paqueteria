@@ -1,6 +1,7 @@
 from app.repositories.usuario.puesto_repository import PuestoRepository
 from app.models.usuario.puesto_model import PuestoCreate, PuestoUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
+from schema import ResponseSchema
 
 class PuestoService:
 
@@ -10,7 +11,7 @@ class PuestoService:
     async def get_all(self):
         puestos = await self.repository.get_all()
         if not puestos:
-            raise EntitiesNotFoundError("Puestos")
+            return []
         return puestos
 
     async def get_by_id(self, puesto_id: int):

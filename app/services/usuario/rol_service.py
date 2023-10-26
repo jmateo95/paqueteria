@@ -9,7 +9,7 @@ class RolService:
     async def get_all(self):
         roles = await self.repository.get_all()
         if not roles:
-            raise EntitiesNotFoundError("Roles")
+            return []
         return roles
 
     async def get_by_id(self, rol_id: int):

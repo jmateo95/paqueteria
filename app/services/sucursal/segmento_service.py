@@ -9,7 +9,7 @@ class SegmentoService:
     async def get_all(self):
         segmentos = await self.repository.get_all()
         if not segmentos:
-            raise EntitiesNotFoundError("Segmentos")
+            return []
         return segmentos
 
     async def get_by_id(self, segmento_id: int):

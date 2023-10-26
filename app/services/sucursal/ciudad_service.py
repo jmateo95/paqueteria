@@ -11,7 +11,7 @@ class CiudadService:
     async def get_all(self):
         ciudades = await self.repository.get_all()
         if not ciudades:
-            raise EntitiesNotFoundError("Ciudades")
+            return []
         return ciudades
 
     async def get_by_id(self, ciudad_id: int):

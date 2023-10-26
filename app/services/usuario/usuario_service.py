@@ -11,7 +11,7 @@ class UsuarioService:
     async def get_all(self):
         usuarios = await self.repository.get_all()
         if not usuarios:
-            raise EntitiesNotFoundError("Usuarios")
+            return []
         return usuarios
 
     async def get_by_id(self, usuario_id: int):

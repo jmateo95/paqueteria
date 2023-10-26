@@ -9,7 +9,7 @@ class GastoService:
     async def get_all(self):
         gastos = await self.repository.get_all()
         if not gastos:
-            raise EntitiesNotFoundError("Gastos")
+            return []
         return gastos
 
     async def get_by_id(self, gasto_id: int):

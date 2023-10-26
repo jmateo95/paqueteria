@@ -9,7 +9,7 @@ class EstadoPaqueteService:
     async def get_all(self):
         estados_paquete = await self.repository.get_all()
         if not estados_paquete:
-            raise EntitiesNotFoundError("Estados de Paquete")
+            return []
         return estados_paquete
 
     async def get_by_id(self, estado_paquete_id: int):

@@ -9,7 +9,7 @@ class TipoSalidaService:
     async def get_all(self):
         tipos_salida = await self.repository.get_all()
         if not tipos_salida:
-            raise EntitiesNotFoundError("Tipos de Salida")
+            return []
         return tipos_salida
 
     async def get_by_id(self, tipo_salida_id: int):

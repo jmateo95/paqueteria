@@ -9,7 +9,7 @@ class EstadoTrackingService:
     async def get_all(self):
         estados_tracking = await self.repository.get_all()
         if not estados_tracking:
-            raise EntitiesNotFoundError("Estados de Tracking")
+            return []
         return estados_tracking
 
     async def get_by_id(self, estado_tracking_id: int):

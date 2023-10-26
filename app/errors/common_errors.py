@@ -4,7 +4,7 @@ from fastapi import HTTPException
 class EntitiesNotFoundError(HTTPException):
     def __init__(self, entity_name: str):
         detail = f"No se encontraron {entity_name}"
-        super().__init__(status_code=404, detail=detail)
+        super().__init__(status_code=200, detail=detail)
 
 class EntityNotFoundError(HTTPException):
     def __init__(self, entity_name: str, entity_id: int):

@@ -9,7 +9,7 @@ class TarifarioService:
     async def get_all(self):
         tarifarios = await self.repository.get_all()
         if not tarifarios:
-            raise EntitiesNotFoundError("Tarifarios")
+            return []
         return tarifarios
 
     async def get_by_id(self, tarifario_id: int):

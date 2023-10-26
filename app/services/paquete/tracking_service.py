@@ -9,7 +9,7 @@ class TrackingService:
     async def get_all(self):
         trackings = await self.repository.get_all()
         if not trackings:
-            raise EntitiesNotFoundError("Trackings")
+            return []
         return trackings
 
     async def get_by_id(self, tracking_id: int):
