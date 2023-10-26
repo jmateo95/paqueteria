@@ -54,3 +54,11 @@ INSERT INTO EstadoTracking (id, nombre, descripcion) VALUES
   (1, 'No completado', 'No se a completado este traking'),
   (1, 'En Bodega', 'El paquete se encuentra en bodega.'),
   (3, 'Completado', 'Este tracking se concluyo');
+
+
+-- TipoVehiculo
+INSERT INTO "TipoVehiculo" (id, nombre) VALUES
+  (1, 'Camion'),
+  (2, 'Panel'),
+  (3, 'Furgoneta'),
+  (4, 'Pick Up');

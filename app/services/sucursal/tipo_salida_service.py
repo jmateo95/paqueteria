@@ -20,7 +20,7 @@ class TipoSalidaService:
 
     async def create(self, tipo_salida: TipoSalidaCreate):
         try:
-            return await self.repository.create(tipo_salida)
+            return await self.repository.create(tipo_salida.dict())
         except Exception as e:
             raise EntityCreationError("Tipo de Salida")
         

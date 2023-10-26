@@ -20,7 +20,7 @@ class EstadoTrackingService:
 
     async def create(self, estado_tracking: EstadoTrackingCreate):
         try:
-            return await self.repository.create(estado_tracking)
+            return await self.repository.create(estado_tracking.dict())
         except Exception as e:
             raise EntityCreationError("Estado de Tracking")
         

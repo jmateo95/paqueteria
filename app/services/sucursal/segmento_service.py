@@ -20,7 +20,7 @@ class SegmentoService:
 
     async def create(self, segmento: SegmentoCreate):
         try:
-            return await self.repository.create(segmento)
+            return await self.repository.create(segmento.dict())
         except Exception as e:
             raise EntityCreationError("Segmento")
         

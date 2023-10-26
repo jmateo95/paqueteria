@@ -20,7 +20,7 @@ class SalidaService:
 
     async def create(self, salida: SalidaCreate):
         try:
-            return await self.repository.create(salida)
+            return await self.repository.create(salida.dict())
         except Exception as e:
             raise EntityCreationError("Salida")
         

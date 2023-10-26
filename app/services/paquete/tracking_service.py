@@ -20,7 +20,7 @@ class TrackingService:
 
     async def create(self, tracking: TrackingCreate):
         try:
-            return await self.repository.create(tracking)
+            return await self.repository.create(tracking.dict())
         except Exception as e:
             raise EntityCreationError("Tracking")
         

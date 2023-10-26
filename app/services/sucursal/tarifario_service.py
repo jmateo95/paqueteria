@@ -20,7 +20,7 @@ class TarifarioService:
 
     async def create(self, tarifario: TarifarioCreate):
         try:
-            return await self.repository.create(tarifario)
+            return await self.repository.create(tarifario.dict())
         except Exception as e:
             raise EntityCreationError("Tarifario")
         

@@ -20,7 +20,7 @@ class VehiculoService:
 
     async def create(self, vehiculo: VehiculoCreate):
         try:
-            return await self.repository.create(vehiculo)
+            return await self.repository.create(vehiculo.dict())
         except Exception as e:
             raise EntityCreationError("Vehiculo")
         

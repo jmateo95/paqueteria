@@ -20,7 +20,7 @@ class PaqueteService:
 
     async def create(self, paquete: PaqueteCreate):
         try:
-            return await self.repository.create(paquete)
+            return await self.repository.create(paquete.dict())
         except Exception as e:
             raise EntityCreationError("Paquete")
         
