@@ -10,7 +10,7 @@ class SucursalService:
     async def get_all(self):
         sucursales = await self.repository.get_all()
         if not sucursales:
-            raise EntitiesNotFoundError("Sucursales")
+            return []
         return sucursales
 
     async def get_by_id(self, sucursal_id: int):

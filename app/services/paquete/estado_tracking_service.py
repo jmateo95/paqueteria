@@ -3,13 +3,13 @@ from app.models.paquete.estado_tracking_model import EstadoTrackingCreate, Estad
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class EstadoTrackingService:
-    def __init(self):
+    def __init__(self):
         self.repository = EstadoTrackingRepository()
 
     async def get_all(self):
         estados_tracking = await self.repository.get_all()
         if not estados_tracking:
-            raise EntitiesNotFoundError("Estados de Tracking")
+            return []
         return estados_tracking
 
     async def get_by_id(self, estado_tracking_id: int):
@@ -20,7 +20,7 @@ class EstadoTrackingService:
 
     async def create(self, estado_tracking: EstadoTrackingCreate):
         try:
-            return await self.repository.create(estado_tracking)
+            return await self.repository.create(estado_tracking.dict())
         except Exception as e:
             raise EntityCreationError("Estado de Tracking")
         

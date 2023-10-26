@@ -3,13 +3,13 @@ from app.models.paquete.paquete_model import PaqueteCreate, PaqueteUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class PaqueteService:
-    def __init(self):
+    def __init__(self):
         self.repository = PaqueteRepository()
 
     async def get_all(self):
         paquetes = await self.repository.get_all()
         if not paquetes:
-            raise EntitiesNotFoundError("Paquetes")
+            return []
         return paquetes
 
     async def get_by_id(self, paquete_id: int):
@@ -20,7 +20,7 @@ class PaqueteService:
 
     async def create(self, paquete: PaqueteCreate):
         try:
-            return await self.repository.create(paquete)
+            return await self.repository.create(paquete.dict())
         except Exception as e:
             raise EntityCreationError("Paquete")
         

@@ -2,7 +2,7 @@ from app.models.paquete.paquete_model import PaqueteCreate, PaqueteUpdate
 from config.Connection import prisma_connection
 
 class PaqueteRepository:
-    def __init(self):
+    def __init__(self):
         self.connection = prisma_connection
 
     async def get_all(self):

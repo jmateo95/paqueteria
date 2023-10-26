@@ -3,13 +3,13 @@ from app.models.paquete.tracking_model import TrackingCreate, TrackingUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class TrackingService:
-    def __init(self):
+    def __init__(self):
         self.repository = TrackingRepository()
 
     async def get_all(self):
         trackings = await self.repository.get_all()
         if not trackings:
-            raise EntitiesNotFoundError("Trackings")
+            return []
         return trackings
 
     async def get_by_id(self, tracking_id: int):
@@ -20,7 +20,7 @@ class TrackingService:
 
     async def create(self, tracking: TrackingCreate):
         try:
-            return await self.repository.create(tracking)
+            return await self.repository.create(tracking.dict())
         except Exception as e:
             raise EntityCreationError("Tracking")
         

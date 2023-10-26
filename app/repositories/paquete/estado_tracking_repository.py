@@ -2,7 +2,7 @@ from app.models.paquete.estado_tracking_model import EstadoTrackingCreate, Estad
 from config.Connection import prisma_connection
 
 class EstadoTrackingRepository:
-    def __init(self):
+    def __init__(self):
         self.connection = prisma_connection
 
     async def get_all(self):

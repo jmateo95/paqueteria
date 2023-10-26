@@ -9,7 +9,7 @@ class TipoSalidaService:
     async def get_all(self):
         tipos_salida = await self.repository.get_all()
         if not tipos_salida:
-            raise EntitiesNotFoundError("Tipos de Salida")
+            return []
         return tipos_salida
 
     async def get_by_id(self, tipo_salida_id: int):
@@ -20,7 +20,7 @@ class TipoSalidaService:
 
     async def create(self, tipo_salida: TipoSalidaCreate):
         try:
-            return await self.repository.create(tipo_salida)
+            return await self.repository.create(tipo_salida.dict())
         except Exception as e:
             raise EntityCreationError("Tipo de Salida")
         

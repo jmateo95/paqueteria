@@ -3,13 +3,13 @@ from app.models.paquete.estado_paquete_model import EstadoPaqueteCreate, EstadoP
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class EstadoPaqueteService:
-    def __init(self):
+    def __init__(self):
         self.repository = EstadoPaqueteRepository()
 
     async def get_all(self):
         estados_paquete = await self.repository.get_all()
         if not estados_paquete:
-            raise EntitiesNotFoundError("Estados de Paquete")
+            return []
         return estados_paquete
 
     async def get_by_id(self, estado_paquete_id: int):
@@ -20,7 +20,7 @@ class EstadoPaqueteService:
 
     async def create(self, estado_paquete: EstadoPaqueteCreate):
         try:
-            return await self.repository.create(estado_paquete)
+            return await self.repository.create(estado_paquete.dict())
         except Exception as e:
             raise EntityCreationError("Estado de Paquete")
         

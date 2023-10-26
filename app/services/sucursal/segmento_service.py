@@ -3,13 +3,13 @@ from app.models.sucursal.segmento_model import SegmentoCreate, SegmentoUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 
 class SegmentoService:
-    def __init(self):
+    def __init__(self):
         self.repository = SegmentoRepository()
 
     async def get_all(self):
         segmentos = await self.repository.get_all()
         if not segmentos:
-            raise EntitiesNotFoundError("Segmentos")
+            return []
         return segmentos
 
     async def get_by_id(self, segmento_id: int):
@@ -20,7 +20,7 @@ class SegmentoService:
 
     async def create(self, segmento: SegmentoCreate):
         try:
-            return await self.repository.create(segmento)
+            return await self.repository.create(segmento.dict())
         except Exception as e:
             raise EntityCreationError("Segmento")
         

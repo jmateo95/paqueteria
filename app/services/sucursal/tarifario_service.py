@@ -9,7 +9,7 @@ class TarifarioService:
     async def get_all(self):
         tarifarios = await self.repository.get_all()
         if not tarifarios:
-            raise EntitiesNotFoundError("Tarifarios")
+            return []
         return tarifarios
 
     async def get_by_id(self, tarifario_id: int):
@@ -20,7 +20,7 @@ class TarifarioService:
 
     async def create(self, tarifario: TarifarioCreate):
         try:
-            return await self.repository.create(tarifario)
+            return await self.repository.create(tarifario.dict())
         except Exception as e:
             raise EntityCreationError("Tarifario")
         

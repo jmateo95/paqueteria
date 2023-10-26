@@ -9,7 +9,7 @@ class SalidaService:
     async def get_all(self):
         salidas = await self.repository.get_all()
         if not salidas:
-            raise EntitiesNotFoundError("Salidas")
+            return []
         return salidas
 
     async def get_by_id(self, salida_id: int):
@@ -20,7 +20,7 @@ class SalidaService:
 
     async def create(self, salida: SalidaCreate):
         try:
-            return await self.repository.create(salida)
+            return await self.repository.create(salida.dict())
         except Exception as e:
             raise EntityCreationError("Salida")
         

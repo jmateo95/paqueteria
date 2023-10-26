@@ -9,7 +9,7 @@ class GastoService:
     async def get_all(self):
         gastos = await self.repository.get_all()
         if not gastos:
-            raise EntitiesNotFoundError("Gastos")
+            return []
         return gastos
 
     async def get_by_id(self, gasto_id: int):
@@ -20,7 +20,7 @@ class GastoService:
 
     async def create(self, gasto: GastoCreate):
         try:
-            return await self.repository.create(gasto)
+            return await self.repository.create(gasto.dict())
         except Exception as e:
             raise EntityCreationError("Gasto")
         

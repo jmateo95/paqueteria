@@ -9,7 +9,7 @@ class VehiculoService:
     async def get_all(self):
         vehiculos = await self.repository.get_all()
         if not vehiculos:
-            raise EntitiesNotFoundError("Vehiculos")
+            return []
         return vehiculos
 
     async def get_by_id(self, vehiculo_id: int):
@@ -20,7 +20,7 @@ class VehiculoService:
 
     async def create(self, vehiculo: VehiculoCreate):
         try:
-            return await self.repository.create(vehiculo)
+            return await self.repository.create(vehiculo.dict())
         except Exception as e:
             raise EntityCreationError("Vehiculo")
         
