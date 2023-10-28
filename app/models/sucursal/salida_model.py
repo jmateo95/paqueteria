@@ -7,8 +7,12 @@ class SalidaCreate(BaseModel):
     segmento_id: int
     fecha_salida: datetime
     fecha_llegada: datetime
-    comentario: str
     fecha_programada: datetime
+    comentario: str
+    costo_lb: float
+    capacidad_lb: float
+    capacidad_reservada: float
+    capacidad_ocupada: float
 
 class SalidaUpdate(BaseModel):
     tipo_salida_id: int = None
@@ -16,8 +20,12 @@ class SalidaUpdate(BaseModel):
     segmento_id: int = None
     fecha_salida: datetime = None
     fecha_llegada: datetime = None
-    comentario: str = None
     fecha_programada: datetime = None
+    comentario: str = None
+    costo_lb: float = None
+    capacidad_lb: float = None
+    capacidad_reservada: float = None
+    capacidad_ocupada: float = None
 
     class Config:
         arbitrary_types_allowed = True
