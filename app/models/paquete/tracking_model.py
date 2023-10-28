@@ -6,7 +6,7 @@ class TrackingCreate(BaseModel):
     sucursal_id: int
     estado_tracking_id: int
     salida_id: int
-    fecha: datetime
+    actualizacion: datetime
     comentario: str
 
 class TrackingUpdate(BaseModel):
@@ -14,7 +14,7 @@ class TrackingUpdate(BaseModel):
     sucursal_id: int = None
     estado_tracking_id: int = None
     salida_id: int = None
-    fecha: datetime = None
+    actualizacion: datetime = None
     comentario: str = None
 
     class Config:

@@ -54,22 +54,22 @@ model TipoSucursal {
 }
 
 model Sucursal {
-  id              Int     @id @default(autoincrement())
-  nombre          String  @map("nombre") @db.VarChar(100)
-  direccion       String
-  latitud         Float
-  longitud        Float
-  ciudad_id       Int
-  tiposucursal_id Int
+  id                Int     @id @default(autoincrement())
+  nombre            String  @map("nombre") @db.VarChar(100)
+  direccion         String
+  latitud           Float
+  longitud          Float
+  ciudad_id         Int
+  tipo_sucursal_id  Int
 
   // Llaves foraneas
   ciudad        Ciudad  @relation(fields: [ciudad_id], references: [id])
-  tipoSucursal  TipoSucursal  @relation(fields: [tiposucursal_id], references: [id])
+  tipoSucursal  TipoSucursal  @relation(fields: [tipo_sucursal_id], references: [id])
 
   // Relación uno a muchos
   usuarios          Usuario[]
   vehiculos         Vehiculo[]
-  tarifarios        Tarifario[]
+  ingresos          Ingreso[]
   gastos            Gasto[]
   segmentos_origen  Segmento[] @relation("sucursal_origen")
   segmentos_destino Segmento[] @relation("sucursal_destino")
@@ -98,14 +98,11 @@ model Usuario {
 }
 
 model Tarifario {
-  id           Int       @id @default(autoincrement())
-  fecha        DateTime
-  ganancia_lb  Float
-  costo_lb_km  Float
-  sucursal_id  Int
-
-  // Llaves foraneas
-  sucursal     Sucursal  @relation(fields: [sucursal_id], references: [id])
+  id              Int       @id @default(autoincrement())
+  fecha           DateTime
+  ganancia_envio  Float
+  costo_lb        Float
+  sucursal_id     Int
 
   @@map("Tarifario")
 }
@@ -121,15 +118,15 @@ model TipoVehiculo {
 }
 
 model Vehiculo {
-  id              Int     @id @default(autoincrement())
-  placa           String  @map("placa") @db.VarChar(20)
-  capacidad_lb    Float
-  costokm         Float
-  tipovehiculo_id Int
-  sucursal_id     Int
+  id                Int     @id @default(autoincrement())
+  placa             String  @map("placa") @db.VarChar(20)
+  capacidad_lb      Float
+  costo_km          Float
+  tipo_vehiculo_id  Int
+  sucursal_id       Int
 
   // Llaves foraneas
-  tipoVehiculo TipoVehiculo @relation(fields: [tipovehiculo_id], references: [id])
+  tipoVehiculo TipoVehiculo @relation(fields: [tipo_vehiculo_id], references: [id])
   sucursal     Sucursal     @relation(fields: [sucursal_id], references: [id])
 
    // Relación uno a muchos
@@ -175,6 +172,22 @@ model Gasto {
   @@map("Gasto")
 }
 
+
+model Ingreso {
+  id                Int     @id @default(autoincrement())
+  sucursal_id       Int
+  detalles          String  @map("detalles") @db.VarChar(250)
+  monto             Float
+  fecha             DateTime
+
+  // Llaves foraneas
+  sucursal      Sucursal      @relation(fields: [sucursal_id], references: [id])
+
+  @@map("Ingreso")
+}
+
+
+
 model Segmento {
   id                  Int     @id @default(autoincrement())
   sucursal_origen_id  Int
@@ -204,14 +217,19 @@ model TipoSalida {
 }
 
 model Salida {
-  id                 Int     @id @default(autoincrement())
-  tipo_salida_id     Int
-  vehiculo_id        Int
-  segmento_id        Int
-  fecha_salida       DateTime
-  fecha_llegada      DateTime
-  comentario         String  @map("comentario") @db.VarChar(250)
-  fecha_programada   DateTime
+  id                    Int     @id @default(autoincrement())
+  tipo_salida_id        Int
+  vehiculo_id           Int
+  segmento_id           Int
+  fecha_salida          DateTime
+  fecha_llegada         DateTime
+  fecha_programada      DateTime
+  comentario            String  @map("comentario") @db.VarChar(250)
+  costo_lb              Float
+  capacidad_lb          Float
+  capacidad_reservada   Float
+  capacidad_ocupada     Float
+
 
   // Llaves foraneas
   tipoSalida TipoSalida @relation(fields: [tipo_salida_id], references: [id])
@@ -256,6 +274,7 @@ model Paquete {
   volumen           Float
   remitente         String   @map("remitente") @db.VarChar(100)
   destinatario      String   @map("destinatario") @db.VarChar(100)
+  costo             Float
 
   // Llaves foraneas
   segmento         Segmento @relation(fields: [segmento_id], references: [id])
@@ -273,7 +292,7 @@ model Tracking {
   sucursal_id         Int
   estado_tracking_id  Int
   salida_id           Int
-  fecha               DateTime
+  actualizacion       DateTime
   comentario          String   @map("comentario") @db.VarChar(250)
 
   // Llaves foraneas

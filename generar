@@ -1,5 +1,5 @@
 $carpetas = @("models", "repositories", "services", "controllers", "routers")
-$archivos = @("tracking_model.py", "tracking_repository.py", "tracking_service.py", "tracking_controller.py", "tracking_router.py")
+$archivos = @("ingreso_model.py", "ingreso_repository.py", "ingreso_service.py", "ingreso_controller.py", "ingreso_router.py")
 
 # Obtener la ubicación actual
 $ubicacion_actual = Get-Location
@@ -8,7 +8,7 @@ for ($i = 0; $i -lt $carpetas.Length; $i++) {
     $carpeta = $carpetas[$i]
     $archivo = $archivos[$i]
 
-    $ruta_carpeta = Join-Path -Path $ubicacion_actual -ChildPath "app/$carpeta/paquete"
+    $ruta_carpeta = Join-Path -Path $ubicacion_actual -ChildPath "app/$carpeta/sucursal"
     if (-not (Test-Path $ruta_carpeta)) {
         New-Item -Path $ruta_carpeta -ItemType Directory -Force
     }

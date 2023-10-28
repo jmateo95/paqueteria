@@ -9,6 +9,7 @@ class PaqueteCreate(BaseModel):
     volumen: float
     remitente: str
     destinatario: str
+    costo: float
 
 class PaqueteUpdate(BaseModel):
     segmento_id: int = None
@@ -19,6 +20,7 @@ class PaqueteUpdate(BaseModel):
     volumen: float = None
     remitente: str = None
     destinatario: str = None
+    costo: float = None
 
     class Config:
         arbitrary_types_allowed = True
