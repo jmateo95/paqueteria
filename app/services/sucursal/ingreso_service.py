@@ -6,11 +6,9 @@ class IngresoService:
     def __init__(self):
         self.repository = IngresoRepository()
 
-    async def get_all(self):
-        ingresos = await self.repository.get_all()
-        if not ingresos:
-            return []
-        return ingresos
+    async def get_ingresos_by_filters(self, sucursal_id=None, fecha=None):
+        ingresos = await self.repository.get_ingresos_by_filters(sucursal_id, fecha)
+        return [] if not ingresos else ingresos
 
     async def get_by_id(self, ingreso_id: int):
         ingreso = await self.repository.get_by_id(ingreso_id)

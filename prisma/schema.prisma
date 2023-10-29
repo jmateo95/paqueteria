@@ -13,6 +13,7 @@ model Ciudad {
   nombre        String    @map("nombre") @db.VarChar(100)
   departamento  String    @map("departamento") @db.VarChar(100)
   descripcion   String    @map("descripcion") @db.VarChar(250)
+  estatico      Boolean   @default(false)
 
   // Relación uno a muchos
   sucursales    Sucursal[]
@@ -25,6 +26,7 @@ model Puesto {
   nombre          String  @map("nombre") @db.VarChar(100)
   descripcion     String  @map("descripcion") @db.VarChar(250)
   salario_horario Float
+  estatico        Boolean @default(false)
 
   // Relación uno a muchos
   usuarios        Usuario[]
@@ -36,6 +38,7 @@ model Rol {
   id          Int     @id @default(autoincrement())
   nombre      String  @map("nombre") @db.VarChar(100)
   descripcion String  @map("descripcion") @db.VarChar(250)
+  estatico    Boolean @default(false)
 
   // Relación uno a muchos
   usuarios    Usuario[]
@@ -44,8 +47,9 @@ model Rol {
 }
 
 model TipoSucursal {
-  id     Int     @id @default(autoincrement())
-  nombre String  @map("nombre") @db.VarChar(100)
+  id        Int     @id @default(autoincrement())
+  nombre    String  @map("nombre") @db.VarChar(100)
+  estatico  Boolean @default(false)
 
   // Relación uno a muchos
   sucursales    Sucursal[]
@@ -61,6 +65,7 @@ model Sucursal {
   longitud          Float
   ciudad_id         Int
   tipo_sucursal_id  Int
+  estatico          Boolean @default(false)
 
   // Llaves foraneas
   ciudad        Ciudad  @relation(fields: [ciudad_id], references: [id])
@@ -88,6 +93,7 @@ model Usuario {
   rol_id      Int
   puesto_id   Int
   sucursal_id Int
+  estatico    Boolean @default(false)
   
   // Llaves foraneas
   rol         Rol     @relation(fields: [rol_id], references: [id])
@@ -107,8 +113,9 @@ model Tarifario {
 }
 
 model TipoVehiculo {
-  id     Int     @id @default(autoincrement())
-  nombre String  @map("nombre") @db.VarChar(100)
+  id        Int     @id @default(autoincrement())
+  nombre    String  @map("nombre") @db.VarChar(100)
+  estatico  Boolean @default(false)
 
   // Relación uno a muchos
   vehiculos Vehiculo[]
@@ -135,8 +142,9 @@ model Vehiculo {
 }
 
 model TipoGasto {
-  id     Int     @id @default(autoincrement())
-  nombre String  @map("nombre") @db.VarChar(100)
+  id        Int     @id @default(autoincrement())
+  nombre    String  @map("nombre") @db.VarChar(100)
+  estatico  Boolean @default(false)
 
   // Relación uno a muchos
   gastos Gasto[]
@@ -145,8 +153,9 @@ model TipoGasto {
 }
 
 model ConceptoGasto {
-  id     Int     @id @default(autoincrement())
-  nombre String  @map("nombre") @db.VarChar(100)
+  id        Int     @id @default(autoincrement())
+  nombre    String  @map("nombre") @db.VarChar(100)
+  estatico  Boolean @default(false)
 
   // Relación uno a muchos
   gastos Gasto[]
@@ -205,8 +214,9 @@ model Segmento {
 }
 
 model TipoSalida {
-  id     Int     @id @default(autoincrement())
-  nombre String  @map("nombre") @db.VarChar(100)
+  id        Int     @id @default(autoincrement())
+  nombre    String  @map("nombre") @db.VarChar(100)
+  estatico  Boolean @default(false)
 
   // Relación uno a muchos
   salidas Salida[]
@@ -244,6 +254,7 @@ model EstadoPaquete {
   id          Int     @id @default(autoincrement())
   nombre      String  @map("nombre") @db.VarChar(100)
   descripcion String  @map("descripcion") @db.VarChar(250)
+  estatico    Boolean @default(false)
 
   // Relación uno a muchos
   paquetes Paquete[]
@@ -255,6 +266,7 @@ model EstadoTracking {
   id          Int     @id @default(autoincrement())
   nombre      String  @map("nombre") @db.VarChar(100)
   descripcion String  @map("descripcion") @db.VarChar(250)
+  estatico    Boolean @default(false)
 
   // Relación uno a muchos
   trackings Tracking[]

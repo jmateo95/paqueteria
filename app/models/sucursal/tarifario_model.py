@@ -1,8 +1,10 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class TarifarioCreate(BaseModel):
     ganancia_envio: float
+    fecha:          Optional[datetime]= None
 
 class Tarifario(BaseModel):
     fecha:          datetime

@@ -2,15 +2,16 @@ from schema import ResponseSchema
 from app.services.gasto.gasto_service import GastoService
 from app.models.gasto.gasto_model import GastoCreate, GastoUpdate
 from config.auth import get_current_user_with_roles
-from fastapi import Depends
+from fastapi import Depends, Query
+from datetime import datetime
 
 class GastoController:
     def __init__(self):
         self.service = GastoService()
-
-    async def get_all(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        gastos = await self.service.get_all()
-        return ResponseSchema(detail="", result=gastos)
+    
+    async def get_gastos_by_filters(self, sucursal_id: int = Query(None), fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        result = await self.service.get_gastos_by_filters(sucursal_id, fecha)
+        return ResponseSchema(detail="", result=result)
 
     async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         gasto = await self.service.get_by_id(id)

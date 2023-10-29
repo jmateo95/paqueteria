@@ -7,12 +7,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class UsuarioService:
     def __init__(self):
         self.repository = UsuarioRepository()
-
-    async def get_all(self):
-        usuarios = await self.repository.get_all()
-        if not usuarios:
-            return []
-        return usuarios
+    
+    async def get_users_by_filters(self, sucursal_id=None):
+        usuarios = await self.repository.get_users_by_filters(sucursal_id)
+        return [] if not usuarios else usuarios
 
     async def get_by_id(self, usuario_id: int):
         usuario = await self.repository.get_by_id(usuario_id)

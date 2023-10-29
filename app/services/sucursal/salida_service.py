@@ -12,8 +12,8 @@ class SalidaService:
         self.vehiculo_repository = VehiculoRepository()
         self.segmento_repository = SegmentoRepository()
 
-    async def get_all(self):
-        salidas = await self.repository.get_all()
+    async def get_salidas_by_filters(self, sucursal_id=None, fecha=None):
+        salidas = await self.repository.get_salidas_by_filters(sucursal_id, fecha)
         return [] if not salidas else salidas
 
     async def get_by_id(self, salida_id: int):

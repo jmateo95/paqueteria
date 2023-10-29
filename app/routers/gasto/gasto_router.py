@@ -7,7 +7,7 @@ router = APIRouter(
 
 gasto_controller = GastoController()
 
-router.add_api_route("/", gasto_controller.get_all, methods=["GET"])
+router.add_api_route("/", gasto_controller.get_gastos_by_filters, methods=["GET"])
 router.add_api_route("/{id}", gasto_controller.get_by_id, methods=["GET"])
 router.add_api_route("/", gasto_controller.create, methods=["POST"])
 router.add_api_route("/{id}", gasto_controller.update, methods=["PATCH"])

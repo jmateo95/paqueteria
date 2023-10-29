@@ -8,8 +8,13 @@ class TarifarioRepository:
     def __init__(self):
         self.connection = prisma_connection
 
-    async def get_all(self):
-        return await self.connection.prisma.tarifario.find_many()
+    async def get_tarifarios_by_filters(self, fecha:datetime=None):
+        where_conditions = {}
+        if fecha is not None:
+           first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+           last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
+           where_conditions["fecha"] = {"gte": first_day, "lte": last_day}
+        return await self.connection.prisma.tarifario.find_many(where=where_conditions)
 
     async def get_by_id(self, tarifario_id: int):
         return await self.connection.prisma.tarifario.find_first(where={"id": tarifario_id})
@@ -23,22 +28,22 @@ class TarifarioRepository:
     async def delete(self, tarifario_id: int):
         return await self.connection.prisma.tarifario.delete(where={"id": tarifario_id})
 
-    async def delete_by_fecha(self, fecha=None):
-        today = datetime.now()
+    async def delete_by_fecha(self, fecha:datetime=None):
         if fecha is None:
-            first_day = today.replace(day=1, hour=0, minute=0, second=0)
-            last_day = today.replace(day=calendar.monthrange(today.year, today.month)[1], hour=23, minute=59, second=59)
+            fecha = datetime.now()
+        first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+        last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
         return await self.connection.prisma.tarifario.delete_many(
             where={
                 "fecha": {"gte": first_day, "lte": last_day}
             }
         )
     
-    async def calculate_total_gasto(self, fecha=None):
-        today = datetime.now()
+    async def calculate_total_gasto(self, fecha:datetime=None):
         if fecha is None:
-            first_day = today.replace(day=1, hour=0, minute=0, second=0).isoformat()
-            last_day = today.replace(day=calendar.monthrange(today.year, today.month)[1], hour=23, minute=59, second=59).isoformat()
+            fecha = datetime.now()
+        first_day = fecha.replace(day=1, hour=0, minute=0, second=0).isoformat()
+        last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59).isoformat()
         
         query = """
             SELECT SUM(monto) AS total_gasto
@@ -49,13 +54,14 @@ class TarifarioRepository:
                 AND concepto_gasto_id <> $4
         """
         result = await self.connection.prisma.query_raw(query, first_day, last_day, TipoGasto.TRANSPORTE, ConceptoGasto.GASOLINA)
-        return result[0]['total_gasto'] if result else 0
+        return result[0]['total_gasto'] if result[0]['total_gasto'] else 0
 
-    async def calculate_total_libras(self, fecha=None):
-        today = datetime.now()
+    async def calculate_total_libras(self, fecha:datetime=None):
         if fecha is None:
-            first_day = today.replace(day=1, hour=0, minute=0, second=0).isoformat()
-            last_day = today.replace(day=calendar.monthrange(today.year, today.month)[1], hour=23, minute=59, second=59).isoformat()
+            fecha = datetime.now()
+        first_day = fecha.replace(day=1, hour=0, minute=0, second=0).isoformat()
+        last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59).isoformat()
+
         query = """
             SELECT SUM(capacidad_lb) AS total_capacidad_lb
             FROM public."Salida"
@@ -63,4 +69,4 @@ class TarifarioRepository:
                 AND fecha_programada <= TO_TIMESTAMP($2, 'YYYY-MM-DD"T"HH24:MI:SS')
         """
         result = await self.connection.prisma.query_raw(query, first_day, last_day)
-        return result[0]['total_capacidad_lb'] if result else 0
+        return result[0]['total_capacidad_lb'] if result[0]['total_capacidad_lb'] else 1
