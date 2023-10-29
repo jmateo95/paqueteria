@@ -200,7 +200,6 @@ model Segmento {
 
   // Relación uno a muchos
   salidas   Salida[]
-  paquetes  Paquete[]
 
   @@map("Segmento")
 }
@@ -265,7 +264,6 @@ model EstadoTracking {
 
 model Paquete {
   id                Int      @id @default(autoincrement())
-  segmento_id       Int
   estado_paquete_id Int
   no_guia           String   @map("no_guia") @db.VarChar(20)
   descripcion       String   @map("descripcion") @db.VarChar(250)
@@ -276,7 +274,6 @@ model Paquete {
   costo             Float
 
   // Llaves foraneas
-  segmento         Segmento @relation(fields: [segmento_id], references: [id])
   estadoPaquete    EstadoPaquete @relation(fields: [estado_paquete_id], references: [id])
   
   // Relación uno a muchos
