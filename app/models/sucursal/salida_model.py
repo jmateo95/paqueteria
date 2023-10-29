@@ -2,11 +2,13 @@ from pydantic import BaseModel
 from datetime import datetime
 
 class SalidaCreate(BaseModel):
+    vehiculo_id: int
+    segmento_id: int
+
+class Salida(BaseModel):
     tipo_salida_id: int
     vehiculo_id: int
     segmento_id: int
-    fecha_salida: datetime
-    fecha_llegada: datetime
     fecha_programada: datetime
     comentario: str
     costo_lb: float

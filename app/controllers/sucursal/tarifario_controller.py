@@ -16,7 +16,7 @@ class TarifarioController:
         tarifario = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=tarifario)
 
-    async def create(self, tarifario: TarifarioCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+    async def create(self, tarifario: TarifarioCreate):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(tarifario)
         return ResponseSchema(detail="Tarifario creado con éxito")
 

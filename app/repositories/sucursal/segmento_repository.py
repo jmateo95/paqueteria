@@ -11,6 +11,16 @@ class SegmentoRepository:
     async def get_by_id(self, segmento_id: int):
         return await self.connection.prisma.segmento.find_first(where={"id": segmento_id})
     
+    async def get_by_sucursal_origen(self, sucursal_origen_id: int):
+        return await self.connection.prisma.segmento.find_many(
+            where={"sucursal_origen_id": sucursal_origen_id}
+        )
+    
+    async def get_by_sucursales(self, sucursal_origen_id: int, sucursal_destino_id: int):
+        return await self.connection.prisma.segmento.find_first(
+            where={"sucursal_origen_id": sucursal_origen_id, "sucursal_destino_id": sucursal_destino_id}
+        )
+    
     async def create(self, segmento: SegmentoCreate):
         return await self.connection.prisma.segmento.create(segmento)
     

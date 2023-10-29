@@ -102,8 +102,7 @@ model Tarifario {
   fecha           DateTime
   ganancia_envio  Float
   costo_lb        Float
-  sucursal_id     Int
-
+  
   @@map("Tarifario")
 }
 
@@ -221,8 +220,8 @@ model Salida {
   tipo_salida_id        Int
   vehiculo_id           Int
   segmento_id           Int
-  fecha_salida          DateTime
-  fecha_llegada         DateTime
+  fecha_salida          DateTime?
+  fecha_llegada         DateTime?
   fecha_programada      DateTime
   comentario            String  @map("comentario") @db.VarChar(250)
   costo_lb              Float
@@ -292,7 +291,7 @@ model Tracking {
   sucursal_id         Int
   estado_tracking_id  Int
   salida_id           Int
-  actualizacion       DateTime
+  actualizacion       DateTime?
   comentario          String   @map("comentario") @db.VarChar(250)
 
   // Llaves foraneas

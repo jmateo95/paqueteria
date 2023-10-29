@@ -2,6 +2,9 @@ from pydantic import BaseModel
 from datetime import datetime
 
 class TarifarioCreate(BaseModel):
+    ganancia_envio: float
+
+class Tarifario(BaseModel):
     fecha:          datetime
     ganancia_envio: float
     costo_lb:       float

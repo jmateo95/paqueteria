@@ -69,7 +69,6 @@ CREATE TABLE "Tarifario" (
     "fecha" TIMESTAMP(3) NOT NULL,
     "ganancia_envio" DOUBLE PRECISION NOT NULL,
     "costo_lb" DOUBLE PRECISION NOT NULL,
-    "sucursal_id" INTEGER NOT NULL,
 
     CONSTRAINT "Tarifario_pkey" PRIMARY KEY ("id")
 );
@@ -159,8 +158,8 @@ CREATE TABLE "Salida" (
     "tipo_salida_id" INTEGER NOT NULL,
     "vehiculo_id" INTEGER NOT NULL,
     "segmento_id" INTEGER NOT NULL,
-    "fecha_salida" TIMESTAMP(3) NOT NULL,
-    "fecha_llegada" TIMESTAMP(3) NOT NULL,
+    "fecha_salida" TIMESTAMP(3),
+    "fecha_llegada" TIMESTAMP(3),
     "fecha_programada" TIMESTAMP(3) NOT NULL,
     "comentario" VARCHAR(250) NOT NULL,
     "costo_lb" DOUBLE PRECISION NOT NULL,
@@ -212,7 +211,7 @@ CREATE TABLE "Tracking" (
     "sucursal_id" INTEGER NOT NULL,
     "estado_tracking_id" INTEGER NOT NULL,
     "salida_id" INTEGER NOT NULL,
-    "actualizacion" TIMESTAMP(3) NOT NULL,
+    "actualizacion" TIMESTAMP(3),
     "comentario" VARCHAR(250) NOT NULL,
 
     CONSTRAINT "Tracking_pkey" PRIMARY KEY ("id")

@@ -11,6 +11,11 @@ class VehiculoRepository:
     async def get_by_id(self, vehiculo_id: int):
         return await self.connection.prisma.vehiculo.find_first(where={"id": vehiculo_id})
     
+    async def get_by_sucursal(self, sucursal_id: int):
+        return await self.connection.prisma.vehiculo.find_many(
+            where={"sucursal_id": sucursal_id}
+        )
+    
     async def create(self, vehiculo: VehiculoCreate):
         return await self.connection.prisma.vehiculo.create(vehiculo)
     

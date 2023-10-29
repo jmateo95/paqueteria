@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 class GastoCreate(BaseModel):
     sucursal_id: int
@@ -6,7 +7,7 @@ class GastoCreate(BaseModel):
     concepto_gasto_id: int
     detalles: str
     monto: float
-    fecha: str  # Asegúrate de procesar la fecha adecuadamente en tu lógica
+    fecha: datetime
 
 class GastoUpdate(BaseModel):
     sucursal_id: int = None
@@ -14,7 +15,7 @@ class GastoUpdate(BaseModel):
     concepto_gasto_id: int = None
     detalles: str = None
     monto: float = None
-    fecha: str = None  # Asegúrate de procesar la fecha adecuadamente en tu lógica
+    fecha: datetime = None
 
     class Config:
         arbitrary_types_allowed = True
