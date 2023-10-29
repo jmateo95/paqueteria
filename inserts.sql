@@ -73,7 +73,7 @@
   INSERT INTO "EstadoTracking" (id, nombre, descripcion) VALUES 
     (1, 'En Espera',  'Aun no se llega a esta punto'),
     (2, 'En Bodega',  'El paquete se encuentra en bodega.'),
-    (3, 'Cargando',   'Este tracking se concluyo'),
-    (4, 'Cargado',    'Este tracking se concluyo'),
-    (5, 'En Ruta',    'Este tracking se concluyo'),
+    (3, 'Cargando',   'El paquete se esta cargando'),
+    (4, 'Cargado',    'El paquete fue cargado'),
+    (5, 'En Ruta',    'Esta en ruta'),
     (6, 'Completado', 'Este tracking se concluyo');
