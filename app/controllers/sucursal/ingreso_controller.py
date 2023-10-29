@@ -10,7 +10,7 @@ class IngresoController:
     def __init__(self):
         self.service = IngresoService()
 
-    async def get_ingresos_by_filters(self, sucursal_id: int = Query(None), fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def get_ingresos_by_filters(self, sucursal_id: int = Query(None), fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         result = await self.service.get_ingresos_by_filters(sucursal_id, fecha)
         return ResponseSchema(detail="", result=result)
 

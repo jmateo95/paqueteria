@@ -9,7 +9,7 @@ class TarifarioController:
     def __init__(self):
         self.service = TarifarioService()
 
-    async def get_tarifarios_by_filters(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def get_tarifarios_by_filters(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         result = await self.service.get_tarifarios_by_filters(fecha)
         return ResponseSchema(detail="", result=result)
 
@@ -17,7 +17,7 @@ class TarifarioController:
         tarifario = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=tarifario)
 
-    async def create(self, tarifario: TarifarioCreate):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+    async def create(self, tarifario: TarifarioCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(tarifario)
         return ResponseSchema(detail="Tarifario creado con éxito")
 
