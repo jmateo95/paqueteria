@@ -34,7 +34,7 @@ class TarifarioService:
             for planilla in planillas:
                 gasto=GastoCreate(
                     sucursal_id=planilla['id'],
-                    tipo_gasto_id=TipoGasto.FIJO,
+                    tipo_gasto_id=TipoGasto.FIJOS,
                     concepto_gasto_id=ConceptoGasto.PLANILLA,
                     detalles="Gastos de Planilla",
                     monto=planilla['total_salarios'],
@@ -55,7 +55,6 @@ class TarifarioService:
             )
             return await self.repository.create(tarifario.dict())
         except Exception as e:
-            print(e)
             raise EntityCreationError("Tarifario")
         
     async def update(self, tarifario_id: int, tarifario: TarifarioUpdate):
