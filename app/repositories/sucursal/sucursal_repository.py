@@ -7,7 +7,7 @@ class SucursalRepository:
         self.connection = prisma_connection
 
     async def get_all(self):
-        return await self.connection.prisma.sucursal.find_many()
+        return await self.connection.prisma.sucursal.find_many(include={"ciudad":True,"tipoSucursal":True})
 
     async def get_by_id(self, sucursal_id: int):
         return await self.connection.prisma.sucursal.find_first(where={"id": sucursal_id})
