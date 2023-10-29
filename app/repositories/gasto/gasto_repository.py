@@ -8,7 +8,7 @@ class GastoRepository:
         self.connection = prisma_connection
 
     async def get_all(self):
-        return await self.connection.prisma.gasto.find_many()
+        return await self.connection.prisma.gasto.find_many(include={"sucursal":True,"conceptoGasto":True,"tipoGasto":True})
 
     async def get_by_id(self, gasto_id: int):
         return await self.connection.prisma.gasto.find_first(where={"id": gasto_id})

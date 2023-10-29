@@ -6,7 +6,7 @@ class SegmentoRepository:
         self.connection = prisma_connection
 
     async def get_all(self):
-        return await self.connection.prisma.segmento.find_many()
+        return await self.connection.prisma.segmento.find_many(include={"sucursal_destino":True,"sucursal_origen":True})
 
     async def get_by_id(self, segmento_id: int):
         return await self.connection.prisma.segmento.find_first(where={"id": segmento_id})
