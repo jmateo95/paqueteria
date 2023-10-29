@@ -1,6 +1,22 @@
 from pydantic import BaseModel
 
+class PaqueteCotizar(BaseModel):
+    sucursal_origen_id: int
+    sucursal_destino_id: int
+    peso: float
+
 class PaqueteCreate(BaseModel):
+    sucursal_origen_id: int
+    sucursal_destino_id: int
+    descripcion: str
+    peso: float
+    volumen: float
+    remitente: str
+    destinatario: str
+    campo: str #Puede ser distancia o costo_lb
+
+
+class Paquete(BaseModel):
     estado_paquete_id: int
     no_guia: str
     descripcion: str

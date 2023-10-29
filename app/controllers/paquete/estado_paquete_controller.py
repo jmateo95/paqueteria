@@ -17,12 +17,12 @@ class EstadoPaqueteController:
         return ResponseSchema(detail="", result=estado_paquete)
 
     async def create(self, estado_paquete: EstadoPaqueteCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(estado_paquete)
-        return ResponseSchema(detail="Estado de Paquete creado con éxito")
+        estado_paquete = await self.service.create(estado_paquete)
+        return ResponseSchema(detail="Estado de Paquete creado con éxito", result=estado_paquete)
 
     async def update(self, id: int, estado_paquete: EstadoPaqueteUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, estado_paquete)
-        return ResponseSchema(detail="Estado de Paquete actualizado con éxito")
+        estado_paquete = await self.service.update(id, estado_paquete)
+        return ResponseSchema(detail="Estado de Paquete actualizado con éxito", result=estado_paquete)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

@@ -5,6 +5,7 @@ from app.errors.common_errors import EntityNotFoundError, EntityCreationError, E
 from app.repositories.sucursal.segmento_repository import SegmentoRepository
 from app.repositories.sucursal.vehiculo_repository import VehiculoRepository
 from datetime import datetime
+import math
 
 class SalidaService:
     def __init__(self):
@@ -37,7 +38,7 @@ class SalidaService:
                 segmento_id         = segmento.id,
                 fecha_programada    = datetime.now(),
                 comentario          = '',
-                costo_lb            = round(vehiculo.costo_km * segmento.distancia / vehiculo.capacidad_lb, 2),
+                costo_lb            = round(math.ceil((vehiculo.costo_km * segmento.distancia / vehiculo.capacidad_lb) * 100) / 100, 2),
                 capacidad_lb        = vehiculo.capacidad_lb,
                 capacidad_reservada = 0,
                 capacidad_ocupada   = 0,

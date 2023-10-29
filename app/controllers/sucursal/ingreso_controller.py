@@ -19,12 +19,12 @@ class IngresoController:
         return ResponseSchema(detail="", result=ingreso)
 
     async def create(self, ingreso: IngresoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(ingreso)
-        return ResponseSchema(detail="Ingreso creado con éxito")
+        ingreso = await self.service.create(ingreso)
+        return ResponseSchema(detail="Ingreso creado con éxito", result=ingreso)
 
     async def update(self, id: int, ingreso: IngresoUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, ingreso)
-        return ResponseSchema(detail="Ingreso actualizado con éxito")
+        ingreso = await self.service.update(id, ingreso)
+        return ResponseSchema(detail="Ingreso actualizado con éxito", result=ingreso)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

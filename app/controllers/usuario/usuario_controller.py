@@ -17,21 +17,17 @@ class UsuarioController:
         result = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=result)
 
-    
     async def create(self, usuario: UsuarioCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(usuario)
-        return ResponseSchema(detail="Usuario creado con éxito")
-    
+        result = await self.service.create(usuario)
+        return ResponseSchema(detail="Usuario creado con éxito", result=result) 
 
     async def update(self, id: int, usuario: UsuarioUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, usuario)
-        return ResponseSchema(detail="")
-
+        result = await self.service.update(id, usuario)
+        return ResponseSchema(detail="Usuario actualizado con éxito", result=result)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)
         return ResponseSchema(detail="")
-
 
     async def login(self, credentials: UsuarioLogin):
         usuario = await self.service.login(credentials)
@@ -39,7 +35,6 @@ class UsuarioController:
             access_token = create_access_token(data={"sub": usuario.email, "rol": usuario.rol.nombre})
             return ResponseSchema(detail="Inicio de sesión exitoso", result=access_token)
         else:
-            raise ResponseSchema(detail="Credenciales incorrectas")
-        
+            raise ResponseSchema(detail="Credenciales incorrectas")      
 
 usuario_controller = UsuarioController()

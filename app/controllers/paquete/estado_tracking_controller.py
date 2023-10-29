@@ -17,12 +17,12 @@ class EstadoTrackingController:
         return ResponseSchema(detail="", result=estado_tracking)
 
     async def create(self, estado_tracking: EstadoTrackingCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(estado_tracking)
-        return ResponseSchema(detail="Estado de Tracking creado con éxito")
+        estado_tracking = await self.service.create(estado_tracking)
+        return ResponseSchema(detail="Estado de Tracking creado con éxito", result=estado_tracking)
 
     async def update(self, id: int, estado_tracking: EstadoTrackingUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, estado_tracking)
-        return ResponseSchema(detail="Estado de Tracking actualizado con éxito")
+        estado_tracking = await self.service.update(id, estado_tracking)
+        return ResponseSchema(detail="Estado de Tracking actualizado con éxito", result=estado_tracking)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

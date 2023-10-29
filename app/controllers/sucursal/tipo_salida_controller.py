@@ -17,12 +17,12 @@ class TipoSalidaController:
         return ResponseSchema(detail="", result=tipo_salida)
 
     async def create(self, tipo_salida: TipoSalidaCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(tipo_salida)
-        return ResponseSchema(detail="Tipo de Salida creado con éxito")
+        tipo_salida = await self.service.create(tipo_salida)
+        return ResponseSchema(detail="Tipo de Salida creado con éxito", result=tipo_salida)
 
     async def update(self, id: int, tipo_salida: TipoSalidaUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, tipo_salida)
-        return ResponseSchema(detail="Tipo de Salida actualizado con éxito")
+        tipo_salida = await self.service.update(id, tipo_salida)
+        return ResponseSchema(detail="Tipo de Salida actualizado con éxito", result=tipo_salida)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

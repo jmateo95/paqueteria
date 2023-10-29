@@ -17,12 +17,12 @@ class TrackingController:
         return ResponseSchema(detail="", result=tracking)
 
     async def create(self, tracking: TrackingCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(tracking)
-        return ResponseSchema(detail="Tracking creado con éxito")
+        tracking = await self.service.create(tracking)
+        return ResponseSchema(detail="Tracking creado con éxito", result=tracking)
 
     async def update(self, id: int, tracking: TrackingUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, tracking)
-        return ResponseSchema(detail="Tracking actualizado con éxito")
+        tracking = await self.service.update(id, tracking)
+        return ResponseSchema(detail="Tracking actualizado con éxito", result=tracking)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

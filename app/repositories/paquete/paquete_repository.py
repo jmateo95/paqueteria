@@ -1,4 +1,4 @@
-from app.models.paquete.paquete_model import PaqueteCreate, PaqueteUpdate
+from app.models.paquete.paquete_model import PaqueteCreate, PaqueteUpdate, PaqueteCotizar
 from config.Connection import prisma_connection
 
 class PaqueteRepository:

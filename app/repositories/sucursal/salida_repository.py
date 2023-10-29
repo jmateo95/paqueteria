@@ -36,3 +36,11 @@ class SalidaRepository:
 
     async def delete(self, salida_id: int):
         return await self.connection.prisma.salida.delete(where={"id": salida_id})
+    
+    async def get_salidas_by_capacity(self, tipo_salida, peso):
+        query = """
+                SELECT S.id, S.costo_lb, SE.distancia, SE.sucursal_origen_id, SE.sucursal_destino_id, S.capacidad_reservada
+                FROM public."Salida" S
+                INNER JOIN public."Segmento" SE on SE.id=S.segmento_id
+                WHERE S.tipo_salida_id=$1 AND S.capacidad_lb>=(S.capacidad_reservada+$2)"""
+        return await self.connection.prisma.query_raw(query, tipo_salida, peso)
