@@ -102,8 +102,7 @@ model Tarifario {
   fecha           DateTime
   ganancia_envio  Float
   costo_lb        Float
-  sucursal_id     Int
-
+  
   @@map("Tarifario")
 }
 
@@ -201,7 +200,6 @@ model Segmento {
 
   // Relación uno a muchos
   salidas   Salida[]
-  paquetes  Paquete[]
 
   @@map("Segmento")
 }
@@ -221,8 +219,8 @@ model Salida {
   tipo_salida_id        Int
   vehiculo_id           Int
   segmento_id           Int
-  fecha_salida          DateTime
-  fecha_llegada         DateTime
+  fecha_salida          DateTime?
+  fecha_llegada         DateTime?
   fecha_programada      DateTime
   comentario            String  @map("comentario") @db.VarChar(250)
   costo_lb              Float
@@ -266,7 +264,6 @@ model EstadoTracking {
 
 model Paquete {
   id                Int      @id @default(autoincrement())
-  segmento_id       Int
   estado_paquete_id Int
   no_guia           String   @map("no_guia") @db.VarChar(20)
   descripcion       String   @map("descripcion") @db.VarChar(250)
@@ -277,7 +274,6 @@ model Paquete {
   costo             Float
 
   // Llaves foraneas
-  segmento         Segmento @relation(fields: [segmento_id], references: [id])
   estadoPaquete    EstadoPaquete @relation(fields: [estado_paquete_id], references: [id])
   
   // Relación uno a muchos
@@ -292,7 +288,7 @@ model Tracking {
   sucursal_id         Int
   estado_tracking_id  Int
   salida_id           Int
-  actualizacion       DateTime
+  actualizacion       DateTime?
   comentario          String   @map("comentario") @db.VarChar(250)
 
   // Llaves foraneas

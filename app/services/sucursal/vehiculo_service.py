@@ -8,15 +8,17 @@ class VehiculoService:
 
     async def get_all(self):
         vehiculos = await self.repository.get_all()
-        if not vehiculos:
-            return []
-        return vehiculos
+        return [] if not vehiculos else vehiculos
 
     async def get_by_id(self, vehiculo_id: int):
         vehiculo = await self.repository.get_by_id(vehiculo_id)
         if not vehiculo:
             raise EntityNotFoundError("Vehiculo", vehiculo_id)
         return vehiculo
+    
+    async def get_by_sucursal(self, sucursal_id: int):
+        vehiculos = await self.repository.get_by_sucursal(sucursal_id)
+        return [] if not vehiculos else vehiculos
 
     async def create(self, vehiculo: VehiculoCreate):
         try:

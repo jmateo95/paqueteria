@@ -15,6 +15,10 @@ class VehiculoController:
     async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         vehiculo = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=vehiculo)
+    
+    async def get_by_sucursal(self, sucursal_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        segmento = await self.service.get_by_sucursal(sucursal_id)
+        return ResponseSchema(detail="", result=segmento)
 
     async def create(self, vehiculo: VehiculoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.create(vehiculo)

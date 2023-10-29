@@ -69,7 +69,6 @@ CREATE TABLE "Tarifario" (
     "fecha" TIMESTAMP(3) NOT NULL,
     "ganancia_envio" DOUBLE PRECISION NOT NULL,
     "costo_lb" DOUBLE PRECISION NOT NULL,
-    "sucursal_id" INTEGER NOT NULL,
 
     CONSTRAINT "Tarifario_pkey" PRIMARY KEY ("id")
 );
@@ -159,8 +158,8 @@ CREATE TABLE "Salida" (
     "tipo_salida_id" INTEGER NOT NULL,
     "vehiculo_id" INTEGER NOT NULL,
     "segmento_id" INTEGER NOT NULL,
-    "fecha_salida" TIMESTAMP(3) NOT NULL,
-    "fecha_llegada" TIMESTAMP(3) NOT NULL,
+    "fecha_salida" TIMESTAMP(3),
+    "fecha_llegada" TIMESTAMP(3),
     "fecha_programada" TIMESTAMP(3) NOT NULL,
     "comentario" VARCHAR(250) NOT NULL,
     "costo_lb" DOUBLE PRECISION NOT NULL,
@@ -192,7 +191,6 @@ CREATE TABLE "EstadoTracking" (
 -- CreateTable
 CREATE TABLE "Paquete" (
     "id" SERIAL NOT NULL,
-    "segmento_id" INTEGER NOT NULL,
     "estado_paquete_id" INTEGER NOT NULL,
     "no_guia" VARCHAR(20) NOT NULL,
     "descripcion" VARCHAR(250) NOT NULL,
@@ -212,7 +210,7 @@ CREATE TABLE "Tracking" (
     "sucursal_id" INTEGER NOT NULL,
     "estado_tracking_id" INTEGER NOT NULL,
     "salida_id" INTEGER NOT NULL,
-    "actualizacion" TIMESTAMP(3) NOT NULL,
+    "actualizacion" TIMESTAMP(3),
     "comentario" VARCHAR(250) NOT NULL,
 
     CONSTRAINT "Tracking_pkey" PRIMARY KEY ("id")
@@ -268,9 +266,6 @@ ALTER TABLE "Salida" ADD CONSTRAINT "Salida_vehiculo_id_fkey" FOREIGN KEY ("vehi
 
 -- AddForeignKey
 ALTER TABLE "Salida" ADD CONSTRAINT "Salida_segmento_id_fkey" FOREIGN KEY ("segmento_id") REFERENCES "Segmento"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Paquete" ADD CONSTRAINT "Paquete_segmento_id_fkey" FOREIGN KEY ("segmento_id") REFERENCES "Segmento"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Paquete" ADD CONSTRAINT "Paquete_estado_paquete_id_fkey" FOREIGN KEY ("estado_paquete_id") REFERENCES "EstadoPaquete"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

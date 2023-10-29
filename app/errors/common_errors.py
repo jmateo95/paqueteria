@@ -11,6 +11,15 @@ class EntityNotFoundError(HTTPException):
         detail = f"{entity_name} con ID {entity_id} no encontrado"
         super().__init__(status_code=404, detail=detail)
 
+class EntityNotFoundErrorByCharacteristics(HTTPException):
+    def __init__(self, entity_name: str):
+        detail = f"{entity_name} no encontrado"
+        super().__init__(status_code=404, detail=detail)
+
+class CustomValidationError(HTTPException):
+    def __init__(self, message="Error de validación personalizado"):
+        super().__init__(status_code=400, detail=message)
+
 class EntityCreationError(HTTPException):
     def __init__(self, entity_name: str):
         detail = f"Error al crear {entity_name}"
