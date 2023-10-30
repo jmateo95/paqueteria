@@ -22,6 +22,7 @@ class ConceptoGastoService:
         try:
             return await self.repository.create(concepto_gasto.dict())
         except Exception as e:
+            print(e)
             raise EntityCreationError("ConceptoGasto")
         
     async def update(self, concepto_gasto_id: int, concepto_gasto: ConceptoGastoUpdate):

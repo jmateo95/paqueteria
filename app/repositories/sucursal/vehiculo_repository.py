@@ -6,7 +6,7 @@ class VehiculoRepository:
         self.connection = prisma_connection
 
     async def get_all(self):
-        return await self.connection.prisma.vehiculo.find_many()
+        return await self.connection.prisma.vehiculo.find_many(include={"tipoVehiculo":True,"sucursal":True})
 
     async def get_by_id(self, vehiculo_id: int):
         return await self.connection.prisma.vehiculo.find_first(where={"id": vehiculo_id})
