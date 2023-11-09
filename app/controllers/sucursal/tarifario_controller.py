@@ -18,12 +18,12 @@ class TarifarioController:
         return ResponseSchema(detail="", result=tarifario)
 
     async def create(self, tarifario: TarifarioCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(tarifario)
-        return ResponseSchema(detail="Tarifario creado con éxito")
+        tarifario = await self.service.create(tarifario)
+        return ResponseSchema(detail="Tarifario creado con éxito", result=tarifario)
 
     async def update(self, id: int, tarifario: TarifarioUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, tarifario)
-        return ResponseSchema(detail="Tarifario actualizado con éxito")
+        tarifario = await self.service.update(id, tarifario)
+        return ResponseSchema(detail="Tarifario actualizado con éxito", result=tarifario)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

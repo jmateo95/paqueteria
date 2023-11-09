@@ -17,12 +17,12 @@ class ConceptoGastoController:
         return ResponseSchema(detail="", result=concepto_gasto)
 
     async def create(self, concepto_gasto: ConceptoGastoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(concepto_gasto)
-        return ResponseSchema(detail="Concepto de gasto creado con éxito")
+        concepto_gasto = await self.service.create(concepto_gasto)
+        return ResponseSchema(detail="Concepto de gasto creado con éxito", result=concepto_gasto)
 
     async def update(self, id: int, concepto_gasto: ConceptoGastoUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, concepto_gasto)
-        return ResponseSchema(detail="Concepto de gasto actualizado con éxito")
+        concepto_gasto = await self.service.update(id, concepto_gasto)
+        return ResponseSchema(detail="Concepto de gasto actualizado con éxito", result=concepto_gasto)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

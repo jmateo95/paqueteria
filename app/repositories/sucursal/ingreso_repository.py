@@ -16,6 +16,25 @@ class IngresoRepository:
            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
            where_conditions["fecha"] = {"gte": first_day, "lte": last_day}
         return await self.connection.prisma.ingreso.find_many(include={"sucursal":True}, where=where_conditions)
+    
+    async def get_ingresos_pronosticados_by_filters(self, sucursal_id=None, fecha:datetime=None):
+        query = """
+            SELECT
+            se.sucursal_origen_id as sucursal_id,
+            ROUND((s.capacidad_lb * (s.costo_lb + t.costo_lb) * (1 + (t.ganancia_envio / 100)))::numeric, 2) as monto,
+            t.fecha as fecha
+            FROM "Salida" s
+            JOIN "Segmento" se on se.id = s.segmento_id
+            JOIN "Tarifario" t ON EXTRACT(YEAR FROM s.fecha_programada) = EXTRACT(YEAR FROM t.fecha)
+                            AND EXTRACT(MONTH FROM s.fecha_programada) = EXTRACT(MONTH FROM t.fecha)
+        """
+        if sucursal_id is not None:
+            query += f"AND se.sucursal_origen_id = {sucursal_id}\n"
+        if fecha is not None:
+            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
+            query += f"AND t.fecha BETWEEN '{first_day}' AND '{last_day}'\n"
+        return await self.connection.prisma.query_raw(query)
 
     async def get_by_id(self, ingreso_id: int):
         return await self.connection.prisma.ingreso.find_first(where={"id": ingreso_id})

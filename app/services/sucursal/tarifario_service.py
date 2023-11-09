@@ -7,6 +7,7 @@ from app.repositories.sucursal.tarifario_repository import TarifarioRepository
 from app.models.sucursal.tarifario_model import TarifarioCreate, TarifarioUpdate, Tarifario
 from app.errors.common_errors import EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
 from datetime import datetime
+import math
 
 
 class TarifarioService:
@@ -51,7 +52,7 @@ class TarifarioService:
             tarifario=Tarifario(
                 fecha = tarifario.fecha if tarifario.fecha is not None else datetime.now(),
                 ganancia_envio=tarifario.ganancia_envio,
-                costo_lb=round((costos_totales/libras_totales), 4)
+                costo_lb=round(math.ceil((costos_totales/libras_totales) * 100) / 100, 2)
             )
             return await self.repository.create(tarifario.dict())
         except Exception as e:

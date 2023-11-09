@@ -17,12 +17,12 @@ class PuestoController:
         return ResponseSchema(detail="", result=result)
 
     async def create(self, puesto: PuestoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(puesto)
-        return ResponseSchema(detail="")
+        result = await self.service.create(puesto)
+        return ResponseSchema(detail="Puesto creado con éxito", result=result)
 
     async def update(self, id: int, puesto: PuestoUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, puesto)
-        return ResponseSchema(detail="")
+        result = await self.service.update(id, puesto)
+        return ResponseSchema(detail="Puesto actualizado con éxito", result=result)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

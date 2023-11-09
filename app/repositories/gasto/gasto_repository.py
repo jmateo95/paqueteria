@@ -7,10 +7,12 @@ class GastoRepository:
     def __init__(self):
         self.connection = prisma_connection
     
-    async def get_gastos_by_filters(self, sucursal_id=None, fecha:datetime=None):
+    async def get_gastos_by_filters(self, sucursal_id=None, tipo_gasto_id=None, fecha:datetime=None):
         where_conditions = {}        
         if sucursal_id is not None:
             where_conditions["sucursal_id"] = sucursal_id
+        if tipo_gasto_id is not None:
+            where_conditions["tipo_gasto_id"] = tipo_gasto_id
         if fecha is not None:
            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)

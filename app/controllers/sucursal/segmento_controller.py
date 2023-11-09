@@ -25,12 +25,12 @@ class SegmentoController:
         return ResponseSchema(detail="", result=segmento)
 
     async def create(self, segmento: SegmentoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(segmento)
-        return ResponseSchema(detail="Segmento creado con éxito")
+        segmento = await self.service.create(segmento)
+        return ResponseSchema(detail="Segmento creado con éxito", result=segmento)
 
     async def update(self, id: int, segmento: SegmentoUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, segmento)
-        return ResponseSchema(detail="Segmento actualizado con éxito")
+        segmento = await self.service.update(id, segmento)
+        return ResponseSchema(detail="Segmento actualizado con éxito", result=segmento)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

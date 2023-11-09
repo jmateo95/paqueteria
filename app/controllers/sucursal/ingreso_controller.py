@@ -13,18 +13,22 @@ class IngresoController:
     async def get_ingresos_by_filters(self, sucursal_id: int = Query(None), fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         result = await self.service.get_ingresos_by_filters(sucursal_id, fecha)
         return ResponseSchema(detail="", result=result)
+    
+    async def get_ingresos_pronosticados_by_filters(self, sucursal_id: int = Query(None), fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        result = await self.service.get_ingresos_pronosticados_by_filters(sucursal_id, fecha)
+        return ResponseSchema(detail="", result=result)
 
     async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         ingreso = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=ingreso)
 
     async def create(self, ingreso: IngresoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(ingreso)
-        return ResponseSchema(detail="Ingreso creado con éxito")
+        ingreso = await self.service.create(ingreso)
+        return ResponseSchema(detail="Ingreso creado con éxito", result=ingreso)
 
     async def update(self, id: int, ingreso: IngresoUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, ingreso)
-        return ResponseSchema(detail="Ingreso actualizado con éxito")
+        ingreso = await self.service.update(id, ingreso)
+        return ResponseSchema(detail="Ingreso actualizado con éxito", result=ingreso)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

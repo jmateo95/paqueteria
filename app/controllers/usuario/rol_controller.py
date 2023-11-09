@@ -17,12 +17,12 @@ class RolController:
         return ResponseSchema(detail="", result=rol)
 
     async def create(self, rol: RolCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(rol)
-        return ResponseSchema(detail="Rol creado con éxito")
+        rol = await self.service.create(rol)
+        return ResponseSchema(detail="Rol creado con éxito", result=rol)
 
     async def update(self, id: int, rol: RolUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, rol)
-        return ResponseSchema(detail="Rol actualizado con éxito")
+        rol = await self.service.update(id, rol)
+        return ResponseSchema(detail="Rol actualizado con éxito", result=rol)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)

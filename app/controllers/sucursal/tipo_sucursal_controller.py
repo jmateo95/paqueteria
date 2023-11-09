@@ -17,12 +17,12 @@ class TipoSucursalController:
         return ResponseSchema(detail="", result=result)
 
     async def create(self, tipo_sucursal: TipoSucursalCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.create(tipo_sucursal)
-        return ResponseSchema(detail="")
+        result = await self.service.create(tipo_sucursal)
+        return ResponseSchema(detail="", result=result)
 
     async def update(self, id: int, tipo_sucursal: TipoSucursalUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        await self.service.update(id, tipo_sucursal)
-        return ResponseSchema(detail="")
+        result = await self.service.update(id, tipo_sucursal)
+        return ResponseSchema(detail="", result=result)
 
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)
