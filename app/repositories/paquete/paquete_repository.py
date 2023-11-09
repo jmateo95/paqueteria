@@ -5,8 +5,20 @@ class PaqueteRepository:
     def __init__(self):
         self.connection = prisma_connection
 
-    async def get_all(self):
-        return await self.connection.prisma.paquete.find_many()
+    async def get_paquetes_by_filters(self, salida_id:int=None, tipo_tracking_id:int=None, estado_paquete_id:int=None):
+        query = """
+            SELECT DISTINCT P.*
+            FROM public."Paquete" P
+            INNER JOIN public."Tracking" T ON P.id = T.paquete_id
+            WHERE 1=1
+        """
+        if salida_id is not None:
+            query += f"AND T.salida_id = {salida_id}\n"
+        if tipo_tracking_id is not None:
+            query += f"AND T.estado_tracking_id = {tipo_tracking_id}\n"
+        if estado_paquete_id is not None:
+            query += f"AND P.estado_paquete_id = {estado_paquete_id}\n"
+        return await self.connection.prisma.query_raw(query)
 
     async def get_by_id(self, paquete_id: int):
         return await self.connection.prisma.paquete.find_first(where={"id": paquete_id})

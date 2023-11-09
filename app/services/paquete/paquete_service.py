@@ -1,6 +1,7 @@
 from datetime import datetime
 from app.enums.enums import EstadoPaquete, EstadoTracking, TipoSalida
-from app.models.paquete.tracking_model import TrackingCreate
+from app.models.paquete.tracking_model import TrackingCreate, TrackingUpdate
+from app.models.sucursal.salida_model import SalidaUpdate
 from app.repositories.paquete.paquete_repository import PaqueteRepository
 from app.repositories.paquete.tracking_repository import TrackingRepository
 from app.repositories.sucursal.salida_repository import SalidaRepository
@@ -17,11 +18,9 @@ class PaqueteService:
         self.tarifario_repository = TarifarioRepository()
         self.tracking_repository = TrackingRepository()
 
-    async def get_all(self):
-        paquetes = await self.repository.get_all()
-        if not paquetes:
-            return []
-        return paquetes
+    async def get_paquetes_by_filters(self, salida_id:int=None, tipo_tracking_id:int=None, estado_paquete_id:int=None):
+        paquetes = await self.repository.get_paquetes_by_filters(salida_id, tipo_tracking_id, estado_paquete_id)
+        return [] if not paquetes else paquetes
 
     async def get_by_id(self, paquete_id: int):
         paquete = await self.repository.get_by_id(paquete_id)
@@ -32,7 +31,10 @@ class PaqueteService:
     async def create(self, paquete: PaqueteCreate):
         try:
             salidas_filtradas, new_paquete_created = await self.create_package(paquete)
+            #Crear el tracking y aumentar la capacidad reservada
             await self.update_salidas_and_create_trackings(paquete, salidas_filtradas, new_paquete_created)
+            #Revisar si el de la salida puede actualiziarse
+            await self.salida_repository.update_status_salida_and_tracking(salidas_filtradas[0]['id'])
             return new_paquete_created
         except Exception as e:
             print(e)
@@ -58,27 +60,6 @@ class PaqueteService:
         )
         new_paquete_created = await self.repository.create(new_paquete.dict())
         return salidas_filtradas, new_paquete_created
-        
-    async def update_salidas_and_create_trackings(self, paquete, salidas_filtradas, new_paquete_created):
-        contador = 0
-        for salida in salidas_filtradas:
-            contador += 1
-            # Actualizo la salida
-            nueva_capacidad_reservada = salida['capacidad_reservada'] + paquete.peso
-            await self.salida_repository.update(salida['id'], {"capacidad_reservada": nueva_capacidad_reservada})
-            # Crea el tracking
-            tracking_create = TrackingCreate(
-                paquete_id=new_paquete_created.id,
-                sucursal_id=salida['sucursal_origen_id'],
-                estado_tracking_id=EstadoTracking.EN_BODEGA if contador == 1 else EstadoTracking.EN_ESPERA,
-                salida_id=salida['id'],
-                actualizacion=datetime.now(),
-                comentario="Se recibió el paquete" if contador == 1 else "En Espera",
-            )
-            await self.tracking_repository.create(tracking_create.dict())
-
-
-    
         
     async def update(self, paquete_id: int, paquete: PaqueteUpdate):
         existing_paquete = await self.repository.get_by_id(paquete_id)
@@ -112,3 +93,35 @@ class PaqueteService:
             return costo
         except Exception as e:
             raise CustomValidationError("No existe una ruta actualmente para este paquete.")
+        
+    async def update_salidas_and_create_trackings(self, paquete, salidas_filtradas, new_paquete_created):
+        contador = 0
+        for salida in salidas_filtradas:
+            contador += 1
+            # Actualizo la salida
+            nueva_capacidad_reservada = salida['capacidad_reservada'] + paquete.peso
+            await self.salida_repository.update(salida['id'], {"capacidad_reservada": nueva_capacidad_reservada})
+            # Crea el tracking
+            tracking_create = TrackingCreate(
+                paquete_id=new_paquete_created.id,
+                sucursal_id=salida['sucursal_origen_id'],
+                estado_tracking_id=EstadoTracking.EN_BODEGA if contador == 1 else EstadoTracking.EN_ESPERA,
+                salida_id=salida['id'],
+                actualizacion=datetime.now(),
+                comentario="Se recibió el paquete" if contador == 1 else "En Espera",
+            )
+            await self.tracking_repository.create(tracking_create.dict())
+
+    async def cargar(self, paquete_id: int):
+        # Obtener el tracking del paquete con estado 3
+        tracking = await self.tracking_repository.get_by_paquete_and_status(paquete_id, EstadoTracking.CARGANDO)
+        if tracking:
+            # Actualizar el estado del tracking a 4
+            await self.tracking_repository.update(tracking.id, TrackingUpdate(estado_tracking_id=EstadoTracking.CARGADO))
+
+            # Obtener todos los trackings para la salida del paquete
+            trackings = await self.get_paquetes_by_filters(salida_id=tracking.salida_id)
+
+            if all(tracking.estado_tracking_id == EstadoTracking.CARGADO for tracking in trackings):
+                # Cambiar el estado de la salida a 4
+                await self.salida_repository.update(tracking.salida_id, SalidaUpdate(tipo_salida_id=TipoSalida.CARGADO))

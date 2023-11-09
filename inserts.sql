@@ -59,15 +59,17 @@
     (1, 'Proyeccion', true),
     (2, 'Lista para cargar', true),
     (3, 'Cargando', true),
-    (4, 'En Ruta', true),
-    (5, 'Fin', true);
+    (4, 'Cargado', true),
+    (5, 'En Ruta', true),
+    (6, 'Fin', true);
 
   --EstadoPaquete
   INSERT INTO "EstadoPaquete" (id, nombre, descripcion, estatico) VALUES 
-    (1, 'Recepcion',  'El paquete se encuentra en recepción.', true),
-    (2, 'Transito',   'El paquete está en tránsito.', true),
-    (3, 'Ruta Final', 'El paquete está en la ruta final para la entrega.', true),
-    (4, 'Entregado',  'El paquete ha sido entregado con éxito.', true);
+    (1, 'Recepcion',    'El paquete se encuentra en recepción.', true),
+    (2, 'Transito',     'El paquete está en tránsito.', true),
+    (3, 'Ruta Final',   'El paquete está en la ruta final para la entrega.', true),
+    (4, 'Por Entregar', 'El paquete está listo para su entrega.', true),
+    (5, 'Entregado',    'El paquete ha sido entregado con éxito.', true);
 
   --EstadoTracking
   INSERT INTO "EstadoTracking" (id, nombre, descripcion, estatico) VALUES 

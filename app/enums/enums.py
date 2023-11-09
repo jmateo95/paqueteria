@@ -21,14 +21,16 @@ class TipoSalida:
     PROYECCION = 1
     LISTO_PARA_CARGAR = 2
     CARGANDO = 3
-    EN_RUTA = 4
-    FIN = 5
+    CARGADO = 4
+    EN_RUTA = 5
+    FIN = 6
 
 class EstadoPaquete:
     RECEPCION = 1
     TRANSITO = 2
     RUTA_FINAL = 3
-    ENTREGADO = 4
+    POR_ENTREGAR = 4
+    ENTREGADO = 5
 
 class EstadoTracking:
     EN_ESPERA = 1

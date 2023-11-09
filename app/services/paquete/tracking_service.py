@@ -6,11 +6,9 @@ class TrackingService:
     def __init__(self):
         self.repository = TrackingRepository()
 
-    async def get_all(self):
-        trackings = await self.repository.get_all()
-        if not trackings:
-            return []
-        return trackings
+    async def get_tracking_by_filters(self, paquete_id:int=None, estado_tracking_id:int=None, salida_id:int=None):
+        trackings = await self.repository.get_tracking_by_filters(paquete_id, estado_tracking_id, salida_id)
+        return [] if not trackings else trackings
 
     async def get_by_id(self, tracking_id: int):
         tracking = await self.repository.get_by_id(tracking_id)

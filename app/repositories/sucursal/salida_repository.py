@@ -1,3 +1,4 @@
+from app.enums.enums import EstadoTracking, TipoSalida
 from app.models.sucursal.salida_model import SalidaCreate, SalidaUpdate
 from config.Connection import prisma_connection
 from datetime import datetime
@@ -7,8 +8,12 @@ class SalidaRepository:
     def __init__(self):
         self.connection = prisma_connection
     
-    async def get_salidas_by_filters(self, sucursal_id=None, fecha:datetime=None):
-        where_conditions = {}        
+    async def get_salidas_by_filters(self, sucursal_id:int=None, tipo_salida_id:int=None,  fecha:datetime=None):
+        where_conditions = {}
+        
+        if tipo_salida_id is not None:
+            where_conditions = {"tipo_salida_id": tipo_salida_id}   
+
         if sucursal_id is not None:
             original_filter = {
                 'segmento': {
@@ -44,3 +49,47 @@ class SalidaRepository:
                 INNER JOIN public."Segmento" SE on SE.id=S.segmento_id
                 WHERE S.tipo_salida_id=$1 AND S.capacidad_lb>=(S.capacidad_reservada+$2)"""
         return await self.connection.prisma.query_raw(query, tipo_salida, peso)
+    
+    async def update_status_salida_and_tracking(self, salida_id):
+        await self.connection.prisma.execute_raw("BEGIN;")
+        try:
+            # Actualiza la salida a tipo_salida_id igual a $2 si se cumplen las condiciones
+            await self.connection.prisma.execute_raw(
+                """
+                UPDATE public."Salida" S
+                SET tipo_salida_id = CASE
+                    WHEN NOT EXISTS (
+                        SELECT 1
+                        FROM public."Tracking" T
+                        WHERE T.salida_id = S.id
+                        AND T.estado_tracking_id <> $3
+                    ) AND S.capacidad_reservada = S.capacidad_lb THEN $2
+                    ELSE S.tipo_salida_id
+                END
+                WHERE S.id = $1;
+                """,
+                salida_id, TipoSalida.LISTO_PARA_CARGAR, EstadoTracking.EN_BODEGA
+            )
+
+            # Actualiza los trackings a estado $4 si la salida se actualiza
+            await self.connection.prisma.execute_raw(
+                """
+                UPDATE public."Tracking" T
+                SET estado_tracking_id = $3
+                WHERE T.salida_id = $1
+                AND EXISTS (
+                    SELECT 1
+                    FROM public."Salida" S
+                    WHERE S.id = $1
+                    AND S.tipo_salida_id = $2
+                );
+                """,
+                salida_id, TipoSalida.LISTO_PARA_CARGAR, EstadoTracking.CARGANDO
+            )
+            # Confirmar la transacción
+            await self.connection.prisma.execute_raw("COMMIT;")
+        except Exception as e:
+            # En caso de error, realizar un rollback
+            await self.connection.prisma.execute_raw("ROLLBACK;")
+            raise e
+        return "Operación completada exitosamente"
