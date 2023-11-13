@@ -115,6 +115,7 @@ class PaqueteService:
     async def cargar(self, paquete_id: int):
         # Obtener el tracking del paquete con estado 3
         tracking = await self.tracking_repository.get_by_paquete_and_status(paquete_id, EstadoTracking.CARGANDO)
+        print(tracking)
         if tracking:
             # Actualizar el estado del tracking a 4
             await self.tracking_repository.update(tracking.id, TrackingUpdate(estado_tracking_id=EstadoTracking.CARGADO))
@@ -125,3 +126,5 @@ class PaqueteService:
             if all(tracking.estado_tracking_id == EstadoTracking.CARGADO for tracking in trackings):
                 # Cambiar el estado de la salida a 4
                 await self.salida_repository.update(tracking.salida_id, SalidaUpdate(tipo_salida_id=TipoSalida.CARGADO))
+        else:
+            raise CustomValidationError("No existe el paquete.")

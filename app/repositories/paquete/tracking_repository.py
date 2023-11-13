@@ -13,7 +13,7 @@ class TrackingRepository:
             where_conditions["estado_tracking_id"] = estado_tracking_id
         if salida_id is not None:
             where_conditions["salida_id"] = salida_id
-        return await self.connection.prisma.tracking.find_many(where=where_conditions, order_by=[{"id": "asc"}])
+        return await self.connection.prisma.tracking.find_many(where=where_conditions, order=[{"id": "asc"}])
 
     async def get_by_id(self, tracking_id: int):
         return await self.connection.prisma.tracking.find_first(where={"id": tracking_id})
@@ -28,7 +28,7 @@ class TrackingRepository:
         return await self.connection.prisma.tracking.delete(where={"id": tracking_id})
     
     async def get_by_paquete_and_status(self, paquete_id: int, estado_tracking_id: int):
-        return await self.connection.prisma.tracking.find_first(where={"paquete_id": paquete_id, "estado_tracking_id": estado_tracking_id}, order_by=[{"id": "desc"}])
+        return await self.connection.prisma.tracking.find_first(where={"paquete_id": paquete_id, "estado_tracking_id": estado_tracking_id}, order=[{"id": "desc"}])
     
     async def update_trackings_salida(self, salida_id: int, estado_tracking_id:int):
         total_actualizados = await self.connection.prisma.tracking.update_many(

@@ -24,3 +24,7 @@ uvicorn main:app --reload
 
 ---VISUALIZAR API---
 Ingresar a localhost:8000
+
+
+sucursal.
+Busqueda para
