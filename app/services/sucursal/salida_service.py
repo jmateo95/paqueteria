@@ -93,7 +93,7 @@ class SalidaService:
         salida=self.get_by_id(salida_id=salida_id)
         if(salida.tipo_salida_id==TipoSalida.CARGADO):
             #Actualizar Salida
-            await self.repository.update(salida_id, SalidaUpdate(tipo_salida_id=TipoSalida.EN_RUTA, fecha_salida=datetime.now()))
+            await self.repository.update(salida_id, {"tipo_salida_id":TipoSalida.EN_RUTA, "fecha_salida":datetime.now()})
             
             #Actualizar Tracking
             await self.tracking_repository.update_trackings_salida(salida_id, EstadoTracking.EN_RUTA)
@@ -109,9 +109,9 @@ class SalidaService:
                 trackings=await self.tracking_repository.get_tracking_by_filters(paquete_id=paquete.id)
                 if all(tracking.estado_tracking_id >= EstadoTracking.EN_RUTA for tracking in trackings):
                     # Cambiar el estado del paquete
-                    await self.paquete_repository.update(paquete.id, PaqueteUpdate(estado_paquete_id=EstadoPaquete.RUTA_FINAL))
+                    await self.paquete_repository.update(paquete.id, {"estado_paquete_id":EstadoPaquete.RUTA_FINAL})
                 else:
-                    await self.paquete_repository.update(paquete.id, PaqueteUpdate(estado_paquete_id=EstadoPaquete.TRANSITO))
+                    await self.paquete_repository.update(paquete.id, {"estado_paquete_id":EstadoPaquete.TRANSITO})
             return
         raise EntityNotFoundError("Salida", salida_id)
 
@@ -120,8 +120,7 @@ class SalidaService:
         salida=self.get_by_id(salida_id=salida_id)
         if(salida.tipo_salida_id==TipoSalida.EN_RUTA):
             #Actualizar Salida
-            await self.repository.update(salida_id, SalidaUpdate(tipo_salida_id=TipoSalida.FIN, fecha_llegada=datetime.now()))
-
+            await self.repository.update(salida_id, {"tipo_salida_id":TipoSalida.FIN, "fecha_llegada":datetime.now()})
             #Inserta el Ingreso
             tarifarios = await self.tarifario_repository.get_tarifarios_by_filters(fecha = salida.fecha_programada)
             segmento = await self.segmento_repository.get_by_id(segmento_id=salida.segmento_id)
@@ -137,7 +136,7 @@ class SalidaService:
             paquetes = await self.paquete_repository.get_paquetes_by_filters(salida_id=salida_id)
             for paquete in paquetes:
                 if(paquete.estado_paquete_id==EstadoPaquete.RUTA_FINAL):
-                    await self.paquete_repository.update(paquete.id, PaqueteUpdate(estado_paquete_id=EstadoPaquete.POR_ENTREGAR))
+                    await self.paquete_repository.update(paquete.id, {"estado_paquete_id":EstadoPaquete.POR_ENTREGAR})
 
                     #Si no esta en una ruta final actualizar el siguiente tracking
                 else:
@@ -148,7 +147,7 @@ class SalidaService:
                         tracking_next = await self.tracking_repository.get_by_id(tracking_id=(tracking.id+1))
                         if(tracking_next.paquete_id==paquete.id):
                             #Pongo en bodega el tracking siguiene
-                            await self.tracking_repository.update(tracking_next.id, TrackingUpdate(estado_tracking_id=EstadoTracking.EN_BODEGA))
+                            await self.tracking_repository.update(tracking_next.id, {"estado_tracking_id":EstadoTracking.EN_BODEGA})
                             #Compruebo si la salida del tracking siguiente ya se puede poner en lista para cargar
                             await self.repository.update_status_salida_and_tracking(tracking_next.salida_id)
             return

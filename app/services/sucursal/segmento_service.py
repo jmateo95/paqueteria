@@ -27,7 +27,6 @@ class SegmentoService:
     async def create(self, segmento: SegmentoCreate):
         if segmento.sucursal_origen_id == segmento.sucursal_destino_id:
             raise CustomValidationError("Las sucursales de origen y destino deben ser diferentes.")
-        
         try:
             segmento_2 = SegmentoCreate(
                 **segmento.dict(exclude={"sucursal_origen_id", "sucursal_destino_id"}),
