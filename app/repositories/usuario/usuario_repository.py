@@ -9,7 +9,7 @@ class UsuarioRepository:
         where_conditions = {}        
         if sucursal_id is not None:
             where_conditions["sucursal_id"] = sucursal_id
-        return await self.connection.prisma.usuario.find_many(where=where_conditions)
+        return await self.connection.prisma.usuario.find_many(where=where_conditions, include={"rol":True,"sucursal":True,"puesto":True})
 
     async def get_by_id(self, usuario_id: int):
         return await self.connection.prisma.usuario.find_first(where={"id": usuario_id})

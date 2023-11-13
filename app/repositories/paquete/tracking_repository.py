@@ -13,7 +13,7 @@ class TrackingRepository:
             where_conditions["estado_tracking_id"] = estado_tracking_id
         if salida_id is not None:
             where_conditions["salida_id"] = salida_id
-        return await self.connection.prisma.tracking.find_many(where=where_conditions, order=[{"id": "asc"}])
+        return await self.connection.prisma.tracking.find_many(where=where_conditions, include={"paquete":True}, order=[{"id": "asc"}])
 
     async def get_by_id(self, tracking_id: int):
         return await self.connection.prisma.tracking.find_first(where={"id": tracking_id})
