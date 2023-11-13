@@ -117,7 +117,7 @@ class PaqueteService:
         tracking = await self.tracking_repository.get_by_paquete_and_status(paquete_id, EstadoTracking.CARGANDO)
         if tracking:
             # Actualizar el estado del tracking a 4
-            await self.tracking_repository.update(tracking.id, TrackingUpdate(estado_tracking_id=EstadoTracking.CARGADO))
+            await self.tracking_repository.update(tracking.id, TrackingUpdate(estado_tracking_id=EstadoTracking.CARGADO).dict())
 
             # Obtener todos los trackings para la salida del paquete
             trackings = await self.get_paquetes_by_filters(salida_id=tracking.salida_id)
