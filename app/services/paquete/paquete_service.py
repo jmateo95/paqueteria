@@ -28,6 +28,12 @@ class PaqueteService:
             raise EntityNotFoundError("Paquete", paquete_id)
         return paquete
     
+    async def get_by_no_guia(self, no_guia: int):
+        paquete = await self.repository.get_by_no_guia(no_guia=no_guia)
+        if not paquete:
+            raise EntityNotFoundError("Paquete", no_guia)
+        return paquete
+    
     async def create(self, paquete: PaqueteCreate):
         try:
             salidas_filtradas, new_paquete_created = await self.create_package(paquete)

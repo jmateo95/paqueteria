@@ -9,7 +9,7 @@ class SalidaController:
     def __init__(self):
         self.service = SalidaService()
 
-    async def get_salidas_by_filters(self, sucursal_id: int = Query(None), tipo_salida_id: int = Query(None), fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def get_salidas_by_filters(self, sucursal_id: int = Query(None), tipo_salida_id: int = Query(None), fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         result = await self.service.get_salidas_by_filters(sucursal_id, tipo_salida_id, fecha)
         return ResponseSchema(detail="", result=result)
 

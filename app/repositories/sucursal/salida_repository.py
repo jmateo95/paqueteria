@@ -28,7 +28,7 @@ class SalidaRepository:
            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
            where_conditions["fecha_programada"] = {"gte": first_day, "lte": last_day}
-        return await self.connection.prisma.salida.find_many(include={"segmento": True},where=where_conditions)
+        return await self.connection.prisma.salida.find_many(include={"segmento": {"include": {"sucursal_origen": True}}},where=where_conditions)
 
     async def get_by_id(self, salida_id: int):
         return await self.connection.prisma.salida.find_first(where={"id": salida_id})
