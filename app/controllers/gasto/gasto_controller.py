@@ -18,6 +18,7 @@ class GastoController:
         return ResponseSchema(detail="", result=gasto)
 
     async def create(self, gasto: GastoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        gasto.test=False
         gasto = await self.service.create(gasto)
         return ResponseSchema(detail="Gasto creado con éxito", result=gasto)
 

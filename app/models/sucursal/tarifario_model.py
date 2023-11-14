@@ -5,6 +5,7 @@ from typing import Optional
 class TarifarioCreate(BaseModel):
     ganancia_envio: float
     fecha:          Optional[datetime]= None
+    test:           Optional[bool]= None
 
 class Tarifario(BaseModel):
     fecha:          datetime
@@ -13,8 +14,9 @@ class Tarifario(BaseModel):
 
 class TarifarioUpdate(BaseModel):
     fecha:          datetime = None
-    ganancia_envio: float = None
-    costo_lb:       float = None
+    ganancia_envio: float    = None
+    costo_lb:       float    = None
+    test:           bool     = None
 
     class Config:
         arbitrary_types_allowed = True

@@ -27,8 +27,8 @@ class SalidaService:
         self.ingreso_repository   = IngresoRepository()
         self.gasto_repository     = GastoRepository()
 
-    async def get_salidas_by_filters(self, sucursal_id:int =None, tipo_salida_id:int=None, fecha:datetime=None):
-        salidas = await self.repository.get_salidas_by_filters(sucursal_id, tipo_salida_id, fecha)
+    async def get_salidas_by_filters(self, sucursal_id:int =None, tipo_salida_id:int=None, fecha:datetime=None, test:bool=False):
+        salidas = await self.repository.get_salidas_by_filters(sucursal_id=sucursal_id, tipo_salida_id=tipo_salida_id, fecha=fecha, test=test)
         return [] if not salidas else salidas
 
     async def get_by_id(self, salida_id: int):
@@ -56,6 +56,7 @@ class SalidaService:
                 capacidad_lb        = vehiculo.capacidad_lb,
                 capacidad_reservada = 0,
                 capacidad_ocupada   = 0,
+                test                = salida.test
             )
 
             salida_2 = Salida(
@@ -101,7 +102,7 @@ class SalidaService:
             #Insertar el gasto
             total = round(math.ceil((salida.costo_lb*salida.capacidad_lb) * 100) / 100, 2)
             segmento = await self.segmento_repository.get_by_id(segmento_id=salida.segmento_id)
-            await self.gasto_repository.create(GastoCreate(sucursal_id=segmento.sucursa_origen_id, tipo_gasto_id=TipoGasto.TRANSPORTE, concepto_gasto_id=ConceptoGasto.GASOLINA, detalles=f"Gasto por salida {salida.id}", monto=total, fecha=salida.fecha_programada))
+            await self.gasto_repository.create(GastoCreate(sucursal_id=segmento.sucursa_origen_id, tipo_gasto_id=TipoGasto.TRANSPORTE, concepto_gasto_id=ConceptoGasto.GASOLINA, detalles=f"Gasto por salida {salida.id}", monto=total, fecha=salida.fecha_programada, test=False))
             
             #Actualizar Paquete 
             paquetes = await self.paquete_repository.get_paquetes_by_filters(salida_id=salida_id)

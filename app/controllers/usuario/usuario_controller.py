@@ -10,7 +10,7 @@ class UsuarioController:
         self.service = UsuarioService()    
 
     async def get_users_by_filters(self, sucursal_id: int = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        result = await self.service.get_users_by_filters(sucursal_id)
+        result = await self.service.get_users_by_filters(sucursal_id=sucursal_id, test=False)
         return ResponseSchema(detail="", result=result)
 
     async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
@@ -18,6 +18,7 @@ class UsuarioController:
         return ResponseSchema(detail="", result=result)
 
     async def create(self, usuario: UsuarioCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        usuario.test=False
         result = await self.service.create(usuario)
         return ResponseSchema(detail="Usuario creado con éxito", result=result) 
 

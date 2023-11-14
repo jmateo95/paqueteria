@@ -17,8 +17,8 @@ class TarifarioService:
         self.sucursal_repository = SucursalRepository()
         self.salida_repository = SalidaRepository()
 
-    async def get_tarifarios_by_filters(self, fecha=None):
-        tarifarios = await self.repository.get_tarifarios_by_filters(fecha)
+    async def get_tarifarios_by_filters(self, fecha:datetime=None, test:bool=False):
+        tarifarios = await self.repository.get_tarifarios_by_filters(fecha, test)
         return [] if not tarifarios else tarifarios
 
     async def get_by_id(self, tarifario_id: int):
@@ -29,9 +29,11 @@ class TarifarioService:
 
     async def create(self, tarifario: TarifarioCreate):
         try:
+            #si es de pruebas o no 
+            test=tarifario.test
             #Eliminar y Crear Gastos de plantilla
-            await self.gasto_repository.delete_by_concepto_rango(concepto_gasto_id=ConceptoGasto.PLANILLA, fecha=tarifario.fecha)
-            planillas= await self.sucursal_repository.get_total_salary_by_sucursal()
+            await self.gasto_repository.delete_by_concepto_rango(concepto_gasto_id=ConceptoGasto.PLANILLA, fecha=tarifario.fecha, test=test)
+            planillas= await self.sucursal_repository.get_total_salary_by_sucursal(test=test)
             for planilla in planillas:
                 gasto=GastoCreate(
                     sucursal_id=planilla['id'],
@@ -39,20 +41,22 @@ class TarifarioService:
                     concepto_gasto_id=ConceptoGasto.PLANILLA,
                     detalles="Gastos de Planilla",
                     monto=planilla['total_salarios'],
-                    fecha = tarifario.fecha if tarifario.fecha is not None else datetime.now()
+                    fecha = tarifario.fecha if tarifario.fecha is not None else datetime.now(),
+                    test=test
                 )
                 await self.gasto_repository.create(gasto=gasto.dict())
             
-            #Obtener los tales de este mes
-            costos_totales= await self.repository.calculate_total_gasto(tarifario.fecha)
-            libras_totales= await self.repository.calculate_total_libras(tarifario.fecha)
+            #Obtener los totales de este mes
+            costos_totales= await self.repository.calculate_total_gasto(tarifario.fecha, test=test)
+            libras_totales= await self.repository.calculate_total_libras(tarifario.fecha, test=test)
             
             #Eliminar y Crear Tarifario
-            await self.repository.delete_by_fecha(tarifario.fecha)
+            await self.repository.delete_by_fecha(tarifario.fecha, test)
             tarifario=Tarifario(
                 fecha = tarifario.fecha if tarifario.fecha is not None else datetime.now(),
                 ganancia_envio=tarifario.ganancia_envio,
-                costo_lb=round(math.ceil((costos_totales/libras_totales) * 100) / 100, 2)
+                costo_lb=round(math.ceil((costos_totales/libras_totales) * 100) / 100, 2),
+                test=test
             )
             return await self.repository.create(tarifario.dict())
         except Exception as e:

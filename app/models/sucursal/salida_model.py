@@ -1,9 +1,11 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class SalidaCreate(BaseModel):
     vehiculo_id: int
     segmento_id: int
+    test:Optional[bool]= None
 
 class Salida(BaseModel):
     tipo_salida_id: int
@@ -15,6 +17,7 @@ class Salida(BaseModel):
     capacidad_lb: float
     capacidad_reservada: float
     capacidad_ocupada: float
+    test:bool
 
 class SalidaUpdate(BaseModel):
     tipo_salida_id: int = None

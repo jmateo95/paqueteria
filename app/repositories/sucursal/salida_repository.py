@@ -8,7 +8,7 @@ class SalidaRepository:
     def __init__(self):
         self.connection = prisma_connection
     
-    async def get_salidas_by_filters(self, sucursal_id:int=None, tipo_salida_id:int=None,  fecha:datetime=None):
+    async def get_salidas_by_filters(self, sucursal_id:int=None, tipo_salida_id:int=None,  fecha:datetime=None, test:bool=False):
         where_conditions = {}
         
         if tipo_salida_id is not None:
@@ -28,6 +28,10 @@ class SalidaRepository:
            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
            where_conditions["fecha_programada"] = {"gte": first_day, "lte": last_day}
+        
+        if not test:
+            where_conditions["test"] = test
+
         return await self.connection.prisma.salida.find_many(include={"segmento": True},where=where_conditions)
 
     async def get_by_id(self, salida_id: int):
@@ -42,12 +46,14 @@ class SalidaRepository:
     async def delete(self, salida_id: int):
         return await self.connection.prisma.salida.delete(where={"id": salida_id})
     
-    async def get_salidas_by_capacity(self, tipo_salida, peso):
+    async def get_salidas_by_capacity(self, tipo_salida, peso, test:bool=False):
         query = """
                 SELECT S.id, S.costo_lb, SE.distancia, SE.sucursal_origen_id, SE.sucursal_destino_id, S.capacidad_reservada
                 FROM public."Salida" S
                 INNER JOIN public."Segmento" SE on SE.id=S.segmento_id
-                WHERE S.tipo_salida_id=$1 AND S.capacidad_lb>=(S.capacidad_reservada+$2)"""
+                WHERE S.tipo_salida_id=$1 AND S.capacidad_lb>=(S.capacidad_reservada+$2) """
+        if not test:
+            query += " AND S.test = False"
         return await self.connection.prisma.query_raw(query, tipo_salida, peso)
     
     async def update_status_salida_and_tracking(self, salida_id):

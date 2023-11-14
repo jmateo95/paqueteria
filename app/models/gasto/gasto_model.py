@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class GastoCreate(BaseModel):
     sucursal_id: int
@@ -8,6 +9,7 @@ class GastoCreate(BaseModel):
     detalles: str
     monto: float
     fecha: datetime
+    test:  Optional[bool]= None
 
 class GastoUpdate(BaseModel):
     sucursal_id: int = None
