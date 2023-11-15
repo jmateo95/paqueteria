@@ -8,7 +8,7 @@ class SegmentoController:
     def __init__(self):
         self.service = SegmentoService()
 
-    async def get_all(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def get_all(self):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         segmentos = await self.service.get_all()
         return ResponseSchema(detail="", result=segmentos)
 
@@ -36,3 +36,7 @@ class SegmentoController:
     async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.delete(id)
         return ResponseSchema(detail="Segmento eliminado con éxito")
+    
+    async def generate_graph(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        graph = await self.service.generate_graph()
+        return ResponseSchema(detail="", result=graph)

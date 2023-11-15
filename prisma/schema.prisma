@@ -80,6 +80,7 @@ model Sucursal {
   segmentos_origen  Segmento[] @relation("sucursal_origen")
   segmentos_destino Segmento[] @relation("sucursal_destino")
   trackings         Tracking[]
+  trackings_log     TrackingLog[]
 
   @@map("Sucursal")
 }
@@ -251,6 +252,7 @@ model Salida {
 
   // Relación uno a muchos
   trackings Tracking[]
+  trackings_log TrackingLog[]
 
   @@map("Salida")
 }
@@ -275,6 +277,7 @@ model EstadoTracking {
 
   // Relación uno a muchos
   trackings Tracking[]
+  trackings_log TrackingLog[]
 
   @@map("EstadoTracking")
 }
@@ -295,6 +298,7 @@ model Paquete {
   
   // Relación uno a muchos
   trackings Tracking[]
+  trackings_log TrackingLog[]
 
   @@map("Paquete")
 }
@@ -315,6 +319,25 @@ model Tracking {
   salida              Salida          @relation(fields: [salida_id], references: [id])
 
   @@map("Tracking")
+}
+
+
+model TrackingLog {
+  id                  Int      @id @default(autoincrement())
+  paquete_id          Int
+  sucursal_id         Int
+  estado_tracking_id  Int
+  salida_id           Int
+  actualizacion       DateTime?
+  comentario          String   @map("comentario") @db.VarChar(250)
+
+  // Llaves foraneas
+  paquete             Paquete         @relation(fields: [paquete_id], references: [id])
+  sucursal            Sucursal        @relation(fields: [sucursal_id], references: [id])
+  estado_tracking     EstadoTracking  @relation(fields: [estado_tracking_id], references: [id])
+  salida              Salida          @relation(fields: [salida_id], references: [id])
+
+  @@map("TrackingLog")
 }
 
 

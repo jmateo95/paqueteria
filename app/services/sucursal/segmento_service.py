@@ -57,3 +57,9 @@ class SegmentoService:
             except Exception as e:
                 raise EntityDeletionError("Segmento")
         raise EntityNotFoundError("Segmento", segmento_id)
+    
+    async def generate_graph(self, test:bool=False):
+        graph = await self.repository.generate_graph(test=test)
+        if not graph:
+            raise EntityNotFoundError("Segmento", "Error al generar la grafica")
+        return graph

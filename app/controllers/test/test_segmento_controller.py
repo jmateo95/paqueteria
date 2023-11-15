@@ -24,3 +24,7 @@ class SegmentoController:
         segmento.test=True
         segmento = await self.service.create(segmento)
         return ResponseSchema(detail="Segmento creado con éxito", result=segmento)
+    
+    async def generate_graph(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        graph = await self.service.generate_graph(test=True)
+        return ResponseSchema(detail="", result=graph)
