@@ -45,7 +45,7 @@ class PaqueteRepository:
     async def get_by_id(self, paquete_id: int):
         return await self.connection.prisma.paquete.find_first(where={"id": paquete_id})
     
-    async def get_by_no_guia(self, no_guia: int):
+    async def get_by_no_guia(self, no_guia: str):
         return await self.connection.prisma.paquete.find_first(where={"no_guia": no_guia})
     
     async def create(self, paquete: PaqueteCreate):

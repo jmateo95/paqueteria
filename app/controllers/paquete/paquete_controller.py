@@ -17,7 +17,7 @@ class PaqueteController:
         paquete = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=paquete)
     
-    async def get_by_no_guia(self, no_guia: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def get_by_no_guia(self, no_guia: str, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         paquete = await self.service.get_by_no_guia(no_guia=no_guia)
         return ResponseSchema(detail="", result=paquete)
 

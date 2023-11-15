@@ -28,7 +28,7 @@ class PaqueteService:
             raise EntityNotFoundError("Paquete", paquete_id)
         return paquete
     
-    async def get_by_no_guia(self, no_guia: int):
+    async def get_by_no_guia(self, no_guia: str):
         paquete = await self.repository.get_by_no_guia(no_guia=no_guia)
         if not paquete:
             raise EntityNotFoundError("Paquete", no_guia)
