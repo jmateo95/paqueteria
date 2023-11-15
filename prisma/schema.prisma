@@ -66,6 +66,7 @@ model Sucursal {
   ciudad_id         Int
   tipo_sucursal_id  Int
   estatico          Boolean @default(false)
+  test              Boolean   @default(false)
 
   // Llaves foraneas
   ciudad        Ciudad  @relation(fields: [ciudad_id], references: [id])
@@ -94,6 +95,7 @@ model Usuario {
   puesto_id   Int
   sucursal_id Int
   estatico    Boolean @default(false)
+  test        Boolean   @default(false)
   
   // Llaves foraneas
   rol         Rol     @relation(fields: [rol_id], references: [id])
@@ -108,6 +110,7 @@ model Tarifario {
   fecha           DateTime
   ganancia_envio  Float
   costo_lb        Float
+  test            Boolean   @default(false)
   
   @@map("Tarifario")
 }
@@ -171,7 +174,7 @@ model Gasto {
   detalles          String  @map("detalles") @db.VarChar(250)
   monto             Float
   fecha             DateTime
-
+  test              Boolean   @default(false)
   // Llaves foraneas
   sucursal      Sucursal      @relation(fields: [sucursal_id], references: [id])
   tipoGasto     TipoGasto     @relation(fields: [tipo_gasto_id], references: [id])
@@ -202,6 +205,7 @@ model Segmento {
   sucursal_destino_id Int
   descripcion         String  @map("descripcion") @db.VarChar(250)
   distancia           Float
+  test                Boolean   @default(false)
 
   // Llaves foraneas
   sucursal_origen   Sucursal  @relation("sucursal_origen", fields: [sucursal_origen_id], references: [id])
@@ -237,6 +241,7 @@ model Salida {
   capacidad_lb          Float
   capacidad_reservada   Float
   capacidad_ocupada     Float
+  test                  Boolean   @default(false)
 
 
   // Llaves foraneas

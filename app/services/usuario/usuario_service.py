@@ -8,8 +8,8 @@ class UsuarioService:
     def __init__(self):
         self.repository = UsuarioRepository()
     
-    async def get_users_by_filters(self, sucursal_id=None):
-        usuarios = await self.repository.get_users_by_filters(sucursal_id)
+    async def get_users_by_filters(self, sucursal_id=None, test:bool=False):
+        usuarios = await self.repository.get_users_by_filters(sucursal_id=sucursal_id, test=test)
         return [] if not usuarios else usuarios
 
     async def get_by_id(self, usuario_id: int):

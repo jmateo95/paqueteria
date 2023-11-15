@@ -10,8 +10,8 @@ class IngresoService:
         ingresos = await self.repository.get_ingresos_by_filters(sucursal_id, fecha)
         return [] if not ingresos else ingresos
     
-    async def get_ingresos_pronosticados_by_filters(self, sucursal_id=None, fecha=None):
-        ingresos = await self.repository.get_ingresos_pronosticados_by_filters(sucursal_id, fecha)
+    async def get_ingresos_pronosticados_by_filters(self, sucursal_id=None, fecha=None, test:bool=False):
+        ingresos = await self.repository.get_ingresos_pronosticados_by_filters(sucursal_id=sucursal_id, fecha=fecha, test=test)
         return [] if not ingresos else ingresos
 
     async def get_by_id(self, ingreso_id: int):

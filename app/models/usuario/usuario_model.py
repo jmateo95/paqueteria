@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class UsuarioCreate(BaseModel):
     nombre: str
@@ -9,6 +10,7 @@ class UsuarioCreate(BaseModel):
     rol_id: int
     sucursal_id: int
     puesto_id:int
+    test:Optional[bool]= None
 
 
 class UsuarioUpdate(BaseModel):

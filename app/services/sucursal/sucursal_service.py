@@ -7,8 +7,8 @@ class SucursalService:
     def __init__(self):
         self.repository = SucursalRepository()
 
-    async def get_all(self):
-        sucursales = await self.repository.get_all()
+    async def get_all(self, test=False):
+        sucursales = await self.repository.get_all(test=test)
         if not sucursales:
             return []
         return sucursales

@@ -18,8 +18,8 @@ class PaqueteService:
         self.tarifario_repository = TarifarioRepository()
         self.tracking_repository = TrackingRepository()
 
-    async def get_paquetes_by_filters(self, salida_id:int=None, tipo_tracking_id:int=None, estado_paquete_id:int=None):
-        paquetes = await self.repository.get_paquetes_by_filters(salida_id, tipo_tracking_id, estado_paquete_id)
+    async def get_paquetes_by_filters(self, salida_id:int=None, tipo_tracking_id:int=None, estado_paquete_id:int=None, sucursal_id:int=None):
+        paquetes = await self.repository.get_paquetes_by_filters(salida_id, tipo_tracking_id, estado_paquete_id, sucursal_id)
         return [] if not paquetes else paquetes
 
     async def get_by_id(self, paquete_id: int):

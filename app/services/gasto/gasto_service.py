@@ -6,8 +6,8 @@ class GastoService:
     def __init__(self):
         self.repository = GastoRepository()
     
-    async def get_gastos_by_filters(self, sucursal_id=None, tipo_gasto_id=None, fecha=None):
-        gastos = await self.repository.get_gastos_by_filters(sucursal_id, tipo_gasto_id, fecha)
+    async def get_gastos_by_filters(self, sucursal_id=None, tipo_gasto_id=None, fecha=None, test:bool=False):
+        gastos = await self.repository.get_gastos_by_filters(sucursal_id=sucursal_id, tipo_gasto_id=tipo_gasto_id, fecha=fecha, test=test)
         return [] if not gastos else gastos
 
     async def get_by_id(self, gasto_id: int):

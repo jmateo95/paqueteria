@@ -4,6 +4,8 @@ from app.routers.sucursal import ciudad_router, tipo_sucursal_router, sucursal_r
 from app.routers.gasto import tipo_gasto_router, concepto_gasto_router, gasto_router
 from app.routers.paquete import estado_paquete_router, estado_tracking_router, paquete_router, tracking_router
 
+from app.routers.test import test_tarifario_router, test_sucursal_router, test_usuario_router, test_segmento_router, test_salida_router, test_gasto_router
+
 api_router = APIRouter()
 
 #RUTAS
@@ -30,5 +32,13 @@ api_router.include_router(estado_paquete_router.router)
 api_router.include_router(estado_tracking_router.router)
 api_router.include_router(paquete_router.router)
 api_router.include_router(tracking_router.router)
+
+
+api_router.include_router(test_tarifario_router.router)
+api_router.include_router(test_sucursal_router.router)
+api_router.include_router(test_usuario_router.router)
+api_router.include_router(test_segmento_router.router)
+api_router.include_router(test_salida_router.router)
+api_router.include_router(test_gasto_router.router)
 
 

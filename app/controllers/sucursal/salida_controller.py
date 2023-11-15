@@ -18,6 +18,7 @@ class SalidaController:
         return ResponseSchema(detail="", result=salida)
 
     async def create(self, salida: SalidaCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        salida.test=False
         salida = await self.service.create(salida)
         return ResponseSchema(detail="Salida creada con éxito", result=salida)
 

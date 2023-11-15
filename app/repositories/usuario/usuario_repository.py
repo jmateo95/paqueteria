@@ -5,10 +5,12 @@ class UsuarioRepository:
     def __init__(self):
         self.connection = prisma_connection
 
-    async def get_users_by_filters(self, sucursal_id=None):
+    async def get_users_by_filters(self, sucursal_id=None, test:bool=False):
         where_conditions = {}        
         if sucursal_id is not None:
             where_conditions["sucursal_id"] = sucursal_id
+        if not test:
+            where_conditions["test"] = test
         return await self.connection.prisma.usuario.find_many(where=where_conditions, include={"rol":True,"sucursal":True,"puesto":True})
 
     async def get_by_id(self, usuario_id: int):

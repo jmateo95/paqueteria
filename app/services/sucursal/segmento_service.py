@@ -6,8 +6,8 @@ class SegmentoService:
     def __init__(self):
         self.repository = SegmentoRepository()
 
-    async def get_all(self):
-        segmentos = await self.repository.get_all()
+    async def get_all(self, test:bool=False):
+        segmentos = await self.repository.get_all(test=test)
         return [] if not segmentos else segmentos
 
     async def get_by_id(self, segmento_id: int):
@@ -16,12 +16,12 @@ class SegmentoService:
             raise EntityNotFoundError("Segmento", segmento_id)
         return segmento
     
-    async def get_by_sucursal_origen(self, sucursal_origen_id: int):
-        segmentos = await self.repository.get_by_sucursal_origen(sucursal_origen_id)
+    async def get_by_sucursal_origen(self, sucursal_origen_id: int, test:bool=False):
+        segmentos = await self.repository.get_by_sucursal_origen(sucursal_origen_id, test=test)
         return [] if not segmentos else segmentos
     
-    async def get_by_sucursales(self, sucursal_origen_id: int, sucursal_destino_id: int):
-        segmento = await self.repository.get_by_sucursales(sucursal_origen_id, sucursal_destino_id)
+    async def get_by_sucursales(self, sucursal_origen_id: int, sucursal_destino_id: int, test:bool=False):
+        segmento = await self.repository.get_by_sucursales(sucursal_origen_id, sucursal_destino_id, test=test)
         return [] if not segmento else segmento
 
     async def create(self, segmento: SegmentoCreate):

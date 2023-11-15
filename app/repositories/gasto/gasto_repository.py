@@ -7,8 +7,8 @@ class GastoRepository:
     def __init__(self):
         self.connection = prisma_connection
     
-    async def get_gastos_by_filters(self, sucursal_id=None, tipo_gasto_id=None, fecha:datetime=None):
-        where_conditions = {}        
+    async def get_gastos_by_filters(self, sucursal_id=None, tipo_gasto_id=None, fecha:datetime=None,  test:bool=False):
+        where_conditions = {}
         if sucursal_id is not None:
             where_conditions["sucursal_id"] = sucursal_id
         if tipo_gasto_id is not None:
@@ -17,6 +17,8 @@ class GastoRepository:
            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
            where_conditions["fecha"] = {"gte": first_day, "lte": last_day}
+        if not test:
+            where_conditions["test"] = test
         return await self.connection.prisma.gasto.find_many(include={"sucursal":True,"conceptoGasto":True,"tipoGasto":True}, where=where_conditions)
 
     async def get_by_id(self, gasto_id: int):
@@ -31,7 +33,7 @@ class GastoRepository:
     async def delete(self, gasto_id: int):
         return await self.connection.prisma.gasto.delete(where={"id": gasto_id})
     
-    async def delete_by_concepto_rango(self, concepto_gasto_id: int, fecha:datetime=None):
+    async def delete_by_concepto_rango(self, concepto_gasto_id: int, fecha:datetime=None, test=False):
         if fecha is None:
             fecha = datetime.now()
         first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
@@ -39,6 +41,7 @@ class GastoRepository:
         return await self.connection.prisma.gasto.delete_many(
             where={
                 "concepto_gasto_id": concepto_gasto_id,
-                "fecha": {"gte": first_day, "lte": last_day}
+                "fecha": {"gte": first_day, "lte": last_day},
+                "test": test
             }
         )
