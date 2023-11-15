@@ -102,17 +102,16 @@ class SalidaService:
             #Insertar el gasto
             total = round(math.ceil((salida.costo_lb*salida.capacidad_lb) * 100) / 100, 2)
             segmento = await self.segmento_repository.get_by_id(segmento_id=salida.segmento_id)
-            await self.gasto_repository.create(GastoCreate(sucursal_id=segmento.sucursa_origen_id, tipo_gasto_id=TipoGasto.TRANSPORTE, concepto_gasto_id=ConceptoGasto.GASOLINA, detalles=f"Gasto por salida {salida.id}", monto=total, fecha=salida.fecha_programada, test=False))
-            
+            await self.gasto_repository.create(GastoCreate(sucursal_id=segmento.sucursal_origen_id, tipo_gasto_id=TipoGasto.TRANSPORTE, concepto_gasto_id=ConceptoGasto.GASOLINA, detalles=f"Gasto por salida {salida.id}", monto=total, fecha=salida.fecha_programada, test=False).dict())
             #Actualizar Paquete 
             paquetes = await self.paquete_repository.get_paquetes_by_filters(salida_id=salida_id)
             for paquete in paquetes:
-                trackings=await self.tracking_repository.get_tracking_by_filters(paquete_id=paquete.id)
+                trackings=await self.tracking_repository.get_tracking_by_filters(paquete_id=paquete['id'])
                 if all(tracking.estado_tracking_id >= EstadoTracking.EN_RUTA for tracking in trackings):
                     # Cambiar el estado del paquete
-                    await self.paquete_repository.update(paquete.id, {"estado_paquete_id":EstadoPaquete.RUTA_FINAL})
+                    await self.paquete_repository.update(paquete['id'], {"estado_paquete_id":EstadoPaquete.RUTA_FINAL})
                 else:
-                    await self.paquete_repository.update(paquete.id, {"estado_paquete_id":EstadoPaquete.TRANSITO})
+                    await self.paquete_repository.update(paquete['id'], {"estado_paquete_id":EstadoPaquete.TRANSITO})
             return
         raise EntityNotFoundError("Salida", salida_id)
 
@@ -128,7 +127,7 @@ class SalidaService:
             if len(tarifarios) > 0:
                 tarifario = tarifarios[0]
                 total = round(math.ceil(((salida.capacidad_lb * (salida.costo_lb+tarifario.costo_lb)) * (1 + (tarifario.ganancia_envio / 100))) * 100) / 100, 2)
-                await self.ingreso_repository.create(IngresoCreate(sucursal_id=segmento.sucursa_origen_id, detalles=f"Ingreso por salida: {salida.id}", monto=total, fecha=salida.fecha_programada))
+                await self.ingreso_repository.create(IngresoCreate(sucursal_id=segmento.sucursal_origen_id, detalles=f"Ingreso por salida: {salida.id}", monto=total, fecha=salida.fecha_programada).dict())
             
             #Actualizar Tracking Actual
             await self.tracking_repository.update_trackings_salida(salida_id, EstadoTracking.COMPLETADO)
@@ -136,17 +135,17 @@ class SalidaService:
             #Actualizar los paquetes en rutas finales
             paquetes = await self.paquete_repository.get_paquetes_by_filters(salida_id=salida_id)
             for paquete in paquetes:
-                if(paquete.estado_paquete_id==EstadoPaquete.RUTA_FINAL):
-                    await self.paquete_repository.update(paquete.id, {"estado_paquete_id":EstadoPaquete.POR_ENTREGAR})
+                if(paquete['estado_paquete_id']==EstadoPaquete.RUTA_FINAL):
+                    await self.paquete_repository.update(paquete['id'], {"estado_paquete_id":EstadoPaquete.POR_ENTREGAR})
 
                     #Si no esta en una ruta final actualizar el siguiente tracking
                 else:
                     #Obtengo el tracking actual
-                    tracking = await self.tracking_repository.get_by_paquete_and_status(paquete_id=paquete.id, estado_tracking_id=EstadoTracking.COMPLETADO)
+                    tracking = await self.tracking_repository.get_by_paquete_and_status(paquete_id=paquete['id'], estado_tracking_id=EstadoTracking.COMPLETADO)
                     if (len(tracking)>0):
                         #obtengo el siguiente tracking
                         tracking_next = await self.tracking_repository.get_by_id(tracking_id=(tracking.id+1))
-                        if(tracking_next.paquete_id==paquete.id):
+                        if(tracking_next.paquete_id==paquete['id']):
                             #Pongo en bodega el tracking siguiene
                             await self.tracking_repository.update(tracking_next.id, {"estado_tracking_id":EstadoTracking.EN_BODEGA})
                             #Compruebo si la salida del tracking siguiente ya se puede poner en lista para cargar

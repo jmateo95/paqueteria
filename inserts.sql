@@ -20,12 +20,12 @@
     (2, 'Sucursal de Conexión', true);
 
   -- Insert para Sucursal
-  INSERT INTO "Sucursal" (id, nombre, direccion, latitud, longitud, ciudad_id, tipo_sucursal_id, estatico) VALUES
-    (1, 'Central', 'Dirección de la Sucursal Central', 14.634915, -90.506882, 1, 1, true);
+  INSERT INTO "Sucursal" (id, nombre, direccion, latitud, longitud, ciudad_id, tipo_sucursal_id, estatico, test) VALUES
+    (1, 'Central', 'Dirección de la Sucursal Central', 14.634915, -90.506882, 1, 1, true, false);
 
 
   -- Insertar Usuario
-  INSERT INTO "Usuario" (id, nombre, username, email, password, horas, rol_id, sucursal_id, puesto_id, estatico) VALUES (1, 'Usuario', 'usuario', 'usuario@gmail.com', '$2b$12$KgOW9J/732zxoXBmmcxmSeKFRpOSMfkgDSI/17OlcvliLHCGBTX3y', 10, 1, 1, 1, true);--Password Cambiame123
+  INSERT INTO "Usuario" (id, nombre, username, email, password, horas, rol_id, sucursal_id, puesto_id, estatico, test) VALUES (1, 'Usuario', 'usuario', 'usuario@gmail.com', '$2b$12$KgOW9J/732zxoXBmmcxmSeKFRpOSMfkgDSI/17OlcvliLHCGBTX3y', 10, 1, 1, 1, true, false);--Password Cambiame123
 
 
   -- TipoVehiculo
