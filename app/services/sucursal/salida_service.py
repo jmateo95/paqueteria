@@ -91,7 +91,7 @@ class SalidaService:
         raise EntityNotFoundError("Salida", salida_id)
     
     async def dar_salida(self, salida_id: int):
-        salida=self.get_by_id(salida_id=salida_id)
+        salida=await self.get_by_id(salida_id=salida_id)
         if(salida.tipo_salida_id==TipoSalida.CARGADO):
             #Actualizar Salida
             await self.repository.update(salida_id, {"tipo_salida_id":TipoSalida.EN_RUTA, "fecha_salida":datetime.now()})
@@ -118,7 +118,7 @@ class SalidaService:
 
 
     async def ingresar(self, salida_id: int):
-        salida=self.get_by_id(salida_id=salida_id)
+        salida= await self.get_by_id(salida_id=salida_id)
         if(salida.tipo_salida_id==TipoSalida.EN_RUTA):
             #Actualizar Salida
             await self.repository.update(salida_id, {"tipo_salida_id":TipoSalida.FIN, "fecha_llegada":datetime.now()})
