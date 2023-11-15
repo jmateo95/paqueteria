@@ -14,8 +14,8 @@ class TarifarioRepository:
            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
            where_conditions["fecha"] = {"gte": first_day, "lte": last_day}
-        if not test:
-            where_conditions["test"] = test
+        
+        where_conditions["test"] = test
         return await self.connection.prisma.tarifario.find_many(where=where_conditions, order=[{"id": "desc"}])
 
     async def get_by_id(self, tarifario_id: int):

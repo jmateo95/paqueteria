@@ -30,9 +30,9 @@ class SucursalRepository:
             FROM "Sucursal" s
             JOIN "Usuario" u ON s.id = u.sucursal_id
             JOIN "Puesto" p ON u.puesto_id = p.id
-            WHERE s.test = :test AND u.test = :test
+            WHERE s.test = $1 AND u.test = $1
             GROUP BY s.id
         """
-        result = await self.connection.prisma.query_raw(query=query, parameters={"test": test})
+        result = await self.connection.prisma.query_raw(query,test)
         return result
         

@@ -14,8 +14,8 @@ class IngresoController:
         result = await self.service.get_ingresos_by_filters(sucursal_id, fecha)
         return ResponseSchema(detail="", result=result)
     
-    async def get_ingresos_pronosticados_by_filters(self, sucursal_id: int = Query(None), fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        result = await self.service.get_ingresos_pronosticados_by_filters(sucursal_id, fecha)
+    async def get_ingresos_pronosticados_by_filters(self, sucursal_id: int = Query(None), fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        result = await self.service.get_ingresos_pronosticados_by_filters(sucursal_id=sucursal_id, fecha=fecha)
         return ResponseSchema(detail="", result=result)
 
     async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
