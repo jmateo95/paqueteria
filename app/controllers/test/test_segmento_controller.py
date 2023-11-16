@@ -28,3 +28,18 @@ class SegmentoController:
     async def generate_graph(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         graph = await self.service.generate_graph(test=True)
         return ResponseSchema(detail="", result=graph)
+    
+
+
+
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        segmento = await self.service.get_by_id(id)
+        return ResponseSchema(detail="", result=segmento)
+    
+    async def update(self, id: int, segmento: SegmentoUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        segmento = await self.service.update(id, segmento)
+        return ResponseSchema(detail="Segmento actualizado con éxito", result=segmento)
+
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
+        return ResponseSchema(detail="Segmento eliminado con éxito")

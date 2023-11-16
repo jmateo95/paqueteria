@@ -1,8 +1,8 @@
 -- Insertar Ciudad
-  INSERT INTO "Ciudad" (id, nombre, departamento, descripcion) VALUES
-    (2, 'Villa Nueva',      'Guatemala',        'Municipio de Guatemala'),
-    (3, 'Huehuetenango',    'Huehuetenango',    'Ciudad de Huehuetenango'),
-    (4, 'Quetzaltenango',   'Quetzaltenango',   'Ciudad de xela');
+  INSERT INTO "Ciudad" (id, nombre, departamento, descripcion, test) VALUES
+    (2, 'Villa Nueva',      'Guatemala',        'Municipio de Guatemala',   false),
+    (3, 'Huehuetenango',    'Huehuetenango',    'Ciudad de Huehuetenango',  false),
+    (4, 'Quetzaltenango',   'Quetzaltenango',   'Ciudad de xela',           false);
 
   -- Insert para Sucursal
   INSERT INTO "Sucursal" (id, nombre, direccion, latitud, longitud, ciudad_id, tipo_sucursal_id, test) VALUES
@@ -24,17 +24,17 @@
                         (10, 'Usuario_10',  'usuario_10',   'usuario10@gmail.com',  '$2b$12$KgOW9J/732zxoXBmmcxmSeKFRpOSMfkgDSI/17OlcvliLHCGBTX3y', 35, 2, 5, 2, false);
 
 -- Insertar Vehiculos
-INSERT INTO public."Vehiculo"(id, placa, capacidad_lb, costo_km, tipo_vehiculo_id, sucursal_id)VALUES 
-                             (1, 'P-0001', 200, 25, 1, 1),
-                             (2, 'P-0002', 100, 25, 2, 2),
-                             (3, 'P-0003', 150, 25, 3, 3),
-                             (4, 'P-0004', 200, 25, 4, 4),
-                             (5, 'P-0005', 250, 25, 1, 5),
-                             (6, 'P-0006', 300, 25, 2, 1),
-                             (7, 'P-0007', 210, 25, 3, 2),
-                             (8, 'P-0008', 180, 25, 4, 3),
-                             (9, 'P-0009', 200, 25, 1, 4),
-                             (10, 'P-0010', 230, 25, 2, 5);
+INSERT INTO public."Vehiculo"(id, placa, capacidad_lb, costo_km, tipo_vehiculo_id, sucursal_id, test)VALUES 
+                             (1, 'P-0001', 200, 25, 1, 1, false),
+                             (2, 'P-0002', 100, 25, 2, 2, false),
+                             (3, 'P-0003', 150, 25, 3, 3, false),
+                             (4, 'P-0004', 200, 25, 4, 4, false),
+                             (5, 'P-0005', 250, 25, 1, 5, false),
+                             (6, 'P-0006', 300, 25, 2, 1, false),
+                             (7, 'P-0007', 210, 25, 3, 2, false),
+                             (8, 'P-0008', 180, 25, 4, 3, false),
+                             (9, 'P-0009', 200, 25, 1, 4, false),
+                             (10, 'P-0010', 230, 25, 2, 5, false);
 
 
 

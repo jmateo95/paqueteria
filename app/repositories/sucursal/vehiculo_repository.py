@@ -5,8 +5,11 @@ class VehiculoRepository:
     def __init__(self):
         self.connection = prisma_connection
 
-    async def get_all(self):
-        return await self.connection.prisma.vehiculo.find_many(include={"tipoVehiculo":True,"sucursal":True})
+    async def get_all(self, test:bool=None):
+        where_conditions = {}
+        if not test:
+            where_conditions["test"] = test
+        return await self.connection.prisma.vehiculo.find_many(include={"tipoVehiculo":True,"sucursal":True}, where=where_conditions)
 
     async def get_by_id(self, vehiculo_id: int):
         return await self.connection.prisma.vehiculo.find_first(where={"id": vehiculo_id})

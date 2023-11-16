@@ -17,3 +17,26 @@ class SalidaController:
         salida.test=True
         salida = await self.service.create(salida)
         return ResponseSchema(detail="Salida creada con éxito", result=salida)
+    
+
+
+
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        salida = await self.service.get_by_id(id)
+        return ResponseSchema(detail="", result=salida)
+
+    async def update(self, id: int, salida: SalidaUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        salida = await self.service.update(id, salida)
+        return ResponseSchema(detail="Salida actualizada con éxito", result=salida)
+
+    async def delete(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.delete(id)
+        return ResponseSchema(detail="Salida eliminada con éxito")
+    
+    async def dar_salida(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.dar_salida(id)
+        return ResponseSchema(detail="Salida actualizada con éxito")
+    
+    async def ingresar(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        await self.service.ingresar(id)
+        return ResponseSchema(detail="Salida actualizada con éxito")

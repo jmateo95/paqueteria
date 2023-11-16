@@ -9,8 +9,16 @@ class VehiculoController:
         self.service = VehiculoService()
 
     async def get_all(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        vehiculos = await self.service.get_all()
+        vehiculos = await self.service.get_all(test=True)
         return ResponseSchema(detail="", result=vehiculos)
+
+    async def create(self, vehiculo: VehiculoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+        vehiculo.test=True
+        vehiculo = await self.service.create(vehiculo)
+        return ResponseSchema(detail="Vehiculo creado con éxito", result=vehiculo)
+    
+
+
 
     async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         vehiculo = await self.service.get_by_id(id)
@@ -19,11 +27,6 @@ class VehiculoController:
     async def get_by_sucursal(self, sucursal_id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         segmento = await self.service.get_by_sucursal(sucursal_id)
         return ResponseSchema(detail="", result=segmento)
-
-    async def create(self, vehiculo: VehiculoCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        vehiculo.test=False
-        vehiculo = await self.service.create(vehiculo)
-        return ResponseSchema(detail="Vehiculo creado con éxito", result=vehiculo)
 
     async def update(self, id: int, vehiculo: VehiculoUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         vehiculo = await self.service.update(id, vehiculo)

@@ -11,8 +11,8 @@
     (4, 'Paqueteria',  'Trabajador de Paquetería', 60.00, true);
 
   -- Insertar Ciudad
-  INSERT INTO "Ciudad" (id, nombre, departamento, descripcion, estatico) VALUES
-    (1, 'Guatemala', 'Guatemala', 'Capital de Guatemala', true);
+  INSERT INTO "Ciudad" (id, nombre, departamento, descripcion, estatico, test) VALUES
+    (1, 'Guatemala', 'Guatemala', 'Capital de Guatemala', true, false);
 
   -- Insertar TipoSucursal
   INSERT INTO "TipoSucursal" (id, nombre, estatico) VALUES

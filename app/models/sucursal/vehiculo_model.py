@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class VehiculoCreate(BaseModel):
     placa: str
@@ -6,6 +7,7 @@ class VehiculoCreate(BaseModel):
     costo_km: float
     tipo_vehiculo_id: int
     sucursal_id: int
+    test:  Optional[bool]= None
 
 class VehiculoUpdate(BaseModel):
     placa: str = None

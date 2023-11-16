@@ -9,16 +9,19 @@ class CiudadController:
         self.service = CiudadService()
 
     async def get_all(self, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        result = await self.service.get_all()
-        return ResponseSchema(detail="", result=result)
-
-    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        result = await self.service.get_by_id(id)
+        result = await self.service.get_all(test=True)
         return ResponseSchema(detail="", result=result)
 
     async def create(self, ciudad: CiudadCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
-        ciudad.test=False
+        ciudad.test=True
         result = await self.service.create(ciudad)
+        return ResponseSchema(detail="", result=result)
+    
+
+
+
+    async def get_by_id(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        result = await self.service.get_by_id(id)
         return ResponseSchema(detail="", result=result)
 
     async def update(self, id: int, ciudad: CiudadUpdate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):

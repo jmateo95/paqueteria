@@ -8,8 +8,8 @@ class CiudadService:
     def __init__(self):
         self.repository = CiudadRepository()
 
-    async def get_all(self):
-        ciudades = await self.repository.get_all()
+    async def get_all(self, test:bool=False):
+        ciudades = await self.repository.get_all(test=test)
         if not ciudades:
             return []
         return ciudades
