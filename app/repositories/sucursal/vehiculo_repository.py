@@ -5,7 +5,7 @@ class VehiculoRepository:
     def __init__(self):
         self.connection = prisma_connection
 
-    async def get_all(self, test:bool=None):
+    async def get_all(self, test:bool=False):
         where_conditions = {}
         if not test:
             where_conditions["test"] = test

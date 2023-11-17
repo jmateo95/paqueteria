@@ -6,7 +6,7 @@ class VehiculoService:
     def __init__(self):
         self.repository = VehiculoRepository()
 
-    async def get_all(self, test:bool=None):
+    async def get_all(self, test:bool=False):
         vehiculos = await self.repository.get_all(test=test)
         return [] if not vehiculos else vehiculos
 
