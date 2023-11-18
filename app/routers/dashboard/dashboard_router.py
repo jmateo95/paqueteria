@@ -15,3 +15,10 @@ router.add_api_route("/sucursales_tot",     dashboard_controller.sucursales_tot,
 router.add_api_route("/empleados_tot",      dashboard_controller.empleados_tot, methods=["GET"])
 router.add_api_route("/paquetes_estado",    dashboard_controller.paquetes_estado, methods=["GET"])
 router.add_api_route("/top_sucursales",     dashboard_controller.top_sucursales, methods=["GET"])
+
+router.add_api_route("/gastos",             dashboard_controller.gastos, methods=["GET"])
+router.add_api_route("/gastos_promedio",    dashboard_controller.gastos_promedio, methods=["GET"])
+router.add_api_route("/tipo_gasto",         dashboard_controller.tipo_gasto, methods=["GET"])
+
+router.add_api_route("/concepto_gasto",     dashboard_controller.concepto_gasto, methods=["GET"])
+router.add_api_route("/gasto_sucursal",     dashboard_controller.gasto_sucursal, methods=["GET"])

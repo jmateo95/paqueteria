@@ -144,35 +144,12 @@ class PaqueteService:
         
     async def peso_promedio(self, fecha: datetime=None):
         peso_prom = await self.repository.peso_promedio(fecha=fecha)
-        return peso_prom[0]
+        return round( peso_prom[0], 2)
     
     async def costo_promedio(self, fecha: datetime=None):
         costo_prom = await self.repository.costo_promedio(fecha=fecha)
-        return costo_prom[0]
+        return round( costo_prom[0], 2)
 
     async def paquetes_estado(self, fecha: datetime=None):
         paquetes = await self.repository.paquetes_estado(fecha=fecha)
         return [] if not paquetes else paquetes
-    
-    async def top_sucursales(self, fecha:datetime=None):
-        query = """
-            SELECT count (p.id) as value, ep.nombre as name
-                FROM (
-                    SELECT
-                        p.*,
-                        (
-                            SELECT MIN(actualizacion)
-                            FROM "Tracking"
-                            WHERE paquete_id = p.id
-                        ) AS fecha
-                    FROM "Paquete" p
-                ) AS p
-            JOIN "EstadoPaquete" ep ON ep.id = p.estado_paquete_id
-            WHERE 1 = 1
-        """
-        if fecha is not None:
-            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
-            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
-            query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
-        query += f"GROUP BY ep.nombre\n"
-        return await self.connection.prisma.query_raw(query)

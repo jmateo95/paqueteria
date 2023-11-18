@@ -1,3 +1,4 @@
+from datetime import datetime
 from app.repositories.gasto.gasto_repository import GastoRepository
 from app.models.gasto.gasto_model import GastoCreate, GastoUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
@@ -41,3 +42,23 @@ class GastoService:
             except Exception as e:
                 raise EntityDeletionError("Gasto")
         raise EntityNotFoundError("Gasto", gasto_id)
+    
+    async def gastos(self, fecha: datetime=None, test:bool=False):
+        gastos = await self.repository.gastos(fecha=fecha, test=test)
+        return {"gastos":(round( gastos, 2))}
+    
+    async def gastos_promedio(self, fecha: datetime=None, test:bool=False):
+        gastos = await self.repository.gastos_promedio(fecha=fecha, test=test)
+        return {"gastos":(round( gastos, 2))}
+    
+    async def tipo_gasto(self, fecha: datetime=None, test:bool=False):
+        gastos = await self.repository.tipo_gasto(fecha=fecha, test=test)
+        return gastos
+    
+    async def concepto_gasto(self, fecha: datetime=None, test:bool=False):
+        gastos = await self.repository.concepto_gasto(fecha=fecha, test=test)
+        return gastos
+    
+    async def gasto_sucursal(self, fecha: datetime=None, test:bool=False):
+        gastos = await self.repository.gasto_sucursal(fecha=fecha, test=test)
+        return gastos
