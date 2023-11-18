@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.controllers.test.test_vehiculo_controller import VehiculoController
 router = APIRouter(
     prefix="/test/vehiculo",
-    tags=['Vehiculo']
+    tags=['Test']
 )
 
 vehiculo_controller = VehiculoController()
