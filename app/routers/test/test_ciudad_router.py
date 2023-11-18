@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from app.controllers.test.test_ciudad_controller import ciudad_controller
 router = APIRouter(
-    prefix="/ciudad",
-    tags=['Ciudad']
+    prefix="/test/ciudad",
+    tags=['Test']
 )
 
 router.add_api_route("/", ciudad_controller.get_all, methods=["GET"])

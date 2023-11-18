@@ -16,7 +16,7 @@ class SegmentoRepository:
         return await self.connection.prisma.segmento.find_many(include={"sucursal_destino":True,"sucursal_origen":True}, where=where_conditions, order=[{"id": "desc"}])
 
     async def get_by_id(self, segmento_id: int):
-        return await self.connection.prisma.segmento.find_first(where={"id": segmento_id})
+        return await self.connection.prisma.segmento.find_first(where={"id": segmento_id},include={"sucursal_destino":True,"sucursal_origen":True})
     
     async def get_by_sucursal_origen(self, sucursal_origen_id: int, test:bool=False):
         where_params = {"sucursal_origen_id": sucursal_origen_id}
