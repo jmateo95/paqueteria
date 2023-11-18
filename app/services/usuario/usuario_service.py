@@ -54,3 +54,7 @@ class UsuarioService:
         if not usuario or not pwd_context.verify(password, usuario.password):
             raise UsuarioLoginError()
         return usuario
+    
+    async def usuarios_tot(self, test:bool=False):
+        usuarios = await self.repository.usuarios_tot(test=test)
+        return {"no_usuarios":len(usuarios)}

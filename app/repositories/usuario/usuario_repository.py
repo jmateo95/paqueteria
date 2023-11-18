@@ -27,3 +27,9 @@ class UsuarioRepository:
     
     async def get_by_email(self, email: str):
         return await self.connection.prisma.usuario.find_first(where={"email": email}, include={"rol": True})
+    
+    async def usuarios_tot(self, test:bool=None):
+        where_conditions = {}
+        if not test:
+            where_conditions["test"] = test
+        return await self.connection.prisma.usuario.find_many(where=where_conditions)

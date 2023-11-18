@@ -1,5 +1,7 @@
 from app.models.paquete.paquete_model import PaqueteCreate, PaqueteUpdate, PaqueteCotizar
+import calendar
 from config.Connection import prisma_connection
+from datetime import datetime
 
 class PaqueteRepository:
     def __init__(self):
@@ -56,3 +58,90 @@ class PaqueteRepository:
 
     async def delete(self, paquete_id: int):
         return await self.connection.prisma.paquete.delete(where={"id": paquete_id})
+    
+    async def numero_paquetes(self, fecha:datetime=None):
+        query = """
+            SELECT *
+                FROM (
+                    SELECT
+                        p.*,
+                        (
+                            SELECT MAX(actualizacion)
+                            FROM "Tracking"
+                            WHERE paquete_id = p.id
+                        ) AS fecha
+                    FROM "Paquete" p
+                ) AS subquery
+            WHERE 1 = 1
+        """
+        if fecha is not None:
+            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
+            query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
+        return await self.connection.prisma.query_raw(query)
+
+    async def peso_promedio(self, fecha:datetime=None):
+        query = """
+            SELECT avg(peso) peso
+                FROM (
+                    SELECT
+                        p.*,
+                        (
+                            SELECT MAX(actualizacion)
+                            FROM "Tracking"
+                            WHERE paquete_id = p.id
+                        ) AS fecha
+                    FROM "Paquete" p
+                ) AS subquery
+            WHERE 1 = 1
+        """
+        if fecha is not None:
+            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
+            query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
+        return await self.connection.prisma.query_raw(query)
+    
+    async def costo_promedio(self, fecha:datetime=None):
+        query = """
+            SELECT avg(costo) costo
+                FROM (
+                    SELECT
+                        p.*,
+                        (
+                            SELECT MAX(actualizacion)
+                            FROM "Tracking"
+                            WHERE paquete_id = p.id
+                        ) AS fecha
+                    FROM "Paquete" p
+                ) AS subquery
+            WHERE 1 = 1
+        """
+        if fecha is not None:
+            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
+            query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
+        return await self.connection.prisma.query_raw(query)
+    
+
+    async def paquetes_estado(self, fecha:datetime=None):
+        query = """
+            SELECT count (p.id) as value, ep.nombre as name
+                FROM (
+                    SELECT
+                        p.*,
+                        (
+                            SELECT MIN(actualizacion)
+                            FROM "Tracking"
+                            WHERE paquete_id = p.id
+                        ) AS fecha
+                    FROM "Paquete" p
+                ) AS p
+            JOIN "EstadoPaquete" ep ON ep.id = p.estado_paquete_id
+            WHERE 1 = 1
+        """
+        if fecha is not None:
+            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
+            query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
+        query += f"GROUP BY ep.nombre\n"
+        return await self.connection.prisma.query_raw(query)

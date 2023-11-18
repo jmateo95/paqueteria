@@ -27,3 +27,9 @@ class VehiculoRepository:
 
     async def delete(self, vehiculo_id: int):
         return await self.connection.prisma.vehiculo.delete(where={"id": vehiculo_id})
+
+    async def vehiculos_tot(self, test:bool=None):
+        where_conditions = {}
+        if not test:
+            where_conditions["test"] = test
+        return await self.connection.prisma.vehiculo.find_many(where=where_conditions)

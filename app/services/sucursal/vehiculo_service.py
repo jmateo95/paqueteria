@@ -45,3 +45,8 @@ class VehiculoService:
             except Exception as e:
                 raise EntityDeletionError("Vehiculo")
         raise EntityNotFoundError("Vehiculo", vehiculo_id)
+    
+
+    async def vehiculos_tot(self, test:bool=False):
+        vehiculos = await self.repository.vehiculos_tot(test=test)
+        return {"no_vehiculos":len(vehiculos)}

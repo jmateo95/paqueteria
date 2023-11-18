@@ -1,3 +1,4 @@
+from datetime import datetime
 from app.repositories.sucursal.sucursal_repository import SucursalRepository
 from app.models.sucursal.sucursal_model import SucursalCreate, SucursalUpdate
 from app.errors.common_errors import EntitiesNotFoundError, EntityNotFoundError, EntityCreationError, EntityUpdateError, EntityDeletionError
@@ -44,3 +45,13 @@ class SucursalService:
             except Exception as e:
                 raise EntityDeletionError("Sucursal")
         raise EntityNotFoundError("Sucursal", sucursal_id)
+    
+
+    async def sucursales_tot(self, test:bool=False):
+        vehiculos = await self.repository.sucursales_tot(test=test)
+        return {"no_sucursales":len(vehiculos)}
+    
+
+    async def top_sucursales(self, fecha: datetime=None):
+        sucursales = await self.repository.top_sucursales(fecha=fecha)
+        return [] if not sucursales else sucursales

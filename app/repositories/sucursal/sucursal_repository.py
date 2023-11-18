@@ -1,3 +1,5 @@
+from datetime import datetime
+import calendar
 from app.models.sucursal.sucursal_model import SucursalCreate, SucursalUpdate
 from config.Connection import prisma_connection
 
@@ -36,3 +38,38 @@ class SucursalRepository:
         result = await self.connection.prisma.query_raw(query,test)
         return result
         
+
+    async def sucursales_tot(self, test:bool=None):
+        where_conditions = {}
+        if not test:
+            where_conditions["test"] = test
+        return await self.connection.prisma.sucursal.find_many(where=where_conditions)
+    
+    async def top_sucursales(self, fecha:datetime=None):
+        query = """
+            SELECT count (p.id) as value, s.nombre as name
+            FROM (
+                SELECT
+                    p.*,
+                    (
+                        SELECT MIN(actualizacion)
+                        FROM "Tracking"
+                        WHERE paquete_id = p.id
+                    ) AS fecha,
+                    (
+                        SELECT sucursal_id
+                        FROM "Tracking"
+                        WHERE paquete_id = p.id
+                        ORDER BY actualizacion
+                        LIMIT 1
+                    ) AS sucursal_id
+                FROM "Paquete" p) AS p
+            JOIN "Sucursal" s ON s.id = p.sucursal_id
+            WHERE 1 = 1
+        """
+        if fecha is not None:
+            first_day = fecha.replace(day=1, hour=0, minute=0, second=0)
+            last_day = fecha.replace(day=calendar.monthrange(fecha.year, fecha.month)[1], hour=23, minute=59, second=59)
+            query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
+        query += f"GROUP BY s.nombre\n"
+        return await self.connection.prisma.query_raw(query)
