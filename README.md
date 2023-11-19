@@ -1,3 +1,7 @@
+MANUAL TECNICO:
+https://docs.google.com/document/d/1wRlIfKXUIfM3_aOxIpX07rx6rIwu5A9ilTJBhEeXpS0/edit?usp=sharing
+
+
 ---INSTALAR EL PROYECTO---
 Clonar el repositorio 
 dentro del repositorio ejecutar
