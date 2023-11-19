@@ -34,6 +34,6 @@ class SalidaController:
         await self.service.dar_salida(id)
         return ResponseSchema(detail="Salida actualizada con éxito")
     
-    async def ingresar(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+    async def ingresar(self, id: int):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.ingresar(id)
         return ResponseSchema(detail="Salida actualizada con éxito")

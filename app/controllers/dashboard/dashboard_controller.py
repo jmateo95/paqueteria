@@ -1,5 +1,6 @@
 from app.services.gasto.gasto_service import GastoService
 from app.services.paquete.paquete_service import PaqueteService
+from app.services.sucursal.ingreso_service import IngresoService
 from app.services.sucursal.sucursal_service import SucursalService
 from app.services.sucursal.vehiculo_service import VehiculoService
 from app.services.usuario.usuario_service import UsuarioService
@@ -16,6 +17,7 @@ class DashboardController:
         self.sucursal_service = SucursalService()
         self.usuario_service  = UsuarioService()
         self.gasto_service    = GastoService()
+        self.ingreso_service  = IngresoService()
 
     async def numero_paquetes(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.paquete_service.numero_paquetes(fecha=fecha)
@@ -49,22 +51,38 @@ class DashboardController:
         roles = await self.sucursal_service.top_sucursales(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def gastos(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        roles = await self.gasto_service.gastos(fecha=fecha)
+    async def gasto(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        roles = await self.gasto_service.gasto(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def gastos_promedio(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
-        roles = await self.gasto_service.gastos_promedio(fecha=fecha)
+    async def gasto_promedio(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        roles = await self.gasto_service.gasto_promedio(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def tipo_gasto(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def tipo_gasto(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.gasto_service.tipo_gasto(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def concepto_gasto(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def concepto_gasto(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.gasto_service.concepto_gasto(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def gasto_sucursal(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def gasto_sucursal(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.gasto_service.gasto_sucursal(fecha=fecha)
+        return ResponseSchema(detail="", result=roles)
+    
+    async def ingreso(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        roles = await self.ingreso_service.ingreso(fecha=fecha)
+        return ResponseSchema(detail="", result=roles)
+    
+    async def ingreso_pron(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        roles = await self.ingreso_service.ingreso_pron(fecha=fecha)
+        return ResponseSchema(detail="", result=roles)
+    
+    async def ingreso_real_vs_pron(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        roles = await self.ingreso_service.ingreso_real_vs_pron(fecha=fecha)
+        return ResponseSchema(detail="", result=roles)
+    
+    async def ingreso_sucursal(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        roles = await self.ingreso_service.ingreso_sucursal(fecha=fecha)
         return ResponseSchema(detail="", result=roles)

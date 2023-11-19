@@ -142,14 +142,15 @@ class SalidaService:
                 else:
                     #Obtengo el tracking actual
                     tracking = await self.tracking_repository.get_by_paquete_and_status(paquete_id=paquete['id'], estado_tracking_id=EstadoTracking.COMPLETADO)
-                    if (len(tracking)>0):
+                    if tracking is not None: 
                         #obtengo el siguiente tracking
                         tracking_next = await self.tracking_repository.get_by_id(tracking_id=(tracking.id+1))
-                        if(tracking_next.paquete_id==paquete['id']):
-                            #Pongo en bodega el tracking siguiene
-                            await self.tracking_repository.update(tracking_next.id, {"estado_tracking_id":EstadoTracking.EN_BODEGA})
-                            #Compruebo si la salida del tracking siguiente ya se puede poner en lista para cargar
-                            await self.repository.update_status_salida_and_tracking(tracking_next.salida_id)
+                        if tracking_next is not None: 
+                            if(tracking_next.paquete_id==paquete['id']):
+                                #Pongo en bodega el tracking siguiene
+                                await self.tracking_repository.update(tracking_next.id, {"estado_tracking_id":EstadoTracking.EN_BODEGA})
+                                #Compruebo si la salida del tracking siguiente ya se puede poner en lista para cargar
+                                await self.repository.update_status_salida_and_tracking(tracking_next.salida_id)
             return
         
         raise EntityNotFoundError("Salida", salida_id)

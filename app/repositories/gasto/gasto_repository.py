@@ -46,7 +46,7 @@ class GastoRepository:
             }
         )
     
-    async def gastos(self, fecha:datetime=None, test:bool=False):
+    async def gasto(self, fecha:datetime=None, test:bool=False):
         query = f"""
             SELECT SUM(monto) AS total_monto
             FROM "Gasto" 
@@ -63,7 +63,7 @@ class GastoRepository:
         result = await self.connection.prisma.query_raw(query)
         return result[0]["total_monto"]
 
-    async def gastos_promedio(self, fecha:datetime=None, test:bool=False):
+    async def gasto_promedio(self, fecha:datetime=None, test:bool=False):
         WHERE=''
         if not test:
             WHERE +=f"AND test = '{test}'\n"
