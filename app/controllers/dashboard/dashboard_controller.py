@@ -71,18 +71,18 @@ class DashboardController:
         roles = await self.gasto_service.gasto_sucursal(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def ingreso(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def ingreso(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.ingreso_service.ingreso(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def ingreso_pron(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def ingreso_pron(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.ingreso_service.ingreso_pron(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def ingreso_real_vs_pron(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def ingreso_real_vs_pron(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.ingreso_service.ingreso_real_vs_pron(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
     
-    async def ingreso_sucursal(self, fecha: datetime = Query(None)):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+    async def ingreso_sucursal(self, fecha: datetime = Query(None), user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
         roles = await self.ingreso_service.ingreso_sucursal(fecha=fecha)
         return ResponseSchema(detail="", result=roles)
