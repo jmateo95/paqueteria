@@ -37,6 +37,10 @@ class PaqueteController:
         cotizacion=await self.service.cotizar(paquete)
         return ResponseSchema(detail="Paquete cotizado con éxito", result=cotizacion)
     
-    async def cargar(self, id: int):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+    async def cargar(self, id: int, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         await self.service.cargar(id)
         return ResponseSchema(detail="Se Cargo el paquete con éxito")
+    
+    async def pdf(self, no_guia: str):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Operador", "Admin"]))):
+        pdf = await self.service.pdf(no_guia=no_guia)
+        return ResponseSchema(detail="", result=pdf)
