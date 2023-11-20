@@ -11,6 +11,7 @@ class Tarifario(BaseModel):
     fecha:          datetime
     ganancia_envio: float
     costo_lb:       float
+    test:           Optional[bool]= None
 
 class TarifarioUpdate(BaseModel):
     fecha:          datetime = None

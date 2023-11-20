@@ -144,11 +144,11 @@ class PaqueteService:
         
     async def peso_promedio(self, fecha: datetime=None):
         peso_prom = await self.repository.peso_promedio(fecha=fecha)
-        return round( peso_prom[0], 2)
+        return round( peso_prom[0]['peso'] if peso_prom[0] else 0, 2)
     
     async def costo_promedio(self, fecha: datetime=None):
         costo_prom = await self.repository.costo_promedio(fecha=fecha)
-        return round( costo_prom[0], 2)
+        return round( costo_prom[0]['costo'] if costo_prom[0] else 0, 2)
 
     async def paquetes_estado(self, fecha: datetime=None):
         paquetes = await self.repository.paquetes_estado(fecha=fecha)
