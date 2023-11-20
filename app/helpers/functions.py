@@ -29,6 +29,10 @@ def ruta_mas_corta(salidas, sucursal_origen_id, sucursal_destino_id, campo):
         # Explorar los nodos vecinos
         for vecino, salida_id, distancia in grafo[nodo_actual]:
             nueva_distancia = distancia_actual + distancia
+
+            if vecino not in distancias:
+                continue
+            
             if nueva_distancia < distancias[vecino]:
                 distancias[vecino] = nueva_distancia
                 nuevo_camino = camino_actual + [salida_id]
