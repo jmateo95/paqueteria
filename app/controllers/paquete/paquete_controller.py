@@ -21,7 +21,7 @@ class PaqueteController:
         paquete = await self.service.get_by_no_guia(no_guia=no_guia)
         return ResponseSchema(detail="", result=paquete)
 
-    async def create(self, paquete: PaqueteCreate, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
+    async def create(self, paquete: PaqueteCreate):#, user: dict = Depends(get_current_user_with_roles(allowed_roles=["Admin"]))):
         paquete = await self.service.create(paquete)
         return ResponseSchema(detail="Paquete creado con éxito", result=paquete)
 
