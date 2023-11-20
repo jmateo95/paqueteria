@@ -30,7 +30,7 @@ class SalidaRepository:
            where_conditions["fecha_programada"] = {"gte": first_day, "lte": last_day}        
         if not test:
             where_conditions["test"] = test
-        return await self.connection.prisma.salida.find_many(include={"segmento": {"include": {"sucursal_origen": True}},"vehiculo":True},where=where_conditions)
+        return await self.connection.prisma.salida.find_many(include={"segmento": {"include": {"sucursal_origen": True}},"vehiculo":True},where=where_conditions,order={"tipo_salida_id":"asc"})
 
 
     async def get_by_id(self, salida_id: int):

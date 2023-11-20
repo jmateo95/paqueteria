@@ -98,6 +98,7 @@ class PaqueteService:
             costo= get_cotizar(por_distancia, por_costo, tarifario[0], paquete.peso)
             return costo
         except Exception as e:
+            print(e)
             raise CustomValidationError("No existe una ruta actualmente para este paquete.")
         
     async def update_salidas_and_create_trackings(self, paquete, salidas_filtradas, new_paquete_created):

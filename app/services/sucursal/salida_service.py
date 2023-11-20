@@ -42,7 +42,7 @@ class SalidaService:
             #Obtener los valores
             vehiculo = await self.vehiculo_repository.get_by_id(salida.vehiculo_id)
             segmento = await self.segmento_repository.get_by_id(salida.segmento_id)
-            segmento_2=await self.segmento_repository.get_by_sucursales(sucursal_origen_id=segmento.sucursal_destino_id, sucursal_destino_id=segmento.sucursal_origen_id)
+            segmento_2=await self.segmento_repository.get_by_sucursales(sucursal_origen_id=segmento.sucursal_destino_id, sucursal_destino_id=segmento.sucursal_origen_id,test=salida.test)
             if not vehiculo or not segmento or not segmento_2:
                 raise EntityCreationError("Salida")
             #Crear Objeto Salida
