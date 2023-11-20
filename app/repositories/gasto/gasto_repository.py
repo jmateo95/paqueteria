@@ -61,6 +61,8 @@ class GastoRepository:
             query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
         
         result = await self.connection.prisma.query_raw(query)
+        if result[0]["total_monto"]==None:
+            return 0
         return result[0]["total_monto"]
 
     async def gasto_promedio(self, fecha:datetime=None, test:bool=False):
@@ -84,6 +86,8 @@ class GastoRepository:
             ) AS gastos
         """
         result = await self.connection.prisma.query_raw(query)
+        if result[0]["total_monto"]==None:
+            return 0
         return result[0]["total_monto"]
     
     async def tipo_gasto(self, fecha:datetime=None, test:bool=False):

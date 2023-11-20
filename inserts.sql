@@ -79,3 +79,30 @@
     (4, 'Cargado',    'El paquete fue cargado', true),
     (5, 'En Ruta',    'Esta en ruta', true),
     (6, 'Completado', 'Este tracking se concluyo', true);
+
+
+--Trigger
+CREATE FUNCTION tracking_logs_trg_func()
+returns trigger
+language 'plpgsql'
+as $$
+declare
+begin
+	INSERT INTO public."TrackingLog"(
+	paquete_id, sucursal_id, estado_tracking_id, salida_id, actualizacion, comentario)
+	VALUES (old.paquete_id, old.sucursal_id, old.estado_tracking_id, old.salida_id, old.actualizacion, old.comentario);
+	
+	if (new.estado_tracking_id=6) then
+   	INSERT INTO public."TrackingLog"(
+	paquete_id, sucursal_id, estado_tracking_id, salida_id, actualizacion, comentario)
+	VALUES (new.paquete_id, new.sucursal_id, new.estado_tracking_id, new.salida_id, new.actualizacion, new.comentario);
+	end if;
+return new;
+end;
+$$;
+
+create trigger tracking_trg
+before update
+on public."Tracking"
+For each row 
+execute procedure tracking_logs_trg_func();

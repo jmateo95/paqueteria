@@ -55,6 +55,7 @@ def get_criterio(salidas, tarifario, peso, criterio, descripcion=""):
             costo_total += peso * (ruta['costo_lb'] + tarifario.costo_lb)
             distancia_total += ruta['distancia']
         costo_total = round(math.ceil((costo_total * (1 + (tarifario.ganancia_envio / 100))) * 100) / 100, 2)
+        distancia_total = round(distancia_total,2)
         resultado = {
             "criterio": criterio,
             "descripcion": descripcion,
