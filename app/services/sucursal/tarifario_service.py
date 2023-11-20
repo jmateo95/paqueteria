@@ -32,8 +32,10 @@ class TarifarioService:
             #si es de pruebas o no 
             test=tarifario.test
             #Eliminar y Crear Gastos de plantilla
-            await self.gasto_repository.delete_by_concepto_rango(concepto_gasto_id=ConceptoGasto.PLANILLA, fecha=tarifario.fecha, test=test)
-            planillas= await self.sucursal_repository.get_total_salary_by_sucursal(test=test)
+            await self.gasto_repository.delete_by_concepto_rango(concepto_gasto_id=ConceptoGasto.PLANILLA, fecha=tarifario.fecha, test=True)
+            await self.gasto_repository.delete_by_concepto_rango(concepto_gasto_id=ConceptoGasto.PLANILLA, fecha=tarifario.fecha, test=False)
+
+            planillas= await self.sucursal_repository.get_total_salary_by_sucursal(test=False)
             for planilla in planillas:
                 gasto=GastoCreate(
                     sucursal_id=planilla['id'],
@@ -42,7 +44,20 @@ class TarifarioService:
                     detalles="Gastos de Planilla",
                     monto=planilla['total_salarios'],
                     fecha = tarifario.fecha if tarifario.fecha is not None else datetime.now(),
-                    test=test
+                    test=False
+                )
+                await self.gasto_repository.create(gasto=gasto.dict())
+
+            planillas= await self.sucursal_repository.get_total_salary_by_sucursal(test=True)
+            for planilla in planillas:
+                gasto=GastoCreate(
+                    sucursal_id=planilla['id'],
+                    tipo_gasto_id=TipoGasto.FIJOS,
+                    concepto_gasto_id=ConceptoGasto.PLANILLA,
+                    detalles="Gastos de Planilla",
+                    monto=planilla['total_salarios'],
+                    fecha = tarifario.fecha if tarifario.fecha is not None else datetime.now(),
+                    test=True
                 )
                 await self.gasto_repository.create(gasto=gasto.dict())
             
