@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.controllers.test.test_dashboard_controller import DashboardController
 router = APIRouter(
-    prefix="/test//dashboard",
+    prefix="/test/dashboard",
     tags=['Test']
 )
 
