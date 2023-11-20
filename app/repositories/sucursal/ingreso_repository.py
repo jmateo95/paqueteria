@@ -66,6 +66,9 @@ class IngresoRepository:
             query += f"AND fecha BETWEEN '{first_day}' AND '{last_day}'\n"
         
         result = await self.connection.prisma.query_raw(query)
+
+        if (result[0]["total_monto"] is None):
+            return 0
         return result[0]["total_monto"]
     
     async def ingreso_pron(self, fecha:datetime=None, test:bool=False, tipo_salida:int=(TipoSalida.FIN)):
@@ -89,6 +92,8 @@ class IngresoRepository:
             {WHERE}
         """
         result = await self.connection.prisma.query_raw(query)
+        if (result[0]["total_monto"] is None):
+            return 0
         return result[0]["total_monto"]
     
     async def ingreso_real_vs_pron(self, fecha:datetime=None, test:bool=False):
