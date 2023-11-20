@@ -153,3 +153,10 @@ class PaqueteService:
     async def paquetes_estado(self, fecha: datetime=None):
         paquetes = await self.repository.paquetes_estado(fecha=fecha)
         return [] if not paquetes else paquetes
+    
+
+    async def pdf(self, no_guia: str):
+        paquete = await self.repository.pdf(no_guia=no_guia)
+        if not paquete:
+            raise EntityNotFoundError("Paquete", no_guia)
+        return paquete
